@@ -1,6 +1,4 @@
 <template>
-
-
   <b-card>
     <b-button
         style="margin-bottom: 10px"
@@ -33,7 +31,7 @@
       <b-row>
         <b-col md="4">
           <b-form-group>
-            <label>Title:</label>
+            <label>Search:</label>
             <b-form-input
                 class="d-inline-block"
                 placeholder="Search"
@@ -42,52 +40,6 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="4">
-          <b-form-group>
-            <label>Department:</label>
-            <v-select
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="departmentOptions"
-                placeholder="Please select"
-                @input="advanceSearch"
-            />
-            <!--            <b-form-input-->
-            <!--                class="d-inline-block"-->
-            <!--                placeholder="Search"-->
-            <!--                type="text"-->
-            <!--                @input="advanceSearch"-->
-            <!--            />-->
-          </b-form-group>
-        </b-col>
-        <b-col md="4">
-          <b-form-group>
-            <label>Resource:</label>
-            <v-select
-                :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                :options="resourceOptions"
-                placeholder="Please select"
-                @input="advanceSearch"
-            />
-            <!--            <b-form-input-->
-            <!--                class="d-inline-block"-->
-            <!--                placeholder="Search"-->
-            <!--                type="text"-->
-            <!--                @input="advanceSearch"-->
-            <!--            />-->
-          </b-form-group>
-        </b-col>
-
-        <!--        <b-col md="4">-->
-        <!--          <b-form-group>-->
-        <!--            <label>Salary:</label>-->
-        <!--            <b-form-input-->
-        <!--                class="d-inline-block"-->
-        <!--                placeholder="Search"-->
-        <!--                type="text"-->
-        <!--                @input="advanceSearch"-->
-        <!--            />-->
-        <!--          </b-form-group>-->
-        <!--        </b-col>-->
       </b-row>
     </div>
 
@@ -105,8 +57,7 @@
           class="position-relative"
           hover
           responsive
-          striped
-      >
+          striped>
         <template #cell(show_details)="row">
 
           <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
@@ -116,6 +67,17 @@
           >
             {{ row.detailsShowing ? 'Hide' : 'Show' }}
           </b-form-checkbox>
+        </template>
+
+        <template #cell(action)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-button
+              variant="primary"
+              size="sm"
+              @click="() => $router.push(`/apps/eResources/creatResources`)">
+            see more
+          </b-button>
         </template>
 
         <!-- full detail on click -->
@@ -233,15 +195,16 @@
           </b-card>
         </template>
 
-        <template #cell(avatar)="data">
-          <b-avatar :src="data.value"/>
-        </template>
+<!--        <template #cell(avatar)="data">-->
+<!--          <b-avatar :src="data.value"/>-->
+<!--        </template>-->
 
         <template #cell(status)="data">
           <b-badge :variant="status[1][data.value]">
             {{ status[0][data.value] }}
           </b-badge>
         </template>
+
       </b-table>
     </div>
     <b-card-body class="d-flex justify-content-between flex-wrap pt-0">
@@ -389,21 +352,25 @@ export default {
       searchTerm: '',
       fields: [
         'show_details',
-        'id',
-        'added_date',
-        'resource_title',
-        'type',
-        'title',
-        'author',
-        'department',
-        'resource',
+        'Promotion_group_id',
+        'created_date',
+        'created_user',
         {
           key: 'status',
           label: 'Status'
 
-        }],
+        },
+          'action'
+        ],
       /* eslint-disable global-require */
-      items: [],
+      items: [
+        {
+          Promotion_group_id: 1,
+          created_date: "01/11/2022",
+          created_user: 'Nuclear Power Engineer',
+          status: 2,
+        },
+      ],
       /* eslint-disable global-require */
       status: [{
         published: 'Published',

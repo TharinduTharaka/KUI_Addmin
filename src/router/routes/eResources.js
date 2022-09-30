@@ -4,7 +4,7 @@ export default[
     name: 'apps-eResources',
     component: () => import('@/views/eResources/vue-good-table/GoodTable.vue'),
     meta: {
-      pageTitle: 'E Resources',
+      pageTitle: 'Table',
     },
   },
   {
@@ -12,7 +12,7 @@ export default[
     name: 'creatResources',
     component: () => import('@/views/eResources/createResources'),
     meta: {
-      pageTitle: 'Creat E Resources',
+      pageTitle: 'Create',
     },
   },
   {
