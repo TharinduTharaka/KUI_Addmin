@@ -1,16 +1,4 @@
 export default [
-
-
-
-
-
-
-  // Documents
-
-
-
-
-
   {
 
     path: '/apps/invoice/preview/:id',

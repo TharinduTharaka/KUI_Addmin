@@ -9,8 +9,8 @@
             Default
           </h5>
           <flat-pickr
-            v-model="dateDefault"
-            class="form-control"
+              v-model="dateDefault"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -20,9 +20,9 @@
         <b-form-group>
           <h5>Time picker</h5>
           <flat-pickr
-            v-model="timePicker"
-            class="form-control"
-            :config="{ enableTime: true, noCalendar: true, dateFormat: 'H:i',}"
+              v-model="timePicker"
+              :config="{ enableTime: true, noCalendar: true, dateFormat: 'H:i',}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -32,9 +32,9 @@
         <b-form-group>
           <h5>Date & TIme</h5>
           <flat-pickr
-            v-model="dateNtim"
-            class="form-control"
-            :config="{ enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              v-model="dateNtim"
+              :config="{ enableTime: true,dateFormat: 'Y-m-d H:i'}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -44,9 +44,9 @@
         <b-form-group>
           <h5>Multiple Dates</h5>
           <flat-pickr
-            v-model="multiDate"
-            class="form-control"
-            :config="{ mode: 'multiple',dateFormat: 'Y-m-d'}"
+              v-model="multiDate"
+              :config="{ mode: 'multiple',dateFormat: 'Y-m-d'}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -56,9 +56,9 @@
         <b-form-group>
           <h5>Range</h5>
           <flat-pickr
-            v-model="rangeDate"
-            class="form-control"
-            :config="{ mode: 'range'}"
+              v-model="rangeDate"
+              :config="{ mode: 'range'}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -68,9 +68,9 @@
         <b-form-group>
           <h5>Human Friendly</h5>
           <flat-pickr
-            v-model="humanDate"
-            class="form-control"
-            :config="{ altInput: true,altFormat: 'F j, Y', dateFormat: 'Y-m-d',}"
+              v-model="humanDate"
+              :config="{ altInput: true,altFormat: 'F j, Y', dateFormat: 'Y-m-d',}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -80,9 +80,9 @@
         <b-form-group>
           <h5>Disabled Range</h5>
           <flat-pickr
-            v-model="disableDate"
-            class="form-control"
-            :config="{ dateFormat: 'Y-m-d',disable:[{from:'2020-08-20',to:'2020-08-25'}]}"
+              v-model="disableDate"
+              :config="{ dateFormat: 'Y-m-d',disable:[{from:'2020-08-20',to:'2020-08-25'}]}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -92,9 +92,9 @@
         <b-form-group>
           <h5>Inline</h5>
           <flat-pickr
-            v-model="inlineDate"
-            class="form-control"
-            :config="{ inline: true}"
+              v-model="inlineDate"
+              :config="{ inline: true}"
+              class="form-control"
           />
         </b-form-group>
       </b-col>
@@ -108,15 +108,14 @@
 
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
-import { BRow, BCol, BFormGroup } from 'bootstrap-vue'
+import {BCol, BFormGroup, BRow} from 'bootstrap-vue'
 import flatPickr from 'vue-flatpickr-component'
-import { codeBasic } from './code'
+import {codeBasic} from './code'
 
 export default {
   components: {
     BRow,
     BCol,
-
     flatPickr,
     BCardCode,
     BFormGroup,

@@ -8,8 +8,8 @@ export default [
     icon: 'MailIcon',
   },
   {
-    title: '2',
-    route: 'apps-documents-library_documents',
+    title: 'My Task',
+    route: 'apps-myTask',
     icon: 'FileTextIcon',
   },
 
