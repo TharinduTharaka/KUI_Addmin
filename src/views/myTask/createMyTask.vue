@@ -4,7 +4,8 @@
       <validation-observer ref="simpleRules">
         <b-form>
           <b-row>
-            <!-- Increment Group ID -->
+
+            <!-- Task Title -->
             <b-col cols="12">
               <b-form-group
                   label="Task Title"
@@ -17,7 +18,7 @@
                 >
                   <b-form-input
                       id="v-title"
-                      v-model="post_values.title"
+                      v-model="title"
                       placeholder="Enter Task Title"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -25,85 +26,126 @@
               </b-form-group>
             </b-col>
 
+            <!-- Estimate -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Estimate"
+                  label-for="v-estimate">
+                <validation-provider
+                    #default="{ errors }"
+                    name="Estimate"
+                    rules="required">
+                  <b-form-input
+                      id="v-estimate"
+                      v-model="estimate"
+                      placeholder="Enter Estimate"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Original Estimate -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Original Estimate"
+                  label-for="v-originalEstimate"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="Original Estimate"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="v-originalEstimate"
+                      v-model="originalEstimate"
+                      placeholder="Enter Original Estimate"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
             <!-- Start Date -->
+            <!--            <b-col cols="12">-->
+            <!--              <b-form-group-->
+            <!--                  label="Start Date"-->
+            <!--                  label-for="v-startDate"-->
+            <!--              >-->
+            <!--                <validation-provider-->
+            <!--                    #default="{ errors }"-->
+            <!--                    name="Enter Start Date"-->
+            <!--                    rules="required"-->
+            <!--                >-->
+            <!--                  <b-form-input-->
+            <!--                      id="v-startDate"-->
+            <!--                      v-model="post_values.startDate"-->
+            <!--                      placeholder="Title"-->
+            <!--                  />-->
+            <!--                  <small class="text-danger">{{ errors[0] }}</small>-->
+            <!--                </validation-provider>-->
+            <!--              </b-form-group>-->
+            <!--            </b-col>-->
+
+            <!--            &lt;!&ndash; Due Date &ndash;&gt;-->
+            <!--            <b-col cols="12">-->
+            <!--              <b-form-group-->
+            <!--                  label="Due Date"-->
+            <!--                  label-for="v-dueDate"-->
+            <!--              >-->
+            <!--                <validation-provider-->
+            <!--                    #default="{ errors }"-->
+            <!--                    name="Enter Due Date"-->
+            <!--                    rules="required"-->
+            <!--                >-->
+            <!--                  <b-form-datepicker-->
+            <!--                      id="v-dueDate"-->
+            <!--                      v-model="post_values.dueDate"-->
+            <!--                      placeholder="Enter Due Time"-->
+            <!--                  />-->
+
+            <!--                  <small class="text-danger">{{ errors[0] }}</small>-->
+            <!--                </validation-provider>-->
+            <!--              </b-form-group>-->
+            <!--            </b-col>-->
+
+            <!--            &lt;!&ndash; Due Time &ndash;&gt;-->
+            <!--            <b-col cols="12">-->
+            <!--              <b-form-group-->
+            <!--                  label="Due Time"-->
+            <!--                  label-for="v-dueTime"-->
+            <!--              >-->
+            <!--                <validation-provider-->
+            <!--                    #default="{ errors }"-->
+            <!--                    name="Due Date"-->
+            <!--                    rules="required"-->
+            <!--                >-->
+            <!--                  <b-form-timepicker-->
+            <!--                      id="v-dueTime"-->
+            <!--                      v-model="post_values.dueTime"-->
+            <!--                      placeholder="Enter Due Time"-->
+            <!--                  />-->
+            <!--                  <small class="text-danger">{{ errors[0] }}</small>-->
+            <!--                </validation-provider>-->
+            <!--              </b-form-group>-->
+            <!--            </b-col>-->
+
+
+            <!-- Label -->
             <b-col cols="12">
               <b-form-group
-                  label="Start Date"
-                  label-for="v-startDate"
+                  label="Label"
+                  label-for="v-label"
               >
                 <validation-provider
                     #default="{ errors }"
-                    name="Enter Start Date"
+                    name="Enter Label"
                     rules="required"
                 >
                   <b-form-input
-                      id="v-startDate"
-                      v-model="post_values.startDate"
-                      placeholder="Title"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Due Date -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Due Date"
-                  label-for="v-dueDate"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Due Date"
-                    rules="required"
-                >
-                  <b-form-datepicker
-                      id="v-dueDate"
-                      v-model="post_values.dueDate"
-                      placeholder="Enter Due Time"
-                  />
-
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Due Time -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Due Time"
-                  label-for="v-dueTime"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Due Date"
-                    rules="required"
-                >
-                  <b-form-timepicker
-                      id="v-dueTime"
-                      v-model="post_values.dueTime"
-                      placeholder="Enter Due Time"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Weight -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Weight"
-                  label-for="v-weight"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Weight"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-weight"
-                      v-model="post_values.weight"
-                      placeholder="Enter Weight"
+                      id="v-label"
+                      v-model="label"
+                      placeholder="Enter Label"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -123,7 +165,7 @@
                 >
                   <b-form-textarea
                       id="v-description"
-                      v-model="post_values.description"
+                      v-model="taskDescription"
                       placeholder="Enter Task Description"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -131,7 +173,74 @@
               </b-form-group>
             </b-col>
 
-            <!-- submit and reset -->
+            <!-- Blocked Task -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Blocked Task"
+                  label-for="v-department">
+                <div>
+                  <b-form
+                      ref="form"
+                      :style="{height: trHeight}"
+                      class="repeater-form"
+                      @submit.prevent="repeateAgain">
+
+                    <!-- Row Loop -->
+                    <b-row
+                        v-for="(item, index) in items"
+                        :id="item.id"
+                        :key="item.id"
+                        ref="row">
+
+                      <!-- Item Name -->
+                      <b-col md="12">
+                        <b-form-input
+                            id="item-name"
+                            v-model="item.name"
+                            placeholder="Employee Name"
+                            type="text"
+                        />
+                      </b-col>
+
+                      <!-- Remove Button -->
+                      <b-col md="12"
+                             style="padding-top: 10px">
+                        <b-button
+                            v-ripple.400="'rgba(234, 84, 85, 0.15)'"
+                            variant="outline-danger"
+                            @click="removeItem(index)"
+                        >
+                          <feather-icon
+                              class="mr-25"
+                              icon="XIcon"
+                          />
+                          <span>Delete</span>
+                        </b-button>
+                      </b-col>
+
+                      <b-col cols="12">
+                        <hr>
+                      </b-col>
+                    </b-row>
+
+                  </b-form>
+                </div>
+                <b-button
+                    v-b-modal.modal-select2
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="primary"
+                >
+                  <feather-icon
+                      class="mr-25"
+                      icon="PlusIcon"
+                  />
+                  <span>Add Employee</span>
+                </b-button>
+              </b-form-group>
+            </b-col>
+
+
+            <!-- submit and reset button -->
             <b-col cols="12">
               <b-button
                   class="mr-1"
@@ -153,6 +262,16 @@
           </b-row>
         </b-form>
       </validation-observer>
+      <b-modal
+          id="modal-select2"
+          cancel-variant="outline-secondary"
+          centered
+          ok-title="submit"
+          size="lg"
+          title="Employee List"
+      >
+        <good-table-basic/>
+      </b-modal>
     </b-card>
   </div>
 
@@ -184,7 +303,7 @@ import {
   BRow,
   VBModal,
 } from 'bootstrap-vue'
-import eResourcesAPI from '@/api/e_resources'
+import myTaskAPI from '@/api/my_task'
 import Ripple from 'vue-ripple-directive'
 import GoodTableBasic from './vue-good-table/GoodTableBasic'
 /* eslint-disable */
@@ -216,6 +335,17 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      userID: 1,
+      categoryID: '',
+      title: '',
+      label: '',
+      taskDescription: '',
+      reporterID: '',
+      estimate: '',
+      originalEstimate: '',
+      blockedTask: '',
+      lastUpdatedUser: '',
+
       dateNtim: null,
       pageLength: 3,
       dir: false,
@@ -247,6 +377,7 @@ export default {
       ],
       rows: [],
       searchTerm: '',
+
       status: [{
         1: 'Current',
         2: 'Professional',
@@ -262,11 +393,13 @@ export default {
           5: 'light-info',
         }],
       addEmployeePopupActive: false,
+
       items: [{
         id: 1,
         name: 'male',
         prevHeight: 0,
       }],
+
       nextTodoId: 2,
       file: '',
       id_back: '',
@@ -274,14 +407,13 @@ export default {
         resource_name: '',
         cover_name: ''
       },
-      post_values: {
-        weight: '',
-        dueTime: '',
-        title: '',
-        dueDate: '',
-        startDate: '',
-        description: ''
-      },
+      weight: '',
+      dueTime: '',
+
+      dueDate: '',
+      startDate: '',
+
+
       model: {
         file: '',
         coverPhoto: '',
@@ -319,12 +451,12 @@ export default {
       return this.dir
     },
   },
-  created() {
-    this.$http.get('/good-table/basic')
-        .then(res => {
-          this.rows = res.data
-        })
-  },
+  // created() {
+  //   this.$http.get('/good-table/basic')
+  //       .then(res => {
+  //         this.rows = res.data
+  //       })
+  // },
   setup() {
     return {
       required,
@@ -350,14 +482,24 @@ export default {
       this.$refs.simpleRules.validate()
           .then(success => {
             if (success) {
-
               this.submit()
             }
           })
     },
     async submit() {
-      this.flipIn()
-      await eResourcesAPI.create(this.post_values)
+      const payload = {
+        user_id: this.userID,
+        category_id: this.categoryID,
+        task_title: this.title,
+        task_description: this.taskDescription,
+        reporter_id: this.userID,
+        label: this.label,
+        estimate: this.estimate,
+        original_estimate: this.originalEstimate,
+        blocked_task: this.blockedTask,
+        last_updated_user: this.userID,
+      }
+      await myTaskAPI.create(payload)
           .then((response) => {
             console.log('update')
             // toast("Order removed successfully", "success");
@@ -368,40 +510,7 @@ export default {
             console.log(this.error)
           })
     },
-    handleFileUpload(event) {
-      this.model.file = event.target.files[0]
-    },
-    handleFileUploadCoverPhoto(event) {
-      this.model.coverPhoto = event.target.files[0]
-    },
 
-    async submitFile(response) {
-      var id = response.data.id
-      let formData = new FormData()
-      formData.append('files', this.model.file)
-      formData.append('cover', this.model.coverPhoto)
-      await eResourcesAPI.fileUpload(formData, id)
-          .then(response => {
-            this.$router.go(-1)
-          })
-          .catch(({response}) => {
-            this.error = response.data.error
-            console.log(this.error)
-            console.log('FAILURE!!')
-          })
-    },
-    flipIn() {
-      this.$swal({
-        title: 'Please wait uploading the document',
-        customClass: {
-          confirmButton: 'btn btn-primary',
-        },
-        showClass: {
-          popup: 'animate__animated animate__flipInX',
-        },
-        buttonsStyling: false,
-      })
-    },
   },
 }
 

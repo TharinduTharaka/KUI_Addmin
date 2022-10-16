@@ -10,19 +10,12 @@
                   label="Task Title"
                   label-for="v-title"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Task Title"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-title"
-                      v-model="post_values.title"
-                      placeholder="Enter Task Title"
-                      disabled
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
+                <b-form-input
+                    id="v-title"
+                    v-model="title"
+                    disabled
+                    placeholder="Enter Task Title"
+                />
               </b-form-group>
             </b-col>
 
@@ -32,19 +25,12 @@
                   label="Start Date"
                   label-for="v-startDate"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Start Date"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-startDate"
-                      v-model="post_values.startDate"
-                      placeholder="Title"
-                      disabled
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
+                <b-form-input
+                    id="v-startDate"
+                    v-model="startDate"
+                    disabled
+                    placeholder="Title"
+                />
               </b-form-group>
             </b-col>
 
@@ -54,64 +40,12 @@
                   label="Due Date"
                   label-for="v-dueDate"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Due Date"
-                    rules="required"
-                >
-                  <b-form-datepicker
-                      id="v-dueDate"
-                      v-model="post_values.dueDate"
-                      placeholder="Enter Due Time"
-                      disabled
-                  />
-
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Due Time -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Due Time"
-                  label-for="v-dueTime"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Due Date"
-                    rules="required"
-                >
-                  <b-form-timepicker
-                      id="v-dueTime"
-                      v-model="post_values.dueTime"
-                      placeholder="Enter Due Time"
-                      disabled
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Weight -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Weight"
-                  label-for="v-weight"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Weight"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-weight"
-                      v-model="post_values.weight"
-                      placeholder="Enter Weight"
-                      readonly
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
+                <b-form-input
+                    id="v-dueDate"
+                    v-model="dueDate"
+                    disabled
+                    placeholder="Enter Due Date"
+                />
               </b-form-group>
             </b-col>
 
@@ -121,50 +55,84 @@
                   label="Task Description"
                   label-for="v-description"
               >
+                <b-form-textarea
+                    id="v-description"
+                    v-model="taskDescription"
+                    disabled
+                    placeholder="Enter Task Description"
+                />
+              </b-form-group>
+            </b-col>
+
+            <!-- estimate -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Estimate"
+                  label-for="v-estimate">
                 <validation-provider
                     #default="{ errors }"
-                    name="Task Description"
-                    rules="required"
-                >
-                  <b-form-textarea
-                      id="v-description"
-                      v-model="post_values.description"
-                      placeholder="Enter Task Description"
-                      disabled
+                    name="Enter Estimate"
+                    rules="required">
+                  <b-form-input
+                      id="v-estimate"
+                      v-model="estimate"
+                      placeholder="Enter Estimate"
+
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
 
-
-
-            <!-- Self Evolution -->
+            <!-- rating -->
             <b-col cols="12">
               <b-form-group
-                  label="Self Evolution"
-                  label-for="v-selfEvolution"
+                  label="Rating"
+                  label-for="v-rating">
+                <validation-provider
+                    #default="{ errors }"
+                    name="Enter Rating"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="v-rating"
+                      v-model="rating"
+                      placeholder="Enter Rating"
+
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Status -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Status"
+                  label-for="v-status"
               >
                 <validation-provider
                     #default="{ errors }"
-                    name="Self Evolution"
-                    rules="required"
-                >
+                    name="Status"
+                    rules="required">
                   <v-select
-                      v-model="post_values.selfEvolution"
-                      :dir="$store.state.appConfig.isRTL ? 'rtl' : 'ltr'"
-                      :options="model.departmentOptions"
-                      placeholder="Please select"
-                  />
+                      v-model="getStatus"
+                      :options="status"
+                      label="title"
+                      placeholder="Please select">
+                    <template slot="option" slot-scope="option">
+                      <span>{{ option.title }}</span>
+                    </template>
+                  </v-select>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
 
-            <!-- comment -->
+            <!-- Rating comment -->
             <b-col cols="12">
               <b-form-group
-                  label="Comment"
+                  label="Rating Comment"
                   label-for="v-comment"
               >
                 <validation-provider
@@ -174,7 +142,7 @@
                 >
                   <b-form-textarea
                       id="v-comment"
-                      v-model="post_values.comment"
+                      v-model="ratingComment"
                       placeholder="Enter Comment"
 
                   />
@@ -234,7 +202,7 @@ import {
   BRow,
   BToast,
 } from 'bootstrap-vue'
-import eResourcesAPI from '@/api/e_resources'
+import myTaskAPI from '@/api/my_task'
 /* eslint-disable */
 export default {
   name: 'createResources',
@@ -258,32 +226,56 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      title: '',
+      getStatus: '',
+      rating: '',
+      estimate: '',
+      taskDescription: '',
+      dueDate: '',
+      startDate: '',
+      ratingComment: '',
+
+      status: [
+        {
+          title: "Pending",
+          value: 1
+        },
+        {
+          title: "Completed",
+          value: 3
+        }
+
+      ],
       file: '',
       id_back: '',
       doc: {
         resource_name: '',
         cover_name: ''
       },
-      post_values: {
-        weight: '22',
-        dueTime: '',
-        title: 'sdds',
-        dueDate: '',
-        startDate: '',
-        description: 'dsd',
-        selfEvolution:'',
-        comment:''
-      },
+      weight: '22',
+      dueTime: '',
+
+
+      description: 'dsd',
+      selfEvolution: '',
+      comment: '',
       items: [],
+
       model: {
         file: '',
         coverPhoto: '',
         resource: '',
         department: '',
-        departmentOptions: ['Nursing', 'BMS', 'Psychology', 'Marketing', 'Acupuncture', 'IT', 'HR', 'Accounting'],
-        type: ['Book', 'Journal', 'Magazine', 'PDF', 'Article'],
-        resourceOptions: ['Thesis', 'General'],
-        option: [{title: 'Square'}, {title: 'Rectangle'}, {title: 'Rombo'}, {title: 'Romboid'}],
+        status: [
+          {
+            title: "Completed",
+            value: 3
+          },
+          {
+            title: "Pending",
+            value: 1
+          },
+        ],
       }
     }
   },
@@ -313,23 +305,35 @@ export default {
     },
 
     async getAllData() {
-      var id_val = this.$route.params.resources_id
-      let response = (await eResourcesAPI.getResourceData(id_val))
-      console.log(response)
-      const data = response.data.data;
-      this.post_values.title = data.items[0].title
-      this.post_values.department = data.items[0].department
-      this.post_values.type = data.items[0].type
-      this.post_values.resource = data.items[0].resource
-      this.post_values.author = data.items[0].author
-      this.post_values.description = data.items[0].description
-      this.totalRows = data.total
-
+      var task_id = this.$route.params.task_id
+      var user_id = this.$route.params.user_id
+      let response = (await myTaskAPI.getTaskData(user_id, task_id))
+      console.log(response);
+      const data = response.data.data[0];
+      this.title = data.taskTitle
+      this.startDate = data.startDate
+      this.dueDate = data.endDate
+      this.taskDescription = data.taskDescription
+      this.rating = data.rating
+      this.ratingComment = data.ratingComment
+      const status = data.status;
+      if (status === 1) {
+        this.getStatus = this.status[0]
+      }
+      this.post_values.estimate = data.estimate
     },
 
     async submit() {
-      var new_id = this.$route.params.resources_id
-      await eResourcesAPI.update(this.post_values, new_id)
+      var task_id = this.$route.params.task_id
+      var user_id = this.$route.params.user_id
+
+      const payload = {
+        rating: this.rating,
+        rating_comment: this.ratingComment,
+        estimate: this.estimate,
+        status: this.getStatus.value
+      }
+      await myTaskAPI.update(payload, user_id, task_id)
           .then((response) => {
             console.log('update')
             this.makeToast(' Update successfully', 'success');

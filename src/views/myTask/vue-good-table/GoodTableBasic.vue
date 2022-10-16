@@ -39,59 +39,13 @@
     >
       <template
           slot="table-row"
-          slot-scope="props"
-      >
-
-        <!-- Column: Name -->
-        <span
-            v-if="props.column.field === 'fullName'"
-            class="text-nowrap"
-        >
-          <b-avatar
-              :src="props.row.avatar"
-              class="mx-1"
-          />
-          <span class="text-nowrap">{{ props.row.fullName }}</span>
-        </span>
+          slot-scope="props">
 
         <!-- Column: Status -->
-        <span v-else-if="props.column.field === 'status'">
+        <span v-if="props.column.field === 'status'">
           <b-badge :variant="statusVariant(props.row.status)">
             {{ props.row.status }}
           </b-badge>
-        </span>
-
-        <!-- Column: Action -->
-        <span v-else-if="props.column.field === 'action'">
-          <span>
-            <b-dropdown
-                variant="link"
-                toggle-class="text-decoration-none"
-                no-caret
-            >
-              <template v-slot:button-content>
-                <feather-icon
-                    icon="MoreVerticalIcon"
-                    size="16"
-                    class="text-body align-middle mr-25"
-                />
-              </template>
-              <b-dropdown-item>
-                <feather-icon
-                    icon="Edit2Icon"
-                    class="mr-50"
-                />
-                <span>Edit</span>
-              </b-dropdown-item>
-              <b-dropdown-item>
-                <feather-icon
-                    icon="TrashIcon"
-                    class="mr-50"
-                />
-                <span>Delete</span>
-              </b-dropdown-item>
-            </b-dropdown>
-          </span>
         </span>
 
         <!-- Column: Common -->
@@ -149,9 +103,9 @@
       </template>
     </vue-good-table>
 
-    <template #code>
-      {{ codeBasic }}
-    </template>
+<!--    <template #code>-->
+<!--      {{ codeBasic }}-->
+<!--    </template>-->
   </b-code>
 </template>
 
@@ -163,6 +117,7 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
 import { codeBasic } from './code'
+import myTaskAPI from "@/api/my_task";
 
 export default {
   components: {
@@ -184,45 +139,37 @@ export default {
       codeBasic,
       columns: [
         {
-          label: 'Name',
-          field: 'fullName',
+          label: 'Task Title',
+          field: 'taskTitle',
         },
         {
-          label: 'Email',
-          field: 'email',
-        },
-        {
-          label: 'Date',
+          label: 'Start Date',
           field: 'startDate',
         },
         {
-          label: 'Salary',
-          field: 'salary',
+          label: 'End Date',
+          field: 'endDate',
         },
         {
           label: 'Status',
           field: 'status',
         },
         {
-          label: 'Action',
-          field: 'action',
+          label: 'Estimate',
+          field: 'estimate',
         },
       ],
       rows: [],
       searchTerm: '',
       status: [{
-        1: 'Current',
-        2: 'Professional',
-        3: 'Rejected',
-        4: 'Resigned',
-        5: 'Applied',
+        1: 'Pending',
+        2: 'Delete',
+        3: 'Completed',
       },
         {
           1: 'light-primary',
-          2: 'light-success',
-          3: 'light-danger',
-          4: 'light-warning',
-          5: 'light-info',
+          2: 'light-danger',
+          3: 'light-success',
         }],
     }
   },
@@ -240,20 +187,33 @@ export default {
 
       return status => statusColor[status]
     },
-    direction() {
-      if (store.state.appConfig.isRTL) {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.dir = true
-        return this.dir
-      }
-      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-      this.dir = false
-      return this.dir
-    },
+    // direction() {
+    //   if (store.state.appConfig.isRTL) {
+    //     // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //     this.dir = true
+    //     return this.dir
+    //   }
+    //   // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+    //   this.dir = false
+    //   return this.dir
+    // },
   },
   created() {
-    this.$http.get('/good-table/basic')
-        .then(res => { this.rows = res.data })
+    // this.$http.get('/good-table/basic')
+    //     .then(res => {
+    //       this.rows = res.data
+    //       console.log(this.rows)
+    //     })
+    this.getAllTask()
   },
+
+  methods:{
+    async getAllTask() {
+      let response = (await myTaskAPI.getData(1))
+      console.log(response)
+      this.rows = response.data.data;
+      // this.totalRows = response.data.data.length
+    },
+  }
 }
 </script>

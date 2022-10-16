@@ -16,7 +16,7 @@ export default[
         },
     },
     {
-        path: '/apps/myTask/editMyTask/:task_id',
+        path: '/apps/myTask/editMyTask/:task_id/:user_id',
         name: 'editMyTask',
         component: () => import('@/views/myTask/editMyTask'),
         meta: {

@@ -40,26 +40,29 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="4">
+        <b-col md="2">
           <b-form-group>
             <label>Today Task:</label>
-            <b-form-input
-                class="d-inline-block"
-                placeholder="Search"
-                type="text"
-                @input="advanceSearch"
-            />
+            <b-form-checkbox></b-form-checkbox>
           </b-form-group>
         </b-col>
-        <b-col md="4">
+        <b-col md="2">
           <b-form-group>
-            <label>Yesterday Task:</label>
-            <b-form-input
-                class="d-inline-block"
-                placeholder="Search"
-                type="text"
-                @input="advanceSearch"
-            />
+            <label>Pending Task:</label>
+            <b-form-checkbox></b-form-checkbox>
+          </b-form-group>
+        </b-col>
+
+        <b-col md="2">
+          <b-form-group>
+            <label>Completed Task:</label>
+            <b-form-checkbox></b-form-checkbox>
+          </b-form-group>
+        </b-col>
+        <b-col md="2">
+          <b-form-group>
+            <label>Deleted Task:</label>
+            <b-form-checkbox></b-form-checkbox>
           </b-form-group>
         </b-col>
       </b-row>
@@ -90,18 +93,6 @@
             {{ row.detailsShowing ? 'Hide' : 'Show' }}
           </b-form-checkbox>
         </template>
-
-        <template #cell(action)="row">
-
-          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-          <b-button
-              size="sm"
-              variant="primary"
-              @click="() => $router.push(`/apps/eResources/creatResources`)">
-            see more
-          </b-button>
-        </template>
-
         <!-- full detail on click -->
         <template #row-details="row">
           <b-card>
@@ -123,64 +114,34 @@
                   class="mb-1"
                   md="4"
               >
-                <strong>Published Date : </strong>{{ row.item.added_date }}
+                <strong>Title : </strong>{{ row.item.taskTitle }}
               </b-col>
               <b-col
                   class="mb-1"
-                  md="4"
-              >
-                <strong>Title : </strong>{{ row.item.title }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Author : </strong>{{ row.item.author }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Department : </strong>{{ row.item.department }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Resource : </strong>{{ row.item.resource }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Status : </strong>{{ row.item.status }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Resource Title : </strong>{{ row.item.resource_title }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Resource Type : </strong>{{ row.item.type }}
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4"
-              >
-                <strong>Description : </strong>{{ items[row.index].description }}
+                  md="4">
+                <strong>Start Date : </strong>{{ row.item.startDate }}
               </b-col>
 
-              <!--              <b-col-->
-              <!--                  class="mb-1"-->
-              <!--                  md="4"-->
-              <!--              >-->
-              <!--                <strong>Age : </strong>{{ row.item.age }}-->
-              <!--              </b-col>-->
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>End Date : </strong>{{ row.item.endDate }}
+              </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Status : </strong>
+                <b-badge :variant="status[1][row.item.status]">
+                  {{ status[0][row.item.status] }}
+                </b-badge>
+              </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Description : </strong>{{ row.item.taskDescription }}
+              </b-col>
             </b-row>
+
             <div class="demo-inline-spacing">
               <b-button
                   size="sm"
@@ -190,36 +151,25 @@
                 Hide Details
               </b-button>
               <b-button
+                  v-if="row.item.status ===1"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/myTask/editMyTask/${items[row.index].id}`)"
+                  @click="() => $router.push(`/apps/myTask/editMyTask/${items[row.index].id}/${userID}`)"
               >
                 edit
               </b-button>
               <b-button
+                  v-if="row.item.status ===1"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-danger"
-                  @click="deleteResource(row.item.id,5)"
-              >
+                  @click="deleteResource(userID,5)">
                 Delete
-              </b-button>
-              <b-button
-                  size="sm"
-                  style="margin-left: 10px"
-                  variant="outline-success"
-                  @click="updateEResourceStatus(row.item.id,getStatus(row.item.status),5)"
-              >
-                {{ getStatus(row.item.status) }}
               </b-button>
             </div>
           </b-card>
         </template>
-
-        <!--        <template #cell(avatar)="data">-->
-        <!--          <b-avatar :src="data.value"/>-->
-        <!--        </template>-->
 
         <template #cell(status)="data">
           <b-badge :variant="status[1][data.value]">
@@ -276,18 +226,7 @@
         </b-pagination>
       </div>
     </b-card-body>
-    <!--    <b-toast id="example-toast">-->
-    <!--      <span>Hello, world! This is a toast message. Hope you're doing well.. :)</span>-->
-    <!--    </b-toast>-->
-    <!--    <template #code>-->
-    <!--      {{ codeAdvance }}-->
-    <!--    </template>-->
   </b-card>
-  <!--  <b-card-code>-->
-  <!-- toast -->
-
-  <!--  </b-card-code>-->
-
 </template>
 
 <script>
@@ -316,7 +255,7 @@ import store from '@/store/index'
 import Ripple from 'vue-ripple-directive'
 import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
-import eResourcesAPI from '@/api/e_resources'
+import myTaskAPI from '@/api/my_task'
 // import {useRouter} from "vue-router";
 // import { codeAdvance } from './code'
 /* eslint-disable */
@@ -352,6 +291,7 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
       perPage: 5,
@@ -361,10 +301,12 @@ export default {
       sortDesc: false,
       sortDirection: 'asc',
       dir: false,
+
       // filter: {
       //   resource:null,
       //   department:null,
       // },
+
       filter: null,
       resource: '',
       resourceOptions: ['Thesis', 'General'],
@@ -374,40 +316,39 @@ export default {
       searchTerm: '',
       fields: [
         'show_details',
-        'Promotion_group_id',
-        'created_date',
-        'created_user',
+        'taskTitle',
+        'startDate',
+        'endDate',
         {
           key: 'status',
           label: 'Status'
 
         },
-        'action'
+        'estimate'
       ],
       /* eslint-disable global-require */
       items: [
         {
-          Promotion_group_id: 1,
-          created_date: "01/11/2022",
-          created_user: 'Nuclear Power Engineer',
-          status: 2,
+          taskTitle: "",
+          startDate: "",
+          endDate: '',
+          status: "",
+          estimate: ""
         },
       ],
       /* eslint-disable global-require */
-      status: [{
-        published: 'Published',
-        2: 'Professional',
-        draft: 'Draft',
-        4: 'Resigned',
-        5: 'Applied',
-      },
+      status: [
         {
-          published: 'light-primary',
-          2: 'light-success',
-          draft: 'light-danger',
-          4: 'light-warning',
-          5: 'light-info',
-        }],
+          1: 'Pending',
+          2: 'Delete',
+          3: 'Completed',
+        },
+        {
+          1: 'light-primary',
+          2: 'light-danger',
+          3: 'light-success',
+        }
+      ],
     }
   },
   setup() {
@@ -430,21 +371,8 @@ export default {
   async mounted() {
     // Set the initial number of items
     this.totalRows = this.items.length
-    await this.getAllEResources()
+    await this.getAllTask()
   },
-  /* eslint-disable */
-  // created() {
-  //   fetch("http://13.232.138.190:8081/resource/get-all-info?page=1&limit=2000&sort=tt")
-  //       .then(async response => {
-  //         const data = await response.json();
-  //         this.items = data.data.items;
-  //         this.totalRows = data.data.total;
-  //       })
-  //       .catch(error => {
-  //         this.errorMessage = error;
-  //         console.error("There was an error!", error);
-  //       })
-  // },
   methods: {
     advanceSearch(val) {
       this.filter = val
@@ -466,29 +394,25 @@ export default {
         solid: false,
       })
     },
-    async getAllEResources() {
-      let response = (await eResourcesAPI.getData())
+    async getAllTask() {
+      let response = (await myTaskAPI.getData(1))
       console.log(response)
-      this.items = response.data.data.items
-      this.totalRows = response.data.data.total
-
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
     },
-    async deleteResource(data, updated_user) {
-      await eResourcesAPI.delete(data, updated_user)
+    async deleteResource(userID, taskID) {
+      await myTaskAPI.delete(userID, taskID)
           .then((res) => {
             console.log('deleted')
             this.makeToast('Removed successfully', 'success');
             // toast("Order removed successfully", "success");
-            this.getAllEResources()
+            this.getAllTask()
           })
           .catch(({response}) => {
             this.error = response.data.error
             console.log(this.error)
             this.makeToast(this.error, 'danger');
           })
-      // axios.delete("http://13.232.138.190:8081/resource/delete-eresource",
-      //     { params: { data,updated_user }})
-      //     .then(response => this.$router.go());
     },
     async updateEResourceStatus(data, status, updated_user) {
       await eResourcesAPI.updateStatus(data, status, updated_user)
