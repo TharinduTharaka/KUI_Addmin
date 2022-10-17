@@ -93,6 +93,17 @@
             {{ row.detailsShowing ? 'Hide' : 'Show' }}
           </b-form-checkbox>
         </template>
+
+        <template #cell(action)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-button
+              size="sm"
+              variant="primary"
+              @click="() => $router.push(`/apps/eResources/creatResources`)">
+            see more
+          </b-button>
+        </template>
         <!-- full detail on click -->
         <template #row-details="row">
           <b-card>
@@ -133,14 +144,6 @@
                 <strong>Status : </strong>
                 <b-badge :variant="status[1][row.item.status]">
                   {{ status[0][row.item.status] }}
-                </b-badge>
-              </b-col>
-              <b-col
-                  class="mb-1"
-                  md="4">
-                <strong>Priority : </strong>
-                <b-badge :variant="priority[1][row.item.priority]">
-                  {{ priority[0][row.item.priority] }}
                 </b-badge>
               </b-col>
               <b-col
@@ -332,7 +335,8 @@ export default {
           label: 'Status'
 
         },
-        'estimate'
+        'estimate',
+        'action'
       ],
       /* eslint-disable global-require */
       items: [
@@ -354,18 +358,6 @@ export default {
         {
           1: 'light-primary',
           2: 'light-danger',
-          3: 'light-success',
-        }
-      ],
-      priority: [
-        {
-          1: 'High',
-          2: 'Medium',
-          3: 'Low',
-        },
-        {
-          1: 'light-danger',
-          2: 'light-primary',
           3: 'light-success',
         }
       ],

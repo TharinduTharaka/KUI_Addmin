@@ -19,6 +19,10 @@
     <vue-good-table
         :columns="columns"
         :rows="rows"
+        :rtl="direction"
+        :search-options="{
+        enabled: true,
+        externalQuery: searchTerm }"
         :select-options="{
         enabled: true,
         selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
@@ -42,6 +46,11 @@
           <b-badge :variant="statusVariant(props.row.status)">
             {{ props.row.status }}
           </b-badge>
+        </span>
+
+        <!-- Column: Common -->
+        <span v-else>
+          {{ props.formattedRow[props.column.field] }}
         </span>
       </template>
 
