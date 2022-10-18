@@ -359,14 +359,14 @@ export default {
       ],
       priority: [
         {
-          1: 'High',
-          2: 'Medium',
-          3: 'Low',
+          High: 'High',
+          Medium: 'Medium',
+          Low: 'Low',
         },
         {
-          1: 'light-danger',
-          2: 'light-primary',
-          3: 'light-success',
+          High: 'light-danger',
+          Medium: 'light-primary',
+          Low: 'light-success',
         }
       ],
     }
