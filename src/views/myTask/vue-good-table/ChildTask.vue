@@ -1,9 +1,10 @@
 <template>
   <b-card>
+
     <b-button
         style="margin-bottom: 10px"
         variant="primary"
-        @click="() => $router.push(`/apps/myTask/createMyTask`)"
+        @click="() => $router.push(`/apps/myTask/createChildTask`)"
     >
       Add
     </b-button>
@@ -25,6 +26,7 @@
     >
       <sidebar-content title="Edit"/>
     </b-sidebar>
+
     <div class="custom-search">
 
       <!-- advance search input -->
@@ -193,21 +195,29 @@
                 Hide Details
               </b-button>
               <b-button
-                  v-if="row.item.status ===1"
+                  v-if="row.item.status === 2 || row.item.status === 3"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/myTask/editMyTask/${items[row.index].id}/${userID}`)"
+                  @click="() => $router.push(`/apps/myTask/editChildTask/${items[row.index].id}/${userID}`)"
               >
                 edit
               </b-button>
               <b-button
-                  v-if="row.item.status ===1"
+                  v-if="row.item.status ===1 || row.item.status ===2"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-danger"
                   @click="deleteResource(userID,items[row.index].id)">
                 Delete
+              </b-button>
+              <b-button
+                  v-if="row.item.status ===2 || row.item.status ===3"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-success"
+                  @click="revertBySupervisor(userID,items[row.index].id)">
+                Revert
               </b-button>
             </div>
           </b-card>
@@ -395,14 +405,14 @@ export default {
           2: 'Deleted',
           3: 'Completed',
           4: 'Supervisor Deleted',
-          5: 'Supervisor Completed'
+          5: 'Supervisor Completed',
         },
         {
           1: 'light-primary',
           2: 'light-danger',
           3: 'light-success',
           4: 'light-danger',
-          5: 'light-success'
+          5: 'light-success',
         }
       ],
       rating: [
@@ -479,18 +489,33 @@ export default {
       })
     },
     async getAllTask() {
-      const userData = getUserData()
-      let response = (await myTaskAPI.getData(userData.id))
+
+      let response = (await myTaskAPI.getData(localStorage.getItem('child_id')))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
     },
     async deleteResource(userID, taskID) {
       const userData = getUserData()
-      await myTaskAPI.delete(userData.id, taskID)
+      await myTaskAPI.deleteBySupervisor(userData.id, taskID)
           .then((res) => {
             console.log('deleted')
             this.makeToast('Removed successfully', 'success');
+            // toast("Order removed successfully", "success");
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async revertBySupervisor(userID, taskID) {
+      const userData = getUserData()
+      await myTaskAPI.revertBySupervisor(userData.id, taskID)
+          .then((res) => {
+            console.log('deleted')
+            this.makeToast('Revert successfully', 'success');
             // toast("Order removed successfully", "success");
             this.getAllTask()
           })

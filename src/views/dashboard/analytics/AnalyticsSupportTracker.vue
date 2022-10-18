@@ -9,7 +9,7 @@
       <b-dropdown
         no-caret
         right
-        text="Last 7 Days"
+        text="Today"
         variant="transparent"
         class="chart-dropdown"
         toggle-class="p-50"
@@ -32,7 +32,7 @@
           class="d-flex flex-column flex-wrap text-center"
         >
           <h1 class="font-large-2 font-weight-bolder mt-2 mb-0">
-            {{ data.totalTicket }}
+            {{ tickets }}
           </h1>
           <small>Tickets</small>
         </b-col>
@@ -48,7 +48,7 @@
             type="radialBar"
             height="270"
             :options="supportTrackerRadialBar.chartOptions"
-            :series="data.supportTrackerRadialBar.series"
+            :series="[percentage]"
           />
         </b-col>
         <!--/ chart -->
@@ -58,21 +58,21 @@
       <div class="d-flex justify-content-between">
         <div class="text-center">
           <b-card-text class="mb-50">
-            New Tickets
+            Considered Stories
           </b-card-text>
-          <span class="font-large-1 font-weight-bold">{{ data.newTicket }}</span>
+          <span class="font-large-1 font-weight-bold">{{ tickets }}</span>
         </div>
         <div class="text-center">
           <b-card-text class="mb-50">
-            Open Tickets
+            Min Stories Per Day
           </b-card-text>
-          <span class="font-large-1 font-weight-bold">{{ data.openTicket }}</span>
+          <span class="font-large-1 font-weight-bold">{{ counts }}</span>
         </div>
         <div class="text-center">
           <b-card-text class="mb-50">
-            Response Time
+            Status
           </b-card-text>
-          <span class="font-large-1 font-weight-bold">{{ data.responseTime }}d</span>
+          <span class="font-large-1 font-weight-bold">{{ storyStatus }}</span>
         </div>
       </div>
     </b-card-body>
@@ -85,6 +85,8 @@ import {
 } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
+import {getUserData} from "@/auth/utils";
+import myTaskAPI from "@/api/my_task";
 
 export default {
   components: {
@@ -105,8 +107,16 @@ export default {
       default: () => {},
     },
   },
+  async mounted() {
+    await this.getAllTask()
+  },
   data() {
     return {
+      tickets : '',
+      counts : '',
+      percentage : '',
+      totalStory : '',
+      storyStatus : '',
       supportTrackerRadialBar: {
         chartOptions: {
           plotOptions: {
@@ -153,10 +163,23 @@ export default {
           stroke: {
             dashArray: 8,
           },
-          labels: ['Completed Tickets'],
+          labels: ['Completed Story Points'],
         },
       },
     }
   },
+  methods : {
+
+    async getAllTask() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getSupportTracker(userData.id))
+      this.tickets = response.data.data.tickets
+      this.counts = response.data.data.counts
+      this.percentage = response.data.data.percentage
+      this.totalStory = response.data.data.totalStory
+      this.storyStatus = response.data.data.status
+    }
+
+  }
 }
 </script>

@@ -11,26 +11,18 @@
       >
         <div>
           <h2 class="font-weight-bolder mb-25">
-            {{ kFormatter(data.sessions) }}
+            {{ kFormatter(totalCount) }}
           </h2>
           <b-card-text class="font-weight-bold mb-2">
-            Avg Sessions
+            Task Added Rate
           </b-card-text>
 
           <h5 class="font-medium-2">
-            <span class="text-success mr-50">{{ data.growth }}</span>
-            <span>vs last 7 days</span>
+            <span class="text-success mr-50">100%</span>
+            <span>vs Week</span>
           </h5>
         </div>
 
-        <b-button
-          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          variant="primary"
-          class="shadow"
-        >
-          <span>View Details </span>
-          <feather-icon icon="ChevronsRightIcon" />
-        </b-button>
       </b-col>
 
       <!-- dropdown and chart -->
@@ -43,7 +35,7 @@
       >
         <div>
           <b-dropdown
-            text="Last 7 Days"
+            text="This Week"
             variant="transparent"
             class="chart-dropdown"
             left
@@ -64,7 +56,7 @@
           type="bar"
           height="200"
           :options="salesBar.chartOptions"
-          :series="data.salesBar.series"
+          :series="dataSeries"
         />
       </b-col>
     </b-row>
@@ -77,10 +69,10 @@
         class="mb-2"
       >
         <b-card-text class="mb-50">
-          Goal: ${{ data.goal }}
+          Total: {{ data.goal }}
         </b-card-text>
         <b-progress
-          value="50"
+          value="100"
           max="100"
           height="6px"
         />
@@ -90,10 +82,10 @@
         class="mb-2"
       >
         <b-card-text class="mb-50">
-          Users: {{ kFormatter(data.users) }}
+          High: {{ kFormatter(high) }}
         </b-card-text>
         <b-progress
-          value="60"
+          value="100"
           max="100"
           height="6px"
           variant="warning"
@@ -101,10 +93,10 @@
       </b-col>
       <b-col cols="6">
         <b-card-text class="mb-50">
-          Retention: {{ data.retention }}%
+          Medium: {{ medium }}
         </b-card-text>
         <b-progress
-          value="70"
+          value = "100"
           max="100"
           height="6px"
           variant="danger"
@@ -113,10 +105,10 @@
       </b-col>
       <b-col cols="6">
         <b-card-text class="mb-50">
-          Duration: {{ data.duration }}yr
+          Low: {{ low }}
         </b-card-text>
         <b-progress
-          value="90"
+          value="100"
           max="100"
           variant="success"
           height="6px"
@@ -135,6 +127,8 @@ import VueApexCharts from 'vue-apexcharts'
 import Ripple from 'vue-ripple-directive'
 import { $themeColors } from '@themeConfig'
 import { kFormatter } from '@core/utils/filter'
+import {getUserData} from "@/auth/utils";
+import myTaskAPI from "@/api/my_task";
 
 export default {
   components: {
@@ -157,8 +151,22 @@ export default {
       default: () => {},
     },
   },
+  async mounted() {
+    await this.getAllTask()
+    await this.getLastSevenDays()
+  },
   data() {
     return {
+      totalCount: '',
+      high: '',
+      medium: '',
+      low: '',
+      dataSeries: [
+        {
+          name : 'Sessions',
+          data : [0,0,1,0,0,0,0]
+        }
+      ],
       salesBar: {
         chartOptions: {
           chart: {
@@ -204,6 +212,25 @@ export default {
   },
   methods: {
     kFormatter,
+    async getAllTask() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getCompletedTaskByDay(userData.id))
+      this.nameNew = userData.fullName
+      this.countPending = response.data.data.pendingTask;
+      this.countHigh = response.data.data.highPriorityTask;
+      this.totalCount = response.data.data.allTask
+      this.high = response.data.data.highPriorityTask
+      this.medium = response.data.data.mediumPriorityTask
+      this.low = response.data.data.lowPriorityTask
+
+    },
+    async getLastSevenDays() {
+      const userData = getUserData()
+      let response2 = (await myTaskAPI.getLastSevenDay(userData.id))
+      // this.dataSeries = response2.data.data.series
+      // console.log(response2.data.data.series)
+    }
+
   },
 }
 </script>

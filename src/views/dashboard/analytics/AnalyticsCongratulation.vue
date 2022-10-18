@@ -25,11 +25,16 @@
         icon="AwardIcon"
       />
     </b-avatar>
-    <h1 class="mb-1 mt-50 text-white">
-      Congratulations {{ data.name }},
+    <h1 class="mb-1 mt-50 text-white" v-if="count > 0">
+
+      Congratulations {{ nameNew }},
+    </h1>
+    <h1 class="mb-1 mt-50 text-white" v-if="count < 1">
+
+      {{ nameNew }},
     </h1>
     <b-card-text class="m-auto w-75">
-      You have done <strong>{{ data.saleToday }}%</strong> more sales today. Check your new badge in your profile.
+      You have completed <strong>{{ this.count }}</strong> task(s) today.
     </b-card-text>
   </b-card>
 </template>
@@ -38,6 +43,8 @@
 import {
   BCard, BImg, BAvatar, BCardText,
 } from 'bootstrap-vue'
+import {getUserData} from "@/auth/utils";
+import myTaskAPI from "@/api/my_task";
 
 export default {
   components: {
@@ -46,11 +53,30 @@ export default {
     BImg,
     BCardText,
   },
+  async mounted() {
+    await this.getAllTask()
+  },
+  data() {
+    return {
+      count: 0,
+      nameNew: '',
+    }
+  },
   props: {
+
     data: {
       type: Object,
       default: () => {},
     },
   },
+  methods: {
+    async getAllTask() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getCompletedTaskByDay(userData.id))
+      console.log(userData.fullName)
+      this.nameNew = userData.fullName
+      this.count = response.data.data.completedTaskForToday;
+    }
+  }
 }
 </script>

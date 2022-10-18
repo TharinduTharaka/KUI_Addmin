@@ -30,12 +30,13 @@ tag
 tagVariant
 
 */
-// import dashboard from './dashboard'
+import dashboard from './dashboard'
 import kuiPages from './kui-pages'
 
 
 // Array of sections
 export default [
 
-  ...kuiPages
+    ...dashboard,
+    ...kuiPages
 ]

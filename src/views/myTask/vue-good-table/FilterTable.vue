@@ -45,7 +45,10 @@
           <b-form-group>
             <label>Today Task:</label>
             <b-form-checkbox
-                @input="() => $router.push(`/apps/myTask/filterMyTask/1/1/1/1`)"
+                v-model="check1"
+                value="accepted"
+                unchecked-value="not_accepted"
+                @input="() => $router.push(`/apps/myTask`)"
             ></b-form-checkbox>
           </b-form-group>
         </b-col>
@@ -360,6 +363,7 @@ export default {
       // },
 
       filter: null,
+      check1 : 'accepted',
       resource: '',
       resourceOptions: ['Thesis', 'General'],
       department: '',
@@ -392,17 +396,13 @@ export default {
       status: [
         {
           1: 'Pending',
-          2: 'Deleted',
+          2: 'Delete',
           3: 'Completed',
-          4: 'Supervisor Deleted',
-          5: 'Supervisor Completed'
         },
         {
           1: 'light-primary',
           2: 'light-danger',
           3: 'light-success',
-          4: 'light-danger',
-          5: 'light-success'
         }
       ],
       rating: [

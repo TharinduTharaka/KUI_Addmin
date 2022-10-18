@@ -75,6 +75,7 @@
                     rules="required">
                   <b-form-input
                       id="v-estimate"
+                      disabled
                       v-model="estimate"
                       placeholder="Enter Estimate"
 
@@ -96,6 +97,7 @@
                 >
                   <v-select
                       v-model="getRating"
+                      disabled
                       :options="rating"
                       label="title"
                       placeholder="Please select">
@@ -120,6 +122,7 @@
                     rules="required">
                   <v-select
                       v-model="getStatus"
+
                       :options="status"
                       label="title"
                       placeholder="Please select">
@@ -145,6 +148,7 @@
                 >
                   <b-form-textarea
                       id="v-comment"
+                      disabled
                       v-model="ratingComment"
                       placeholder="Enter Comment"
 
@@ -153,6 +157,55 @@
                 </validation-provider>
               </b-form-group>
             </b-col>
+
+
+
+
+            <b-col cols="12">
+              <b-form-group
+                  label="Supervisor Rating"
+                  label-for="v-rating">
+                <validation-provider
+                    #default="{ errors }"
+                    name="Enter Supervisor Rating"
+                    rules="required"
+                >
+                  <v-select
+                      v-model="getSupervisorRating"
+                      :options="rating"
+                      label="title"
+                      placeholder="Please select">
+                    <template slot="option" slot-scope="option">
+                      <span>{{ option.title }}</span>
+                    </template>
+                  </v-select>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+            <!-- Rating comment -->
+            <b-col cols="12">
+              <b-form-group
+                  label="Supervisor Rating Comment"
+                  label-for="v-comment"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="Supervisor Task Comment"
+                    rules="required"
+                >
+                  <b-form-textarea
+                      id="v-comment"
+                      v-model="supervisorRatingComment"
+                      placeholder="Enter Comment"
+
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
 
             <!-- submit and reset -->
             <b-col cols="12">
@@ -232,22 +285,42 @@ export default {
       title: '',
       getStatus: '',
       getRating: '',
+      getSupervisorRating: '',
       estimate: '',
       taskDescription: '',
       dueDate: '',
       startDate: '',
       ratingComment: '',
+      supervisorRatingComment: '',
 
-      status: [
+      status2: [
         {
           title: "Pending",
           value: 1
         },
         {
+          title: "Deleted",
+          value: 2
+        },
+        {
           title: "Completed",
           value: 3
+        },
+        {
+          title: "Supervisor Deleted",
+          value: 4
+        },
+        {
+          title: "Supervisor Completed",
+          value: 5
         }
+      ],
 
+      status: [
+        {
+          title: "Supervisor Completed",
+          value: 5
+        }
       ],
       rating: [
         {
@@ -344,8 +417,19 @@ export default {
       this.ratingComment = data.ratingComment
       const status = data.status;
       const rating = data.rating;
+      const supervisorRating = data.supervisorRating;
+      this.supervisorRatingComment = data.supervisorComment;
       if (status === 1) {
-        this.getStatus = this.status[0]
+        this.getStatus = this.status2[0]
+      }
+      else if (status === 2) {
+        this.getStatus = this.status2[1]
+      }
+      else if (status === 3) {
+        this.getStatus = this.status2[2]
+      }
+      else if (status === 4) {
+        this.getStatus = this.status2[3]
       }
 
       if (rating === 1) {
@@ -364,6 +448,22 @@ export default {
         this.getRating = this.rating[4]
       }
 
+      if (supervisorRating === 1) {
+        this.getSupervisorRating = this.rating[0]
+      }
+      else if (supervisorRating === 2) {
+        this.getSupervisorRating = this.rating[1]
+      }
+      else if (supervisorRating === 3) {
+        this.getSupervisorRating = this.rating[2]
+      }
+      else if (supervisorRating === 4) {
+        this.getSupervisorRating = this.rating[3]
+      }
+      else if (supervisorRating === 5) {
+        this.getSupervisorRating = this.rating[4]
+      }
+
       this.post_values.estimate = data.estimate
     },
 
@@ -372,9 +472,8 @@ export default {
       var user_id = this.$route.params.user_id
 
       const payload = {
-        rating: this.getRating.value,
-        rating_comment: this.ratingComment,
-        estimate: this.estimate,
+        supervisor_rating: this.getSupervisorRating.value,
+        supervisor_comment: this.supervisorRatingComment,
         status: this.getStatus.value
       }
       await myTaskAPI.update(payload, user_id, task_id)

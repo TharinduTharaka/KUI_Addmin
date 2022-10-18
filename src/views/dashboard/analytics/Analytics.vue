@@ -2,79 +2,79 @@
   <section id="dashboard-analytics">
     <b-row class="match-height">
       <b-col
-        lg="6"
-        md="12"
+          lg="6"
+          md="12"
       >
-        <analytics-congratulation :data="data.congratulations" />
+        <analytics-congratulation :data="data.congratulations"/>
       </b-col>
       <b-col
-        lg="3"
-        sm="6"
+          lg="3"
+          sm="6"
       >
         <statistic-card-with-area-chart
-          v-if="data.subscribersGained"
-          icon="UsersIcon"
-          :statistic="kFormatter(data.subscribersGained.analyticsData.subscribers)"
-          statistic-title="Subscribers Gained"
-          :chart-data="data.subscribersGained.series"
+            v-if="data.subscribersGained"
+            icon="UsersIcon"
+            :statistic="kFormatter(countPending)"
+            statistic-title="Pending Tasks"
+            :chart-data="data.subscribersGained.series"
         />
       </b-col>
       <b-col
-        lg="3"
-        sm="6"
+          lg="3"
+          sm="6"
       >
         <statistic-card-with-area-chart
-          v-if="data.ordersRecevied"
-          icon="PackageIcon"
-          color="warning"
-          :statistic="kFormatter(data.ordersRecevied.analyticsData.orders)"
-          statistic-title="Orders Received"
-          :chart-data="data.ordersRecevied.series"
+            v-if="data.ordersRecevied"
+            icon="PackageIcon"
+            color="warning"
+            :statistic="kFormatter(countHigh)"
+            statistic-title="High Priority Task"
+            :chart-data="data.ordersRecevied.series"
         />
       </b-col>
     </b-row>
 
     <b-row class="match-height">
       <b-col lg="6">
-        <analytics-avg-sessions :data="data.avgSessions" />
+        <analytics-avg-sessions :data="data.avgSessions"/>
       </b-col>
       <b-col lg="6">
-        <analytics-support-tracker :data="data.supportTracker" />
+        <analytics-support-tracker :data="data.supportTracker"/>
       </b-col>
     </b-row>
 
     <b-row class="match-height">
       <b-col lg="4">
-        <analytics-timeline :data="data.timeline" />
+        <analytics-timeline :data="data.timeline"/>
       </b-col>
       <b-col lg="4">
-        <analytics-sales-radar-chart :data="data.salesChart" />
+        <analytics-sales-radar-chart :data="data.salesChart"/>
       </b-col>
       <b-col lg="4">
-        <analytics-app-design :data="data.appDesign" />
+        <analytics-app-design :data="data.appDesign"/>
       </b-col>
     </b-row>
 
     <b-row>
       <b-col cols="12">
-        <invoice-list />
+        <invoice-list/>
       </b-col>
     </b-row>
   </section>
 </template>
 
 <script>
-import { BRow, BCol } from 'bootstrap-vue'
+import {BRow, BCol} from 'bootstrap-vue'
+import myTaskAPI from "@/api/my_task";
 
 import StatisticCardWithAreaChart from '@core/components/statistics-cards/StatisticCardWithAreaChart.vue'
-import { kFormatter } from '@core/utils/filter'
+import {kFormatter} from '@core/utils/filter'
 import InvoiceList from '@/views/apps/invoice/invoice-list/InvoiceList.vue'
 import AnalyticsCongratulation from './AnalyticsCongratulation.vue'
 import AnalyticsAvgSessions from './AnalyticsAvgSessions.vue'
 import AnalyticsSupportTracker from './AnalyticsSupportTracker.vue'
 import AnalyticsTimeline from './AnalyticsTimeline.vue'
-import AnalyticsSalesRadarChart from './AnalyticsSalesRadarChart.vue'
-import AnalyticsAppDesign from './AnalyticsAppDesign.vue'
+import {getUserData} from "@/auth/utils";
 
 export default {
   components: {
@@ -85,22 +85,36 @@ export default {
     StatisticCardWithAreaChart,
     AnalyticsSupportTracker,
     AnalyticsTimeline,
-    AnalyticsSalesRadarChart,
-    AnalyticsAppDesign,
-    InvoiceList,
+
+  },
+  async mounted() {
+    await this.getAllTask()
   },
   data() {
     return {
+      countPending: 0,
+      countHigh: 0,
       data: {},
     }
   },
   created() {
     // data
     this.$http.get('/analytics/data')
-      .then(response => { this.data = response.data })
+        .then(response => {
+          this.data = response.data
+        })
   },
   methods: {
     kFormatter,
+    async getAllTask() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getCompletedTaskByDay(userData.id))
+
+      this.nameNew = userData.fullName
+      this.countPending = response.data.data.pendingTask;
+      this.countHigh = response.data.data.highPriorityTask;
+    }
+
   },
 }
 </script>

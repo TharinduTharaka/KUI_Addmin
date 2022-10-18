@@ -200,7 +200,8 @@ export default {
 
   methods:{
     async getAllTask() {
-      let response = (await myTaskAPI.getData(1))
+      const userData = getUserData()
+      let response = (await myTaskAPI.getData(userData.id))
       console.log(response)
       this.rows = response.data.data;
       // this.totalRows = response.data.data.length

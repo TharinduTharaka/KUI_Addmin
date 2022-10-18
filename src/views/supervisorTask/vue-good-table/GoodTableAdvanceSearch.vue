@@ -1,12 +1,12 @@
 <template>
   <b-card>
-    <b-button
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/myTask/createMyTask`)"
-    >
-      Add
-    </b-button>
+<!--    <b-button-->
+<!--        style="margin-bottom: 10px"-->
+<!--        variant="primary"-->
+<!--        @click="() => $router.push(`/apps/myTask/createMyTask`)"-->
+<!--    >-->
+<!--      Add-->
+<!--    </b-button>-->
     <b-sidebar
         id="sidebar-creat"
         backdrop
@@ -40,31 +40,31 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="2">
-          <b-form-group>
-            <label>Today Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col md="2">
-          <b-form-group>
-            <label>Pending Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
+<!--        <b-col md="2">-->
+<!--          <b-form-group>-->
+<!--            <label>Today Task:</label>-->
+<!--            <b-form-checkbox></b-form-checkbox>-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
+<!--        <b-col md="2">-->
+<!--          <b-form-group>-->
+<!--            <label>Pending Task:</label>-->
+<!--            <b-form-checkbox></b-form-checkbox>-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
 
-        <b-col md="2">
-          <b-form-group>
-            <label>Completed Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col md="2">
-          <b-form-group>
-            <label>Deleted Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
+<!--        <b-col md="2">-->
+<!--          <b-form-group>-->
+<!--            <label>Completed Task:</label>-->
+<!--            <b-form-checkbox></b-form-checkbox>-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
+<!--        <b-col md="2">-->
+<!--          <b-form-group>-->
+<!--            <label>Deleted Task:</label>-->
+<!--            <b-form-checkbox></b-form-checkbox>-->
+<!--          </b-form-group>-->
+<!--        </b-col>-->
       </b-row>
     </div>
 
@@ -100,7 +100,7 @@
           <b-button
               size="sm"
               variant="primary"
-              @click="() => $router.push(`/apps/eResources/creatResources`)">
+              @click="getChildTask(row.item.id, row.item.givenName)">
             see more
           </b-button>
         </template>
@@ -267,6 +267,7 @@ import Ripple from 'vue-ripple-directive'
 import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
 import myTaskAPI from '@/api/my_task'
+import {getUserData} from "@/auth/utils";
 // import {useRouter} from "vue-router";
 // import { codeAdvance } from './code'
 /* eslint-disable */
@@ -326,26 +327,28 @@ export default {
       rows: [],
       searchTerm: '',
       fields: [
-        'show_details',
-        'taskTitle',
-        'startDate',
-        'endDate',
-        {
-          key: 'status',
-          label: 'Status'
-
-        },
-        'estimate',
+        'id',
+        'nameInFull',
+        'givenName',
+        'email',
+        'contactNo',
+        'pendingTask',
+        'deleteRequested',
+        'reviewNeeded',
         'action'
       ],
       /* eslint-disable global-require */
       items: [
         {
-          taskTitle: "",
-          startDate: "",
-          endDate: '',
-          status: "",
-          estimate: ""
+          id: "",
+          nameInFull: "",
+          givenName: '',
+          email: "",
+          nicNo: "",
+          contactNo: "",
+          pendingTask: "",
+          deleteRequested: "",
+          reviewNeeded: ""
         },
       ],
       /* eslint-disable global-require */
@@ -392,6 +395,12 @@ export default {
     onRowClick(params) {
       console.log(params)
     },
+    getChildTask(user_id, user_name) {
+      localStorage.setItem('child_id', JSON.stringify(user_id))
+      localStorage.setItem('child_name', JSON.stringify(user_name))
+      this.$router.push(`/apps/childTask`)
+      return {}
+    },
     getStatus(val) {
       if (val === 'draft') {
         return 'published'
@@ -407,7 +416,8 @@ export default {
       })
     },
     async getAllTask() {
-      let response = (await myTaskAPI.getData(1))
+      const userData = getUserData()
+      let response = (await myTaskAPI.getChildList(userData.id))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length

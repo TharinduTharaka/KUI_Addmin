@@ -6,6 +6,30 @@
           <b-row>
 
             <!-- Task Title -->
+
+            <b-col cols="12">
+              <b-form-group
+                  label="Emp Name"
+                  label-for="v-title"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="Task Title"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="v-title"
+                      disabled
+                      v-model="userName"
+                      placeholder="Enter Task Title"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+
+
             <b-col cols="12">
               <b-form-group
                   label="Task Title"
@@ -325,40 +349,8 @@
       >
         <good-table-basic/>
       </b-modal>
-
-
-      <b-modal
-          ref="my-modal"
-          hide-footer
-          title="Using Component Methods"
-      >
-        <div class="d-block text-center">
-          <h3>Hello From My Modal!</h3>
-        </div>
-        <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            class="mt-3"
-            variant="outline-secondary"
-            block
-            @click="hideModal"
-        >
-          Close Me
-        </b-button>
-        <b-button
-            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-            class="mt-2"
-            variant="outline-primary"
-            block
-            @click="toggleModal"
-        >
-          Toggle Me
-        </b-button>
-      </b-modal>
-
     </b-card>
   </div>
-
-
 
 </template>
 
@@ -424,6 +416,7 @@ export default {
       userID: 1,
       categoryID: '',
       title: '',
+      userName: localStorage.getItem('child_name').replaceAll("\"",""),
       label: '',
       taskDescription: '',
       reporterID: '',
@@ -562,17 +555,6 @@ export default {
     }
   },
   methods: {
-    showModal() {
-      this.$refs['my-modal'].show()
-    },
-    hideModal() {
-      this.$refs['my-modal'].hide()
-    },
-    toggleModal() {
-      // We pass the ID of the button that we want to return focus to
-      // when the modal has hidden
-      this.$refs['my-modal'].toggle('#toggle-btn')
-    },
     addTask() {
       this.a = true;
     },
@@ -616,7 +598,6 @@ export default {
     },
 
     validationForm() {
-      // this.showModal()
       this.$refs.simpleRules.validate()
           .then(success => {
             if (success) {
@@ -627,7 +608,7 @@ export default {
     async submit() {
       const userData = getUserData()
       const payload = {
-        user_id: userData.id,
+        user_id: localStorage.getItem('child_id'),
         category_id: this.getCategory.value,
         task_title: this.title,
         task_description: this.taskDescription,
