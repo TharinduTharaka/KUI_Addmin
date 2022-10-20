@@ -69,7 +69,7 @@
         class="mb-2"
       >
         <b-card-text class="mb-50">
-          Total: {{ data.goal }}
+          Total: {{ totalCount }}
         </b-card-text>
         <b-progress
           value="100"
