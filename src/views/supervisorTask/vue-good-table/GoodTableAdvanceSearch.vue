@@ -166,7 +166,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/myTask/editMyTask/${items[row.index].id}/${userID}`)"
+                  @click="() => $router.push(`/apps/myTask/editMyTask/${row.item.id}/${userID}`)"
               >
                 edit
               </b-button>

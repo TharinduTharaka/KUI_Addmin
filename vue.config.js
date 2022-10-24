@@ -43,5 +43,9 @@ module.exports = {
         return options
       })
   },
-  transpileDependencies: ['vue-echarts', 'resize-detector']
+  transpileDependencies: ['vue-echarts', 'resize-detector'],
+  devServer: {
+    port: 8087,
+    host: '0.0.0.0'
+  }
 }

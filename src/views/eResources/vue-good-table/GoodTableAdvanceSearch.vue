@@ -171,7 +171,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/eResources/editResources/${items[row.index].id}`)"
+                  @click="() => $router.push(`/apps/eResources/editResources/${row.item.id}`)"
               >
                 edit
               </b-button>

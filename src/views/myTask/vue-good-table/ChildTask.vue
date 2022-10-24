@@ -199,7 +199,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/myTask/editChildTask/${items[row.index].id}/${userID}`)"
+                  @click="() => $router.push(`/apps/myTask/editChildTask/${row.item.id}/${userID}`)"
               >
                 edit
               </b-button>
@@ -208,7 +208,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-danger"
-                  @click="deleteResource(userID,items[row.index].id)">
+                  @click="deleteResource(userID,row.item.id)">
                 Delete
               </b-button>
               <b-button
@@ -216,7 +216,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-success"
-                  @click="revertBySupervisor(userID,items[row.index].id)">
+                  @click="revertBySupervisor(userID,row.item.id)">
                 Revert
               </b-button>
             </div>
@@ -422,6 +422,7 @@ export default {
           3: 'Successful',
           4: 'Exceeds Expectations',
           5: 'Exceptional',
+          6: 'Not Applicable',
         },
         {
           1: 'light-primary',
@@ -429,6 +430,7 @@ export default {
           3: 'light-success',
           4: 'light-info',
           5: 'light-success',
+          6: 'light-success',
         }
       ],
       priority: [
