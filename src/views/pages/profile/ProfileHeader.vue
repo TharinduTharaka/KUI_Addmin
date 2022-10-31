@@ -1,29 +1,28 @@
 <template>
   <b-card
-    class="profile-header mb-2"
-    :img-src="headerData.coverImg"
-    img-top
-    alt="cover photo"
-    body-class="p-0"
-  >
+      :img-src="headerData.coverImg"
+      alt="cover photo"
+      body-class="p-0"
+      class="profile-header mb-2"
+      img-top>
     <!-- profile picture -->
     <div class="position-relative">
       <div class="profile-img-container d-flex align-items-center">
         <div class="profile-img">
           <b-img
-            :src="headerData.avatar"
-            rounded
-            fluid
-            alt="profile photo"
+              :src="headerData.avatar"
+              alt="profile photo"
+              fluid
+              rounded
           />
         </div>
         <!-- profile title -->
         <div class="profile-title ml-3">
           <h2 class="text-white">
-            {{ headerData.username }}
+            {{ "John Doe" }}
           </h2>
           <p class="text-white">
-            {{ headerData.designation }}
+            {{ "lecturer" }}
           </p>
         </div>
         <!--/ profile title -->
@@ -34,89 +33,95 @@
     <!-- profile navbar -->
     <div class="profile-header-nav">
       <b-navbar
-        toggleable="md"
-        type="light"
-      >
+          toggleable="md"
+          type="light">
         <!-- toggle button -->
         <b-navbar-toggle
-          class="ml-auto"
-          target="nav-text-collapse"
+            class="ml-auto"
+            target="nav-text-collapse"
         >
           <feather-icon
-            icon="AlignJustifyIcon"
-            size="21"
+              icon="AlignJustifyIcon"
+              size="21"
           />
         </b-navbar-toggle>
         <!--/ toggle button -->
 
         <!-- collapse -->
         <b-collapse
-          id="nav-text-collapse"
-          is-nav
+            id="nav-text-collapse"
+            is-nav
         >
           <b-tabs
-            pills
-            class="profile-tabs mt-1 mt-md-0"
-            nav-class="mb-0"
-          >
+              class="profile-tabs mt-1 mt-md-0"
+              nav-class="mb-0"
+              pills>
             <template #tabs-start>
+
               <b-nav-item
-                role="presentation"
-                active
-                class="font-weight-bold"
-              >
+                  :active="feed"
+                  class="font-weight-bold"
+                  role="presentation"
+                  @click="chooseTabs('feed')">
                 <span class="d-none d-md-block">Feed</span>
                 <feather-icon
-                  icon="RssIcon"
-                  class="d-block d-md-none"
+                    class="d-block d-md-none"
+                    icon="RssIcon"
                 />
               </b-nav-item>
+
               <b-nav-item
-                role="presentation"
-                class="font-weight-bold"
-              >
+                  :active="about"
+                  class="font-weight-bold"
+                  role="presentation"
+                  @click="chooseTabs('about')">
                 <span class="d-none d-md-block">About</span>
                 <feather-icon
-                  icon="InfoIcon"
-                  class="d-block d-md-none"
+                    class="d-block d-md-none"
+                    icon="InfoIcon"
                 />
               </b-nav-item>
-              <b-nav-item
-                role="presentation"
-                class="font-weight-bold"
-              >
-                <span class="d-none d-md-block">Photos</span>
-                <feather-icon
-                  icon="ImageIcon"
-                  class="d-block d-md-none"
-                />
-              </b-nav-item>
-              <b-nav-item
-                role="presentation"
-                class="font-weight-bold"
-              >
-                <span class="d-none d-md-block">Friends</span>
-                <feather-icon
-                  icon="UsersIcon"
-                  class="d-block d-md-none"
-                />
-              </b-nav-item>
-            </template>
 
-            <!-- edit buttons -->
-            <template #tabs-end>
-              <b-button
-                variant="primary"
-                class="ml-auto"
+              <b-nav-item
+                  :active="hierarchy"
+                  class="font-weight-bold"
+                  role="presentation"
+                  @click="chooseTabs('hierarchy')"
               >
+                <span class="d-none d-md-block">Hierarchy</span>
                 <feather-icon
-                  icon="EditIcon"
-                  class="d-block d-md-none"
+                    class="d-block d-md-none"
+                    icon="ImageIcon"
                 />
-                <span class="font-weight-bold d-none d-md-block">Edit</span>
-              </b-button>
+              </b-nav-item>
+
+              <b-nav-item
+                  :active="educationalQualification"
+                  class="font-weight-bold"
+                  role="presentation"
+                  @click="chooseTabs('educationalQualification')"
+              >
+                <span class="d-none d-md-block">Educational Qualification</span>
+                <feather-icon
+                    class="d-block d-md-none"
+                    icon="UsersIcon"
+                />
+              </b-nav-item>
+
+              <b-nav-item
+                  :active="pastExperiences"
+                  class="font-weight-bold"
+                  role="presentation"
+                  @click="chooseTabs('pastExperiences')"
+              >
+                <span class="d-none d-md-block">Past Experiences</span>
+                <feather-icon
+                    class="d-block d-md-none"
+                    icon="UsersIcon"
+                />
+              </b-nav-item>
+
             </template>
-            <!-- edit buttons -->
           </b-tabs>
 
         </b-collapse>
@@ -128,10 +133,9 @@
 </template>
 
 <script>
-import {
-  BCard, BImg, BNavbar, BNavbarToggle, BCollapse, BTabs, BNavItem, BButton,
-} from 'bootstrap-vue'
+import {BButton, BCard, BCollapse, BImg, BNavbar, BNavbarToggle, BNavItem, BTabs,} from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
+import feed from "@/views/pages/profile/subPages/Feed";
 
 export default {
   components: {
@@ -144,14 +148,71 @@ export default {
     BCollapse,
     BImg,
   },
+  mounted() {
+    this.feed = true
+  },
+  data() {
+    return {
+      feed: false,
+      about: false,
+      hierarchy: false,
+      educationalQualification: false,
+      pastExperiences: false
+    }
+  },
   directives: {
     Ripple,
   },
   props: {
     headerData: {
       type: Object,
-      default: () => {},
+      default: () => {
+      },
     },
   },
+
+  methods: {
+    chooseTabs(event) {
+      this.$emit('chooseTabs',event)
+      console.log(event)
+      if (event === 'feed') {
+        this.feed = true;
+        this.about = false;
+        this.hierarchy = false;
+        this.educationalQualification = false;
+        this.pastExperiences = false;
+        // this.$emit('feed')
+      } else if (event === 'about') {
+        this.feed = false;
+        this.about = true;
+        this.hierarchy = false;
+        this.educationalQualification = false;
+        this.pastExperiences = false;
+        // this.$emit('about')
+      } else if (event === 'hierarchy') {
+        this.feed = false;
+        this.about = false;
+        this.hierarchy = true;
+        this.educationalQualification = false;
+        this.pastExperiences = false;
+        // this.$emit('hierarchy')
+      } else if (event === 'educationalQualification') {
+        this.feed = false;
+        this.about = false;
+        this.hierarchy = false;
+        this.educationalQualification = true;
+        this.pastExperiences = false;
+        // this.$emit('educationalQualification')
+      } else {
+        this.feed = false;
+        this.about = false;
+        this.hierarchy = false;
+        this.educationalQualification = false;
+        this.pastExperiences = true;
+        // this.$emit('pastExperiences')
+      }
+    }
+  }
+
 }
 </script>

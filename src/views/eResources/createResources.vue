@@ -100,6 +100,14 @@
           </b-row>
         </b-form>
       </validation-observer>
+      <b-button
+          id="show-btn"
+          v-ripple.400="'rgba(113, 102, 240, 0.15)'"
+          variant="outline-primary"
+          @click="showModal"
+      >
+        Open Modal
+      </b-button>
       <b-modal
           id="modal-select2"
           cancel-variant="outline-secondary"
@@ -109,6 +117,33 @@
           title="Employee List"
       >
         <good-table-basic/>
+      </b-modal>
+      <b-modal
+          ref="my-modal"
+          hide-footer
+          title="Using Component Methods"
+      >
+        <div class="d-block text-center">
+          <h3>Hello From My Modal!</h3>
+        </div>
+        <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            class="mt-3"
+            variant="outline-secondary"
+            block
+            @click="hideModal"
+        >
+          Close Me
+        </b-button>
+        <b-button
+            v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+            class="mt-2"
+            variant="outline-primary"
+            block
+            @click="toggleModal"
+        >
+          Toggle Me
+        </b-button>
       </b-modal>
     </b-card>
 
@@ -283,6 +318,17 @@ export default {
     }
   },
   methods: {
+    showModal() {
+      this.$refs['my-modal'].show()
+    },
+    hideModal() {
+      this.$refs['my-modal'].hide()
+    },
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+      this.$refs['my-modal'].toggle('#toggle-btn')
+    },
     repeateAgain() {
       this.addEmployeePopupActive = true;
       this.items.push({
