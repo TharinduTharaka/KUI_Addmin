@@ -24,9 +24,17 @@ export default[
         },
     },
     {
-        path: '/apps/myTask/filterMyTask/:today/:pending/:com/:delete',
+        path: '/apps/myTask/filterMyTask/:status',
         name: 'filterTable',
         component: () => import('@/views/myTask/vue-good-table/FilterTable'),
+        meta: {
+            pageTitle: 'Filter Table',
+        },
+    },
+    {
+        path: '/apps/myTask/filterChildTask/:status',
+        name: 'filterTable',
+        component: () => import('@/views/myTask/vue-good-table/SupervisorFilterTable'),
         meta: {
             pageTitle: 'Filter Table',
         },

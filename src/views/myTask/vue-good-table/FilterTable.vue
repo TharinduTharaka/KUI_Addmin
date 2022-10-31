@@ -1,6 +1,15 @@
 <template>
   <b-card>
     <b-button
+        v-if="isSupervisorPendingCount > 0"
+        style="margin-bottom: 10px"
+        variant="primary"
+        @click="() => $router.push(`/apps/supervisorTask`)"
+    >
+      Add
+    </b-button>
+    <b-button
+        v-if="isSupervisorPendingCount < 1"
         style="margin-bottom: 10px"
         variant="primary"
         @click="() => $router.push(`/apps/myTask/createMyTask`)"
@@ -42,37 +51,54 @@
         </b-col>
 
         <b-col md="2">
-          <b-form-group>
-            <label>Today Task:</label>
-            <b-form-checkbox
-                v-model="check1"
-                value="accepted"
-                unchecked-value="not_accepted"
-                @input="() => $router.push(`/apps/myTask`)"
-            ></b-form-checkbox>
-          </b-form-group>
+          <b-button
+              v-if="$route.params.status === '1'"
+              style="margin-bottom: 10px"
+              variant="success"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"
+          >
+            Today Task List
+          </b-button>
         </b-col>
         <b-col md="2">
-          <b-form-group>
-            <label>Pending Task:</label>
-            <b-form-checkbox
-            ></b-form-checkbox>
-          </b-form-group>
-        </b-col>
-
-
-        <b-col md="2">
-          <b-form-group>
-            <label>Completed Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
+          <b-button
+              v-if="$route.params.status === '3'"
+              style="margin-bottom: 10px"
+              variant="primary"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"
+          >
+            Completed Task
+          </b-button>
         </b-col>
         <b-col md="2">
-          <b-form-group>
-            <label>Deleted Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
+          <b-button
+              v-if="$route.params.status === '2'"
+              style="margin-bottom: 10px"
+              variant="danger"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"
+          >
+            Deleted Task
+          </b-button>
         </b-col>
+        <b-col md="2">
+          <b-button
+              v-if="$route.params.status === '4'"
+              style="margin-bottom: 10px"
+              variant="info"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"
+          >
+            Supervisor Completed
+          </b-button>
+        </b-col>
+        <!--        <b-col md="2">-->
+        <!--          <b-button-->
+        <!--              style="margin-bottom: 10px"-->
+        <!--              variant="success"-->
+        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+        <!--          >-->
+        <!--            Pending-->
+        <!--          </b-button>-->
+        <!--        </b-col>-->
       </b-row>
     </div>
 
@@ -212,6 +238,14 @@
                   @click="deleteResource(userID,row.item.id)">
                 Delete
               </b-button>
+              <b-button
+                  v-if="row.item.status ===1"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-primary"
+                  @click="updateNotApplicable(userID,row.item.id)">
+                Not Applicable
+              </b-button>
             </div>
           </b-card>
         </template>
@@ -271,7 +305,30 @@
         </b-pagination>
       </div>
     </b-card-body>
+
+    <b-modal
+        ref="my-modal"
+        hide-footer
+        title="Attention Needed !"
+    >
+      <div class="d-block text-center">
+        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+      </div>
+      <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          class="mt-3"
+          variant="outline-secondary"
+          block
+          @click="hideModal"
+      >
+        Review Child Task
+      </b-button>
+    </b-modal>
+
   </b-card>
+
+
+
 </template>
 
 <script>
@@ -363,16 +420,17 @@ export default {
       // },
 
       filter: null,
-      check1 : 'accepted',
       resource: '',
       resourceOptions: ['Thesis', 'General'],
       department: '',
       departmentOptions: ['Nursing', 'BMS', 'Psychology', 'Management', 'Acupuncture', 'IT'],
       rows: [],
       searchTerm: '',
+      isSupervisorPendingCount: 0,
       fields: [
         'show_details',
         'taskTitle',
+        'recurring',
         'startDate',
         'endDate',
         {
@@ -396,13 +454,17 @@ export default {
       status: [
         {
           1: 'Pending',
-          2: 'Delete',
+          2: 'Deleted',
           3: 'Completed',
+          4: 'Supervisor Deleted',
+          5: 'Supervisor Completed'
         },
         {
           1: 'light-primary',
           2: 'light-danger',
           3: 'light-success',
+          4: 'light-danger',
+          5: 'light-success'
         }
       ],
       rating: [
@@ -457,6 +519,12 @@ export default {
   async mounted() {
     // Set the initial number of items
     this.totalRows = this.items.length
+    await this.getIsSupervisorReviewCount()
+
+    if (this.isSupervisorPendingCount > 0){
+      this.showModal()
+    }
+
     await this.getAllTask()
   },
   methods: {
@@ -482,7 +550,7 @@ export default {
     },
     async getAllTask() {
       const userData = getUserData()
-      let response = (await myTaskAPI.getData(userData.id))
+      let response = (await myTaskAPI.getDataForFilter(userData.id,this.$route.params.status))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
@@ -491,9 +559,7 @@ export default {
       const userData = getUserData()
       await myTaskAPI.delete(userData.id, taskID)
           .then((res) => {
-            console.log('deleted')
             this.makeToast('Removed successfully', 'success');
-            // toast("Order removed successfully", "success");
             this.getAllTask()
           })
           .catch(({response}) => {
@@ -501,6 +567,24 @@ export default {
             console.log(this.error)
             this.makeToast(this.error, 'danger');
           })
+    },
+    async updateNotApplicable(userID, taskID) {
+      const userData = getUserData()
+      await myTaskAPI.updateNotApplicable(userData.id, taskID, 1)
+          .then((res) => {
+            this.makeToast('Updated successfully', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async getIsSupervisorReviewCount() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getIsSupervisorPendingTaskCount(userData.id))
+      this.isSupervisorPendingCount = response.data.data;
     },
     async updateEResourceStatus(data, status, updated_user) {
       const userData = getUserData()
@@ -519,6 +603,18 @@ export default {
       // axios.put("http://13.232.138.190:8081/resource/update-eresource-status", null,
       //     { params: { data, status, updated_user }})
       //     .then(response => this.$router.go());
+    },
+    showModal() {
+      this.$refs['my-modal'].show()
+    },
+    hideModal() {
+      this.$refs['my-modal'].hide()
+      this.$router.push(`/apps/supervisorTask`)
+    },
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+      this.$refs['my-modal'].toggle('#toggle-btn')
     },
   },
 }
