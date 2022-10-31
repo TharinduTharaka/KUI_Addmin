@@ -127,11 +127,25 @@
                   md="4">
                 <strong>Start Date : </strong>{{ row.item.startDate }}
               </b-col>
-
               <b-col
                   class="mb-1"
                   md="4">
                 <strong>End Date : </strong>{{ row.item.endDate }}
+              </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Label: </strong>{{ row.item.label }}
+              </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Estimate : </strong>{{ row.item.estimate }}
+              </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Original Estimate: </strong>{{ row.item.originalEstimate }}
               </b-col>
               <b-col
                   class="mb-1"
