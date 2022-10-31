@@ -2,7 +2,17 @@
   <b-code title="Basic Table">
     <!-- search input -->
     <div class="custom-search d-flex justify-content-end">
-
+      <b-form-group>
+        <div class="d-flex align-items-center">
+          <label class="mr-1">Search</label>
+          <b-form-input
+              v-model="searchTerm"
+              placeholder="Search"
+              type="text"
+              class="d-inline-block"
+          />
+        </div>
+      </b-form-group>
     </div>
 
     <!-- table -->
@@ -10,7 +20,7 @@
         :columns="columns"
         :rows="rows"
         :select-options="{
-        enabled: false,
+        enabled: true,
         selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
         selectionInfoClass: 'custom-class',
         selectionText: 'rows selected',
@@ -194,7 +204,7 @@ export default {
       let response = (await myTaskAPI.getData(userData.id))
       console.log(response)
       this.rows = response.data.data;
-      this.totalRows = response.data.data.length
+      // this.totalRows = response.data.data.length
     },
   }
 }

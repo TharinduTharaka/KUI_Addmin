@@ -164,7 +164,7 @@ export default {
       dataSeries: [
         {
           name : 'Sessions',
-          data : [0,0,1,0,0,0,0]
+          data : [this.high,0,0,0,0,0,0]
         }
       ],
       salesBar: {

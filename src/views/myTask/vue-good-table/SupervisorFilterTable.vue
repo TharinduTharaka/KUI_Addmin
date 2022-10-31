@@ -31,6 +31,7 @@
 
       <!-- advance search input -->
       <b-row>
+
         <b-col md="4">
           <b-form-group>
             <label>Search:</label>
@@ -45,6 +46,7 @@
 
         <b-col md="2">
           <b-button
+              v-if="$route.params.status === '3'"
               style="margin-bottom: 10px"
               variant="primary"
               @click="() => $router.push(`/apps/myTask/filterChildTask/3`)"
@@ -54,6 +56,7 @@
         </b-col>
         <b-col md="2">
           <b-button
+              v-if="$route.params.status === '4'"
               style="margin-bottom: 10px"
               variant="info"
               @click="() => $router.push(`/apps/myTask/filterChildTask/4`)"
@@ -63,6 +66,7 @@
         </b-col>
         <b-col md="2">
           <b-button
+              v-if="$route.params.status === '1'"
               style="margin-bottom: 10px"
               variant="success"
               @click="() => $router.push(`/apps/myTask/filterChildTask/1`)"
@@ -72,6 +76,7 @@
         </b-col>
         <b-col md="2">
           <b-button
+              v-if="$route.params.status === '2'"
               style="margin-bottom: 10px"
               variant="danger"
               @click="() => $router.push(`/apps/myTask/filterChildTask/2`)"
@@ -507,7 +512,7 @@ export default {
     },
     async getAllTask() {
 
-      let response = (await myTaskAPI.getData(localStorage.getItem('child_id')))
+      let response = (await myTaskAPI.getDataForFilter(localStorage.getItem('child_id'), this.$route.params.status))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
