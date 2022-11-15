@@ -248,72 +248,72 @@
             </b-col>
 
             <!-- Blocked Task -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Blocked Task"
-                  label-for="v-department">
-                <div>
-                  <b-form
-                      ref="form"
-                      :style="{height: trHeight}"
-                      class="repeater-form"
-                      @submit.prevent="repeateAgain">
+<!--            <b-col cols="12">-->
+<!--              <b-form-group-->
+<!--                  label="Blocked Task"-->
+<!--                  label-for="v-department">-->
+<!--                <div>-->
+<!--                  <b-form-->
+<!--                      ref="form"-->
+<!--                      :style="{height: trHeight}"-->
+<!--                      class="repeater-form"-->
+<!--                      @submit.prevent="repeateAgain">-->
 
-                    <!-- Row Loop -->
-                    <b-row
-                        v-for="(item, index) in items"
-                        :id="item.id"
-                        :key="item.id"
-                        ref="row">
+<!--                    &lt;!&ndash; Row Loop &ndash;&gt;-->
+<!--                    <b-row-->
+<!--                        v-for="(item, index) in items"-->
+<!--                        :id="item.id"-->
+<!--                        :key="item.id"-->
+<!--                        ref="row">-->
 
-                      <!-- Item Name -->
-                      <b-col md="12">
-                        <b-form-input
-                            v-if="a"
-                            id="item-name"
-                            v-model="item.name"
-                            placeholder="Employee Name"
-                            type="text"
-                        />
-                      </b-col>
+<!--                      &lt;!&ndash; Item Name &ndash;&gt;-->
+<!--                      <b-col md="12">-->
+<!--                        <b-form-input-->
+<!--                            v-if="a"-->
+<!--                            id="item-name"-->
+<!--                            v-model="item.name"-->
+<!--                            placeholder="Employee Name"-->
+<!--                            type="text"-->
+<!--                        />-->
+<!--                      </b-col>-->
 
-                      <!-- Remove Button -->
-                      <b-col v-if="a" md="12"
-                             style="padding-top: 10px">
-                        <b-button
-                            v-ripple.400="'rgba(234, 84, 85, 0.15)'"
-                            variant="outline-danger"
-                            @click="removeItem(index)"
-                        >
-                          <feather-icon
-                              class="mr-25"
-                              icon="XIcon"
-                          />
-                          <span>Delete</span>
-                        </b-button>
-                      </b-col>
+<!--                      &lt;!&ndash; Remove Button &ndash;&gt;-->
+<!--                      <b-col v-if="a" md="12"-->
+<!--                             style="padding-top: 10px">-->
+<!--                        <b-button-->
+<!--                            v-ripple.400="'rgba(234, 84, 85, 0.15)'"-->
+<!--                            variant="outline-danger"-->
+<!--                            @click="removeItem(index)"-->
+<!--                        >-->
+<!--                          <feather-icon-->
+<!--                              class="mr-25"-->
+<!--                              icon="XIcon"-->
+<!--                          />-->
+<!--                          <span>Delete</span>-->
+<!--                        </b-button>-->
+<!--                      </b-col>-->
 
-                      <b-col cols="12">
-                        <hr>
-                      </b-col>
-                    </b-row>
+<!--                      <b-col cols="12">-->
+<!--                        <hr>-->
+<!--                      </b-col>-->
+<!--                    </b-row>-->
 
-                  </b-form>
-                </div>
-                <b-button
-                    v-b-modal.modal-select2
-                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                    variant="primary"
-                    @click="addTask"
-                >
-                  <feather-icon
-                      class="mr-25"
-                      icon="PlusIcon"
-                  />
-                  <span>Add Task</span>
-                </b-button>
-              </b-form-group>
-            </b-col>
+<!--                  </b-form>-->
+<!--                </div>-->
+<!--                <b-button-->
+<!--                    v-b-modal.modal-select2-->
+<!--                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
+<!--                    variant="primary"-->
+<!--                    @click="addTask"-->
+<!--                >-->
+<!--                  <feather-icon-->
+<!--                      class="mr-25"-->
+<!--                      icon="PlusIcon"-->
+<!--                  />-->
+<!--                  <span>Add Task</span>-->
+<!--                </b-button>-->
+<!--              </b-form-group>-->
+<!--            </b-col>-->
 
 
             <!-- submit and reset button -->

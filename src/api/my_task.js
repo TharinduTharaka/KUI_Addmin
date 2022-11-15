@@ -5,6 +5,9 @@ export default {
     getData: async function (user_id) {
         return await api.get(`/task/get-my-task?user_id=${user_id}`)
     },
+    getEstimateBreakDown: async function (task) {
+        return await api.get(`/task/total-estimate-by-task?task=${task}`)
+    },
     getDataForFilter: async function (user_id, status) {
         return await api.get(`/task/get-my-task?user_id=${user_id}&type=${status}`)
     },

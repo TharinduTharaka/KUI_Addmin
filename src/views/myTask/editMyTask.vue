@@ -64,6 +64,59 @@
               </b-form-group>
             </b-col>
 
+            <b-col cols="12">
+              <b-form-group
+                  label="Current Total Estimate"
+                  label-for="v-total-estimate"
+              >
+                <b-form-input
+                    id="v-estimate"
+                    v-model="totalEstimate"
+                    disabled
+                    placeholder="Enter total Estimate"
+                />
+              </b-form-group>
+            </b-col>
+
+            <b-col cols="12">
+              <b-form-group
+                  label="Estimate Breakdown"
+                  label-for="v-department">
+                <div>
+                  <b-form
+                      ref="form"
+                      :style="{height: trHeight}"
+                      class="repeater-form"
+                      @submit.prevent="repeateAgain">
+
+                    <b-row
+                        v-for="(item, index) in items"
+                        :id="item.id"
+                        :key="item.id"
+                        ref="row">
+
+                      <b-col cols="12">
+                        <hr>
+                      </b-col>
+                    </b-row>
+
+                  </b-form>
+                </div>
+                <b-button
+                    v-b-modal.modal-select2
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="primary"
+                    @click="addTask"
+                >
+                  <feather-icon
+                      class="mr-25"
+                      icon="PlusIcon"
+                  />
+                  <span>Show Breakdown</span>
+                </b-button>
+              </b-form-group>
+            </b-col>
+
             <!-- estimate -->
             <b-col cols="12">
               <b-form-group
@@ -154,74 +207,6 @@
               </b-form-group>
             </b-col>
 
-            <b-col cols="12">
-              <b-form-group
-                  label="Blocked Task"
-                  label-for="v-department">
-                <div>
-                  <b-form
-                      ref="form"
-                      :style="{height: trHeight}"
-                      class="repeater-form"
-                      @submit.prevent="repeateAgain">
-
-                    <!-- Row Loop -->
-                    <b-row
-                        v-for="(item, index) in items"
-                        :id="item.id"
-                        :key="item.id"
-                        ref="row">
-
-                      <!-- Item Name -->
-                      <b-col md="12">
-                        <b-form-input
-                            v-if="a"
-                            id="item-name"
-                            v-model="item.name"
-                            placeholder="Employee Name"
-                            type="text"
-                        />
-                      </b-col>
-
-                      <!-- Remove Button -->
-                      <b-col v-if="a" md="12"
-                             style="padding-top: 10px">
-                        <b-button
-                            v-ripple.400="'rgba(234, 84, 85, 0.15)'"
-                            variant="outline-danger"
-                            @click="removeItem(index)"
-                        >
-                          <feather-icon
-                              class="mr-25"
-                              icon="XIcon"
-                          />
-                          <span>Delete</span>
-                        </b-button>
-                      </b-col>
-
-                      <b-col cols="12">
-                        <hr>
-                      </b-col>
-                    </b-row>
-
-                  </b-form>
-                </div>
-                <b-button
-                    v-b-modal.modal-select2
-                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-                    variant="primary"
-                    @click="addTask"
-                >
-                  <feather-icon
-                      class="mr-25"
-                      icon="PlusIcon"
-                  />
-                  <span>Add Task</span>
-                </b-button>
-              </b-form-group>
-            </b-col>
-
-
             <!-- submit and reset -->
             <b-col cols="12">
               <b-button
@@ -248,7 +233,7 @@
           id="modal-select2"
           cancel-variant="outline-secondary"
           centered
-          ok-title="submit"
+          ok-disabled
           size="lg"
           title="Employee List"
           @ok="handleOk"
@@ -286,6 +271,7 @@ import {
 } from 'bootstrap-vue'
 import myTaskAPI from '@/api/my_task'
 import GoodTableBasic from "@/views/myTask/vue-good-table/GoodTableBasic";
+import {getUserData} from "@/auth/utils";
 /* eslint-disable */
 export default {
   name: 'createResources',
@@ -314,6 +300,7 @@ export default {
       getStatus: '',
       getRating: '',
       estimate: '',
+      totalEstimate: 0,
       a: false,
       taskDescription: '',
       dueDate: '',
@@ -414,7 +401,6 @@ export default {
       })
     },
     handleOk(bvModalEvt) {
-      console.log(bvModalEvt)
       this.handleSubmit()
     },
     handleSubmit() {
@@ -450,10 +436,17 @@ export default {
         this.trAddHeight(this.$refs.row[0].offsetHeight)
       })
     },
+    async getTotalEstimate() {
+      let response = (await myTaskAPI.getEstimateBreakDown(this.$route.params.task_id))
+      console.log(response)
+      this.totalEstimate = response.data.data.total;
+    },
     async getAllData() {
       var task_id = this.$route.params.task_id
-      var user_id = this.$route.params.user_id
+      const userData = getUserData()
+      var user_id = userData.id
       let response = (await myTaskAPI.getTaskData(user_id, task_id))
+      await this.getTotalEstimate()
       console.log(task_id);
       const data = response.data.data[0];
       this.title = data.taskTitle

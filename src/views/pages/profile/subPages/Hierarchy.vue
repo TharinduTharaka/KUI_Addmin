@@ -4,7 +4,7 @@
       <div class="d-flex align-items-center">
 
         <b-card-title class="ml-25">
-          KUI
+          KIU
         </b-card-title>
       </div>
 

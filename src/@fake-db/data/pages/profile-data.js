@@ -11,9 +11,9 @@ const data = {
     userAbout: {
       about: 'Tart I love sugar plum I love oat cake. Sweet ⭐️ roll caramels I love jujubes. Topping cake wafer.',
       joined: 'November 15, 2015',
-      lives: 'New York, USA',
-      email: 'bucketful@fiendhead.org',
-      website: 'www.pixinvent.com',
+      lives: 'Colombo 6',
+      email: 'user@kiu.ac.lk',
+      website: 'www.kiu.com',
     },
     suggestedPages: [
       {
@@ -82,11 +82,11 @@ const data = {
     post: [
       {
         avatar: require('@/assets/images/portrait/small/avatar-s-18.jpg'),
-        username: 'Leeanna Alvord',
-        postTime: '12 Dec 2018 at 1:16 AM',
+        username: 'Lakmini Jinadasa',
+        postTime: '31 Oct 2022 at 1:16 AM',
         postText:
-          'Wonderful Machine· A well-written bio allows viewers to get to know a photographer beyond the work. This can make the difference when presenting to clients who are looking for the perfect fit.',
-        postImg: require('@/assets/images/profile/post-media/2.jpg'),
+          'KIU Convocation 2022 It is with pride and pleasure, KIU announces that the 5th convocation was successfully held on the 15th and 16th of October 2022 at the BMICH Main Auditorium. KIU facilitates students with a profound academic platform and at the 5th convocation, around 1097 students graduated as fully-fledged academic professionals',
+        postImg: require('@/assets/images/profile/post-media/img1.png'),
         likes: 1240,
         youLiked: true,
         comments: 1240,
@@ -102,27 +102,21 @@ const data = {
         detailedComments: [
           {
             avatar: require('@/assets/images/portrait/small/avatar-s-6.jpg'),
-            username: 'Kitty Allanson',
-            comment: 'Easy & smart fuzzy search🕵🏻 functionality which enables users to search quickly.',
+            username: 'Vinura Gunathilaka',
+            comment: 'Nice.',
             commentsLikes: 34,
             youLiked: false,
           },
-          {
-            avatar: require('@/assets/images/portrait/small/avatar-s-8.jpg'),
-            username: 'Jackey Potter',
-            comment: 'Unlimited color🖌 options allows you to set your application color as per your branding 🤪.',
-            commentsLikes: 61,
-            youLiked: true,
-          },
+
         ],
       },
       {
         avatar: require('@/assets/images/portrait/small/avatar-s-22.jpg'),
-        username: 'Rosa Walters',
-        postTime: '11 Dec 2019 at 1:16 AM',
+        username: 'Thishani Rodrigo',
+        postTime: '31 Oct 2022 at 1:16 AM',
         postText:
-          'Wonderful Machine· A well-written bio allows viewers to get to know a photographer beyond the work. This can make the difference when presenting to clients who are looking for the perfect fit.',
-        postImg: require('@/assets/images/profile/post-media/25.jpg'),
+          'Registrations are now open for October Intake 2022. If you wish to register with KIU please fill out the google form: https://forms.gle/97tsbYZgyJiFLEC66 Feel free to contact us on 0761410953/0765881010 for further details and inquiries',
+        postImg: require('@/assets/images/profile/post-media/img2.png'),
         likes: 1240,
         youLiked: true,
         comments: 1240,
@@ -138,8 +132,8 @@ const data = {
         detailedComments: [
           {
             avatar: require('@/assets/images/portrait/small/avatar-s-3.jpg'),
-            username: 'Kitty Allanson',
-            comment: 'Easy & smart fuzzy search🕵🏻 functionality which enables users to search quickly.',
+            username: 'Vinura Gunathilaka',
+            comment: 'Nice',
             commentsLikes: 34,
             youLiked: false,
           },
@@ -147,7 +141,7 @@ const data = {
       },
       {
         avatar: require('@/assets/images/portrait/small/avatar-s-15.jpg'),
-        username: 'Charles Watson',
+        username: 'Vinura Gunathilaka',
         postTime: '12 Dec 2019 at 1:16 AM',
         postText:
           'Wonderful Machine· A well-written bio allows viewers to get to know a photographer beyond the work. This can make the difference when presenting to clients who are looking for the perfect fit.',
@@ -164,15 +158,7 @@ const data = {
           { avatar: require('@/assets/images/portrait/small/avatar-s-4.jpg'), username: 'Vinnie Mostowy' },
         ],
         likedCount: 264,
-        detailedComments: [
-          {
-            avatar: require('@/assets/images/portrait/small/avatar-s-3.jpg'),
-            username: 'Kitty Allanson',
-            comment: 'Easy & smart fuzzy search🕵🏻 functionality which enables users to search quickly.',
-            commentsLikes: 34,
-            youLiked: false,
-          },
-        ],
+
       },
     ],
     latestPhotos: [

@@ -202,7 +202,7 @@
                 Hide Details
               </b-button>
               <b-button
-                  v-if="row.item.status === 2 || row.item.status === 3"
+                  v-if="row.item.status === 2 || row.item.status === 3 || row.item.status === 1"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
@@ -227,7 +227,7 @@
                 Delete
               </b-button>
               <b-button
-                  v-if="row.item.status ===2 || row.item.status ===3"
+                  v-if="row.item.status ===2 || row.item.status ===3 || row.item.status ===5"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-success"

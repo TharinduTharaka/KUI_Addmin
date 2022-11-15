@@ -120,25 +120,21 @@ export default {
       codeBasic,
       columns: [
         {
-          label: 'Task Title',
-          field: 'taskTitle',
+          label: 'ID',
+          field: 'id',
         },
         {
-          label: 'Start Date',
-          field: 'startDate',
-        },
-        {
-          label: 'End Date',
-          field: 'endDate',
-        },
-        {
-          label: 'Status',
-          field: 'status',
+          label: 'Task Id',
+          field: 'taskId',
         },
         {
           label: 'Estimate',
           field: 'estimate',
         },
+        {
+          label: 'Updated Date',
+          field: 'date',
+        }
       ],
       rows: [],
       searchTerm: '',
@@ -190,10 +186,9 @@ export default {
 
   methods:{
     async getAllTask() {
-      const userData = getUserData()
-      let response = (await myTaskAPI.getData(userData.id))
+      let response = (await myTaskAPI.getEstimateBreakDown(this.$route.params.task_id))
       console.log(response)
-      this.rows = response.data.data;
+      this.rows = response.data.data.taskBreakdownEntities;
       this.totalRows = response.data.data.length
     },
   }
