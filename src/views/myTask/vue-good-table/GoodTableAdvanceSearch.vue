@@ -528,7 +528,8 @@ export default {
     },
   },
   async mounted() {
-    // Set the initial number of items
+    const userData = getUserData()
+    this.userID = userData.id
     this.totalRows = this.items.length
     await this.getIsSupervisorReviewCount()
 

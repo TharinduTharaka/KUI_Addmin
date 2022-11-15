@@ -19,7 +19,7 @@
         <!-- profile title -->
         <div class="profile-title ml-3">
           <h2 class="text-white">
-            {{ "John Doe" }}
+            {{ userName }}
           </h2>
           <p class="text-white">
             {{ "lecturer" }}
@@ -136,6 +136,7 @@
 import {BButton, BCard, BCollapse, BImg, BNavbar, BNavbarToggle, BNavItem, BTabs,} from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import feed from "@/views/pages/profile/subPages/Feed";
+import {getUserData} from "@/auth/utils";
 
 export default {
   components: {
@@ -150,10 +151,14 @@ export default {
   },
   mounted() {
     this.feed = true
+    const userData = getUserData()
+    console.log(userData)
+    this.userName = userData.fullName
   },
   data() {
     return {
       feed: false,
+      userName: '',
       about: false,
       hierarchy: false,
       educationalQualification: false,

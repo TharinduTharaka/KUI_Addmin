@@ -55,6 +55,8 @@ export default {
   },
   async mounted() {
     await this.getAllTask()
+    const userData = getUserData()
+    this.userID = userData.id
   },
   data() {
     return {
