@@ -1,12 +1,14 @@
 {
   "name": "vuexy-vuejs-react-html-laravel-admin-dashboard-template",
-  "version": "6.2.0",
+  "version": "8.11.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "react-scripts start --openssl-legacy-provider"
   },
+
   "dependencies": {
     "@casl/ability": "4.1.6",
     "@casl/vue": "1.1.1",

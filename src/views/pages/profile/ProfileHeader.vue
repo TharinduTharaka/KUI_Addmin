@@ -19,10 +19,10 @@
         <!-- profile title -->
         <div class="profile-title ml-3">
           <h2 class="text-white">
-            {{ "John Doe" }}
+            {{name}}
           </h2>
           <p class="text-white">
-            {{ "lecturer" }}
+            {{jobTile}}
           </p>
         </div>
         <!--/ profile title -->
@@ -153,6 +153,14 @@ export default {
   },
   data() {
     return {
+
+      name:'Jone Doe',
+      profileImg:'',
+      coverImg:'',
+      jobTile:'lecturer',
+
+
+
       feed: false,
       about: false,
       hierarchy: false,

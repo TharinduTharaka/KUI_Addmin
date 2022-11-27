@@ -178,6 +178,12 @@ export default {
     'b-tooltip': VBTooltip,
     Ripple,
   },
+
+  data(){
+    return{
+      post:{},
+    }
+  },
   props: {
     posts: {
       type: Array,
@@ -189,3 +195,4 @@ export default {
   },
 }
 </script>
+F
