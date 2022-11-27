@@ -75,9 +75,7 @@
               variant="success"
               @click="tasksFilter(1, true)"
           >
-            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
-            <!--          >-->
-            Today Task List
+            Pending Task List
           </b-button>
         </b-col>
         <b-col md="2">
@@ -86,8 +84,6 @@
               variant="primary"
               @click="tasksFilter(3, true)"
           >
-            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
-            <!--          >-->
             Completed Task
           </b-button>
         </b-col>
@@ -97,8 +93,6 @@
               variant="danger"
               @click="tasksFilter(2, true)"
           >
-            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"-->
-            <!--          >-->
             Deleted Task
           </b-button>
         </b-col>
@@ -108,21 +102,19 @@
               variant="info"
               @click="tasksFilter(4, true)"
           >
-            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"-->
-            <!--          >-->
             Supervisor Completed
           </b-button>
         </b-col>
 
-        <!--        <b-col md="2">-->
-        <!--          <b-button-->
-        <!--              style="margin-bottom: 10px"-->
-        <!--              variant="success"-->
-        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
-        <!--          >-->
-        <!--            Pending-->
-        <!--          </b-button>-->
-        <!--        </b-col>-->
+<!--        <b-col md="2">-->
+<!--          <b-button-->
+<!--              style="margin-bottom: 10px"-->
+<!--              variant="success"-->
+<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+<!--          >-->
+<!--            Pending-->
+<!--          </b-button>-->
+<!--        </b-col>-->
       </b-row>
     </div>
 
@@ -350,14 +342,13 @@
         title="Attention Needed !"
     >
       <div class="d-block text-center">
-        <h3>You Have To Review {{ isSupervisorPendingCount }} Completed Child Tasks. Please Review Them First To
-          Continue</h3>
+        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
       </div>
       <b-button
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          block
           class="mt-3"
           variant="outline-secondary"
+          block
           @click="hideModal"
       >
         Review Child Task
@@ -365,6 +356,7 @@
     </b-modal>
 
   </b-card>
+
 
 
 </template>
@@ -435,7 +427,6 @@ export default {
   /* eslint-disable */
   data() {
     return {
-      buttonVisible: false,
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
