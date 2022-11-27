@@ -98,6 +98,29 @@
               </b-form-group>
             </b-col>
 
+            <b-col cols="12">
+              <b-form-group
+                  label="Recurring"
+                  label-for="v-recurring"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="Recurring"
+                    rules="required">
+                  <v-select
+                      v-model="getRecurring"
+                      :options="recurring"
+                      label="title"
+                      placeholder="Please select">
+                    <template slot="option" slot-scope="option">
+                      <span>{{ option.title }}</span>
+                    </template>
+                  </v-select>
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
             <!-- Estimate -->
             <b-col cols="12">
               <b-form-group
@@ -426,7 +449,7 @@ export default {
       lastUpdatedUser: '',
       getCategory: {},
       getPriority: {},
-
+      getRecurring: {},
       dateNtim: null,
       pageLength: 3,
       dir: false,
@@ -467,6 +490,20 @@ export default {
         },
         {
           title: "Low",
+        }
+      ],
+      recurring: [
+        {
+          title: "Ad-hoc",
+        },
+        {
+          title: "Daily",
+        },
+        {
+          title: "Weekly",
+        },
+        {
+          title: "Monthly",
         }
       ],
       category: [
@@ -611,6 +648,7 @@ export default {
         user_id: localStorage.getItem('child_id'),
         category_id: this.getCategory.value,
         task_title: this.title,
+        recurring: this.getRecurring.title,
         task_description: this.taskDescription,
         priority:this.getPriority.title,
         end_date:this.dueDate,
