@@ -267,6 +267,12 @@
           </b-badge>
         </template>
 
+        <template #cell(autoStatus)="data">
+          <b-badge :variant="autoStatus[1][data.value]">
+            {{ autoStatus[0][data.value] }}
+          </b-badge>
+        </template>
+
       </b-table>
     </div>
     <b-card-body class="d-flex justify-content-between flex-wrap pt-0">
@@ -449,7 +455,12 @@ export default {
           label: 'Status'
 
         },
-        'estimate'
+        'estimate',
+        {
+          key: 'autoStatus',
+          label: 'Auto Status'
+
+        }
       ],
       /* eslint-disable global-require */
       items: [
@@ -476,6 +487,16 @@ export default {
           3: 'light-success',
           4: 'light-danger',
           5: 'light-success'
+        }
+      ],
+      autoStatus: [
+        {
+          0: 'User Completed',
+          1: 'Uncompleted'
+        },
+        {
+          0: 'light-primary',
+          1: 'light-danger'
         }
       ],
       rating: [
