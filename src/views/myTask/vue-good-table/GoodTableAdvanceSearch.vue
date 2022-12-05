@@ -1,21 +1,40 @@
 <template>
   <b-card>
-    <b-button
-        v-if="isSupervisorPendingCount > 0"
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/supervisorTask`)"
-    >
-      Add
-    </b-button>
-    <b-button
-        v-if="isSupervisorPendingCount < 1"
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/myTask/createMyTask`)"
-    >
-      Add
-    </b-button>
+    <!--    <b-button-->
+    <!--        v-if="isSupervisorPendingCount > 0"-->
+    <!--        style="margin-bottom: 10px"-->
+    <!--        variant="primary"-->
+    <!--        @click="() => $router.push(`/apps/supervisorTask`)"-->
+    <!--    >-->
+    <!--      Add-->
+    <!--    </b-button>-->
+
+    <!--    add button-->
+    <b-row>
+      <b-col md="1">
+        <b-button
+            v-if="!buttonVisible"
+            style="margin-bottom: 10px"
+            variant="primary"
+            @click="() => isSupervisorPendingCount < 1 ?$router.push(`/apps/myTask/createMyTask`):$router.push(`/apps/supervisorTask`)"
+        >
+          Add
+        </b-button>
+      </b-col>
+      <b-col>
+        <b-button
+            v-if="buttonVisible"
+            style="margin-bottom: 10px;"
+            variant="primary"
+            onclick="buttonVisible=false"
+            @click="getAllTask()"
+        >
+          Back
+        </b-button>
+      </b-col>
+    </b-row>
+
+
     <b-sidebar
         id="sidebar-creat"
         backdrop
@@ -54,8 +73,10 @@
           <b-button
               style="margin-bottom: 10px"
               variant="success"
-              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"
+              @click="tasksFilter(1, true)"
           >
+            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
+            <!--          >-->
             Today Task List
           </b-button>
         </b-col>
@@ -63,8 +84,10 @@
           <b-button
               style="margin-bottom: 10px"
               variant="primary"
-              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"
+              @click="tasksFilter(3, true)"
           >
+            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
+            <!--          >-->
             Completed Task
           </b-button>
         </b-col>
@@ -72,8 +95,10 @@
           <b-button
               style="margin-bottom: 10px"
               variant="danger"
-              @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"
+              @click="tasksFilter(2, true)"
           >
+            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"-->
+            <!--          >-->
             Deleted Task
           </b-button>
         </b-col>
@@ -81,21 +106,23 @@
           <b-button
               style="margin-bottom: 10px"
               variant="info"
-              @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"
+              @click="tasksFilter(4, true)"
           >
+            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"-->
+            <!--          >-->
             Supervisor Completed
           </b-button>
         </b-col>
 
-<!--        <b-col md="2">-->
-<!--          <b-button-->
-<!--              style="margin-bottom: 10px"-->
-<!--              variant="success"-->
-<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
-<!--          >-->
-<!--            Pending-->
-<!--          </b-button>-->
-<!--        </b-col>-->
+        <!--        <b-col md="2">-->
+        <!--          <b-button-->
+        <!--              style="margin-bottom: 10px"-->
+        <!--              variant="success"-->
+        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+        <!--          >-->
+        <!--            Pending-->
+        <!--          </b-button>-->
+        <!--        </b-col>-->
       </b-row>
     </div>
 
@@ -323,13 +350,14 @@
         title="Attention Needed !"
     >
       <div class="d-block text-center">
-        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+        <h3>You Have To Review {{ isSupervisorPendingCount }} Completed Child Tasks. Please Review Them First To
+          Continue</h3>
       </div>
       <b-button
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          block
           class="mt-3"
           variant="outline-secondary"
-          block
           @click="hideModal"
       >
         Review Child Task
@@ -337,7 +365,6 @@
     </b-modal>
 
   </b-card>
-
 
 
 </template>
@@ -402,12 +429,13 @@ export default {
     'b-toggle': VBToggle,
     Ripple,
   },
-  filterTable(){
+  filterTable() {
     console.log(this.selected);
   },
   /* eslint-disable */
   data() {
     return {
+      buttonVisible: false,
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
@@ -419,10 +447,10 @@ export default {
       sortDirection: 'asc',
       dir: false,
       options: [
-        { text: 'Orange', value: 'orange' },
-        { text: 'Apple', value: 'apple' },
-        { text: 'Pineapple', value: 'pineapple' },
-        { text: 'Grape', value: 'grape' }
+        {text: 'Orange', value: 'orange'},
+        {text: 'Apple', value: 'apple'},
+        {text: 'Pineapple', value: 'pineapple'},
+        {text: 'Grape', value: 'grape'}
       ],
 
       // filter: {
@@ -528,18 +556,29 @@ export default {
     },
   },
   async mounted() {
+    console.log(localStorage.getItem('child_id'))
     const userData = getUserData()
     this.userID = userData.id
+    console.log(this.userID);
     this.totalRows = this.items.length
     await this.getIsSupervisorReviewCount()
 
-    if (this.isSupervisorPendingCount > 0){
+    if (this.isSupervisorPendingCount > 0) {
       this.showModal()
     }
 
     await this.getAllTask()
   },
   methods: {
+    async tasksFilter(val, button) {
+      console.log(val, button);
+      this.buttonVisible = button;
+      let response = (await myTaskAPI.getDataForFilter(this.userID, val))
+      console.log(response)
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+
+    },
     advanceSearch(val) {
       this.filter = val
     },

@@ -58,17 +58,17 @@
               pills>
             <template #tabs-start>
 
-              <b-nav-item
-                  :active="feed"
-                  class="font-weight-bold"
-                  role="presentation"
-                  @click="chooseTabs('feed')">
-                <span class="d-none d-md-block">Feed</span>
-                <feather-icon
-                    class="d-block d-md-none"
-                    icon="RssIcon"
-                />
-              </b-nav-item>
+<!--              <b-nav-item-->
+<!--                  :active="feed"-->
+<!--                  class="font-weight-bold"-->
+<!--                  role="presentation"-->
+<!--                  @click="chooseTabs('feed')">-->
+<!--                <span class="d-none d-md-block">Feed</span>-->
+<!--                <feather-icon-->
+<!--                    class="d-block d-md-none"-->
+<!--                    icon="RssIcon"-->
+<!--                />-->
+<!--              </b-nav-item>-->
 
               <b-nav-item
                   :active="about"
@@ -150,7 +150,8 @@ export default {
     BImg,
   },
   mounted() {
-    this.feed = true
+    // this.feed = true
+    this.about = true
     const userData = getUserData()
     console.log(userData)
     this.userName = userData.fullName
