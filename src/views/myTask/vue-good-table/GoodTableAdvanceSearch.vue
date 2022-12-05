@@ -106,15 +106,15 @@
           </b-button>
         </b-col>
 
-<!--        <b-col md="2">-->
-<!--          <b-button-->
-<!--              style="margin-bottom: 10px"-->
-<!--              variant="success"-->
-<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
-<!--          >-->
-<!--            Pending-->
-<!--          </b-button>-->
-<!--        </b-col>-->
+        <!--        <b-col md="2">-->
+        <!--          <b-button-->
+        <!--              style="margin-bottom: 10px"-->
+        <!--              variant="success"-->
+        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+        <!--          >-->
+        <!--            Pending-->
+        <!--          </b-button>-->
+        <!--        </b-col>-->
       </b-row>
     </div>
 
@@ -352,9 +352,9 @@
       </div>
       <b-button
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          block
           class="mt-3"
           variant="outline-secondary"
-          block
           @click="hideModal"
       >
         Review Child Task
@@ -362,7 +362,6 @@
     </b-modal>
 
   </b-card>
-
 
 
 </template>
@@ -433,6 +432,7 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      buttonVisible: false,
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
