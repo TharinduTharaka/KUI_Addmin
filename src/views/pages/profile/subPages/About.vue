@@ -1,23 +1,37 @@
 <template>
   <b-card>
     <!-- about -->
-    <div
-        v-for="(data,key,index) in aboutData"
-        :key="data.title"
-        :class="index ? 'mt-2':''"
-    >
+    <div>
       <h5 class="text-capitalize mb-75">
-        {{ key }}
+        Name
       </h5>
       <b-card-text>
-        {{ data }}
+        {{ aboutData.fullName}}
+      </b-card-text>
+      <h5 class="text-capitalize mb-75">
+        Address
+      </h5>
+      <b-card-text>
+        {{ aboutData.address }}
+      </b-card-text>
+      <h5 class="text-capitalize mb-75">
+        Email
+      </h5>
+      <b-card-text>
+        {{ aboutData.email }}
+      </b-card-text>
+      <h5 class="text-capitalize mb-75">
+        Date of Birth
+      </h5>
+      <b-card-text>
+        {{ aboutData.birthDay }}
       </b-card-text>
     </div>
   </b-card>
 </template>
 
 <script>
-import { BCard, BCardText } from 'bootstrap-vue'
+import {BCard, BCardText} from 'bootstrap-vue'
 
 export default {
   components: {
@@ -25,10 +39,11 @@ export default {
     BCardText,
   },
   props: {
-    aboutData: {
-      type: Object,
-      default: () => {},
-    },
+    aboutData: {},
+  },
+
+  mounted() {
+    console.log(this.aboutData)
   },
 }
 </script>

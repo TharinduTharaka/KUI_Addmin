@@ -67,7 +67,7 @@
               variant="success"
               @click="() => $router.push(`/apps/myTask/filterChildTask/1`)"
           >
-            Pending Task List
+            Today Task List
           </b-button>
         </b-col>
         <b-col md="2">

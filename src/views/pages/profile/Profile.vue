@@ -1,36 +1,36 @@
 <template>
   <div
-    v-if="Object.keys(profileData).length"
-    id="user-profile"
+      v-if="Object.keys(pData).length"
+      id="user-profile"
   >
-    <profile-header :header-data="profileData.header" @chooseTabs="eventHandler"/>
+    <profile-header :header-data="pData.header" @chooseTabs="eventHandler"/>
     <!-- profile info  -->
     <section id="profile-info">
-      <b-row v-if="choosedField==='feed'">
-        <!-- post -->
-        <b-col
-          order="1"
-          order-lg="2">
-          <profile-post :posts="profileData.post" />
-        </b-col>
-        <!-- post -->
+      <!--      <b-row v-if="choosedField==='feed'">-->
+      <!--        &lt;!&ndash; post &ndash;&gt;-->
+      <!--        <b-col-->
+      <!--          order="1"-->
+      <!--          order-lg="2">-->
+      <!--          <profile-post :posts="profileData.post" />-->
+      <!--        </b-col>-->
+      <!--        &lt;!&ndash; post &ndash;&gt;-->
 
-        <!-- load more  -->
-        <b-col
-          cols="12"
-          order="4"
-        >
-          <profile-bottom />
-        </b-col>
-        <!--/ load more  -->
-      </b-row>
+      <!--        &lt;!&ndash; load more  &ndash;&gt;-->
+      <!--        <b-col-->
+      <!--          cols="12"-->
+      <!--          order="4"-->
+      <!--        >-->
+      <!--          <profile-bottom />-->
+      <!--        </b-col>-->
+      <!--        &lt;!&ndash;/ load more  &ndash;&gt;-->
+      <!--      </b-row>-->
       <b-row v-if="choosedField==='about'">
         <!-- post -->
         <b-col
             order="1"
             order-lg="2"
         >
-          <profile-about :about-data="profileData.userAbout" />
+          <profile-about :about-data="profileData.userAbout"/>
         </b-col>
         <!-- post -->
       </b-row>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { BRow, BCol } from 'bootstrap-vue'
+import {BCol, BRow} from 'bootstrap-vue'
 
 import ProfileHeader from './ProfileHeader.vue'
 // import ProfileAbout from './ProfileAbout.vue'
@@ -78,7 +78,8 @@ import ProfileLatestPhotos from './ProfileLatestPhotos.vue'
 import ProfileSuggestion from './ProfileSuggestion.vue'
 import ProfilePolls from './ProfilePolls.vue'
 import profileBottom from './profileBottom.vue'
-
+import {getUserData} from "@/auth/utils";
+import profileAPI from '@/api/profile'
 /* eslint-disable global-require */
 export default {
   components: {
@@ -99,19 +100,46 @@ export default {
   },
   data() {
     return {
-      profileData: { },
-      choosedField:''
+      profileData: {
+        userAbout: {
+          fullName: "",
+          email: "",
+          address: "",
+          joinedDate: "",
+          birthDay: ''
+
+        }
+      },
+      pData: {},
+      choosedField: ''
     }
   },
   created() {
-    this.$http.get('/profile/data').then(res => { this.profileData = res.data })
+    this.$http.get('/profile/data').then(res => {
+      this.pData = res.data
+      console.log(this.pData)
+    })
   },
   mounted() {
-    this.choosedField='feed';
+    const userData = getUserData()
+    console.log(userData)
+    // this.choosedField='feed';
+    this.choosedField = 'about';
+    this.getAllProfileData(userData.id)
   },
-  methods:{
-    eventHandler(event){
-      this.choosedField=event;
+  methods: {
+    async getAllProfileData(id) {
+      let response = (await profileAPI.getProfileData(id));
+      console.log(response.data.data);
+      let data = response.data.data;
+      this.profileData.userAbout.email = data.email;
+      this.profileData.userAbout.address = data.perm_address;
+      this.profileData.userAbout.fullName = data.name_in_full;
+      this.profileData.userAbout.birthDay = data.date_of_birth;
+
+    },
+    eventHandler(event) {
+      this.choosedField = event;
       console.log(event)
     }
   }
@@ -119,6 +147,6 @@ export default {
 /* eslint-disable global-require */
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 @import '@core/scss/vue/pages/page-profile.scss';
 </style>

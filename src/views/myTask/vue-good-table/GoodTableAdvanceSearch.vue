@@ -75,7 +75,9 @@
               variant="success"
               @click="tasksFilter(1, true)"
           >
-            Pending Task List
+            <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
+            <!--          >-->
+            Today Task List
           </b-button>
         </b-col>
         <b-col md="2">
@@ -348,13 +350,15 @@
         title="Attention Needed !"
     >
       <div class="d-block text-center">
-        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+        <h3>You Have To Review {{ isSupervisorPendingCount }} Completed Child Tasks. Please Review Them First To
+          Continue</h3>
       </div>
       <b-button
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
           block
           class="mt-3"
           variant="outline-secondary"
+          block
           @click="hideModal"
       >
         Review Child Task
@@ -362,6 +366,7 @@
     </b-modal>
 
   </b-card>
+
 
 
 </template>
@@ -426,7 +431,7 @@ export default {
     'b-toggle': VBToggle,
     Ripple,
   },
-  filterTable() {
+  filterTable(){
     console.log(this.selected);
   },
   /* eslint-disable */
