@@ -23,4 +23,20 @@ export default[
             pageTitle: 'Edit Supervisor Task',
         },
     },
+    {
+        path: '/apps/leaves',
+        name: 'apps-leaves',
+        component: () => import('@/views/leaves/GoodTable'),
+        meta: {
+            pageTitle: 'Leaves',
+        },
+    },
+    {
+        path: '/apps/leaves/add',
+        name: 'apps-leaves-add',
+        component: () => import('@/views/leaves/form-repeater/FormRepeaterBasic'),
+        meta: {
+            pageTitle: 'Add My Leaves',
+        },
+    }
 ]

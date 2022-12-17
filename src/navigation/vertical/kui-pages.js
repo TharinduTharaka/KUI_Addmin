@@ -17,6 +17,16 @@ export default [
     route: 'apps-supervisorTask',
     icon: 'FileTextIcon',
   },
+  {
+    title: 'Leaves',
+    route: 'apps-leaves',
+    icon: 'FileTextIcon',
+  },
+  {
+    title: 'Add My Leaves',
+    route: 'apps-leaves-add',
+    icon: 'FileTextIcon',
+  }
 
 
 ]
