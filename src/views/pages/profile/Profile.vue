@@ -1,29 +1,27 @@
 <template>
   <div
-      v-if="Object.keys(pData).length"
-      id="user-profile"
-  >
-    <profile-header :header-data="pData.header" @chooseTabs="eventHandler"/>
+      id="user-profile">
+    <profile-header :profile-data="profileData.profileHeader" @chooseTabs="eventHandler"/>
     <!-- profile info  -->
     <section id="profile-info">
-      <!--      <b-row v-if="choosedField==='feed'">-->
-      <!--        &lt;!&ndash; post &ndash;&gt;-->
-      <!--        <b-col-->
-      <!--          order="1"-->
-      <!--          order-lg="2">-->
-      <!--          <profile-post :posts="profileData.post" />-->
-      <!--        </b-col>-->
-      <!--        &lt;!&ndash; post &ndash;&gt;-->
+      <b-row v-if="choosedField==='feed'">
+        <!-- post -->
+        <b-col
+            order="1"
+            order-lg="2">
+          <profile-post :posts="pData.post"/>
+        </b-col>
+        <!-- post -->
 
-      <!--        &lt;!&ndash; load more  &ndash;&gt;-->
-      <!--        <b-col-->
-      <!--          cols="12"-->
-      <!--          order="4"-->
-      <!--        >-->
-      <!--          <profile-bottom />-->
-      <!--        </b-col>-->
-      <!--        &lt;!&ndash;/ load more  &ndash;&gt;-->
-      <!--      </b-row>-->
+        <!-- load more  -->
+        <b-col
+            cols="12"
+            order="4"
+        >
+          <profile-bottom/>
+        </b-col>
+        <!--/ load more  -->
+      </b-row>
       <b-row v-if="choosedField==='about'">
         <!-- post -->
         <b-col
@@ -38,14 +36,14 @@
         <b-col
             order="1"
             order-lg="2">
-          <hierarchy/>
+          <hierarchy :about-data="profileData.userHierarchy"/>
         </b-col>
       </b-row>
       <b-row v-if="choosedField==='educationalQualification'">
         <b-col
             order="1"
             order-lg="2">
-          <educational-qualification/>
+          <educational-qualification :about-data="profileData.userEduQualification"/>
         </b-col>
       </b-row>
       <b-row v-if="choosedField==='pastExperiences'">
@@ -54,7 +52,7 @@
             order="1"
             order-lg="2"
         >
-          <past-experiences/>
+          <past-experiences :about-data="profileData.userExperience"/>
         </b-col>
       </b-row>
     </section>
@@ -101,6 +99,7 @@ export default {
   data() {
     return {
       profileData: {
+        userPost: {},
         userAbout: {
           fullName: "",
           email: "",
@@ -108,39 +107,60 @@ export default {
           joinedDate: "",
           birthDay: ''
 
-        }
+        },
+        profileHeader: {
+          userName: "",
+          employeeStatus: "",
+
+
+        },
+        userEduQualification: {},
+        userFeed: {},
+        userHierarchy: {},
+        userExperience: {}
+
+
       },
       pData: {},
       choosedField: ''
     }
   },
-  created() {
-    this.$http.get('/profile/data').then(res => {
-      this.pData = res.data
-      console.log(this.pData)
-    })
-  },
+  // created() {
+  //   this.$http.get('/profile/data').then(res => {
+  //     this.pData = res.data
+  //     console.log(this.pData)
+  //   })
+  // },
+
   mounted() {
     const userData = getUserData()
     console.log(userData)
-    // this.choosedField='feed';
-    this.choosedField = 'about';
+    this.choosedField = 'feed';
+    // this.choosedField = 'about';
+
     this.getAllProfileData(userData.id)
   },
   methods: {
     async getAllProfileData(id) {
       let response = (await profileAPI.getProfileData(id));
-      console.log(response.data.data);
-      let data = response.data.data;
+      console.log(response.data.data[0]);
+      let data = response.data.data[0];
+
+
       this.profileData.userAbout.email = data.email;
       this.profileData.userAbout.address = data.perm_address;
       this.profileData.userAbout.fullName = data.name_in_full;
       this.profileData.userAbout.birthDay = data.date_of_birth;
 
+      this.profileData.profileHeader.userName = data.given_name;
+      this.profileData.profileHeader.employeeStatus = data.hr_employee_status;
+
     },
     eventHandler(event) {
       this.choosedField = event;
       console.log(event)
+
+
     }
   }
 }

@@ -10,8 +10,8 @@
         <!-- avatar -->
         <b-avatar
             :src="data.avatar"
-            size="50"
             class="mr-1"
+            size="50"
         />
         <!--/ avatar -->
         <div class="profile-user-info">
@@ -28,75 +28,87 @@
       <!-- post img -->
       <b-img
           v-if="data.postImg"
+          :src="data.postImg"
+          class="mb-25"
           fluid
           rounded
-          class="mb-25"
-          :src="data.postImg"
       />
       <!--/ post img -->
       <!-- post video -->
       <b-embed
           v-if="data.postVid"
-          type="iframe"
           :src="data.postVid"
           allowfullscreen
           class="rounded mb-50"
+          type="iframe"
       />
       <!--/ post video -->
 
       <!-- likes comments  share-->
       <b-row class="pb-50 mt-50">
         <b-col
-            sm="8"
             class="d-flex justify-content-between justify-content-sm-start mb-2"
+            sm="8"
         >
           <b-link class="d-flex align-items-center text-muted text-nowrap">
             <feather-icon
-                icon="HeartIcon"
-                class="mr-50"
                 :class="data.youLiked ? 'profile-likes':'profile-icon'"
+                class="mr-50"
+                icon="HeartIcon"
                 size="18"
             />
             <span>{{ kFormatter(data.likes) }}</span>
           </b-link>
-          <div class="d-flex align-item-center">
-            <b-avatar-group
-                size="26"
-                class="ml-1"
-            >
-              <b-avatar
-                  v-for="(avatarData,i) in data.likedUsers"
-                  :key="i"
-                  v-b-tooltip.hover.bottom="avatarData.username"
-                  class="pull-up"
-                  :src="avatarData.avatar"
-              />
-            </b-avatar-group>
-            <b-link class="text-muted text-nowrap mt-50 ml-50">
-              +{{ data.likedCount }} more
-            </b-link>
-          </div>
+
+          <!--          <div class="d-flex align-item-center">-->
+          <!--            <b-avatar-group-->
+          <!--                size="26"-->
+          <!--                class="ml-1"-->
+          <!--            >-->
+          <!--              <b-avatar-->
+          <!--                  v-for="(avatarData,i) in data.likedUsers"-->
+          <!--                  :key="i"-->
+          <!--                  v-b-tooltip.hover.bottom="avatarData.username"-->
+          <!--                  class="pull-up"-->
+          <!--                  :src="avatarData.avatar"-->
+          <!--              />-->
+          <!--            </b-avatar-group>-->
+          <!--            <b-link class="text-muted text-nowrap mt-50 ml-50">-->
+          <!--              +{{ data.likedCount }} more-->
+          <!--            </b-link>-->
+          <!--          </div>-->
+
+          <!--          <div class="d-flex align-item-center">-->
+          <!--            <b-link class="text-body text-nowrap">-->
+          <!--              <feather-icon-->
+          <!--                  icon="MessageSquareIcon"-->
+          <!--                  size="18"-->
+          <!--                  class="profile-icon mr-50"-->
+          <!--              />-->
+          <!--              <span class="text-muted mr-1">{{ kFormatter(data.comments) }}</span>-->
+          <!--            </b-link>-->
+          <!--          </div>-->
+
         </b-col>
         <b-col
-            sm="4"
             class="d-flex justify-content-between justify-content-sm-end align-items-center mb-2"
-        >
+            sm="4">
           <b-link class="text-body text-nowrap">
             <feather-icon
+                class="profile-icon mr-50"
                 icon="MessageSquareIcon"
                 size="18"
-                class="profile-icon mr-50"
             />
             <span class="text-muted mr-1">{{ kFormatter(data.comments) }}</span>
           </b-link>
-          <b-link class="text-body text-nowrap">
-            <feather-icon
-                icon="Share2Icon"
-                size="18"
-                class="profile-icon mr-50"
-            />
-            <span class="text-muted">{{ kFormatter(data.share) }}</span>
-          </b-link>
+          <!--          <b-link class="text-body text-nowrap">-->
+          <!--            <feather-icon-->
+          <!--                icon="Share2Icon"-->
+          <!--                size="18"-->
+          <!--                class="profile-icon mr-50"-->
+          <!--            />-->
+          <!--            <span class="text-muted">{{ kFormatter(data.share) }}</span>-->
+          <!--          </b-link>-->
         </b-col>
       </b-row>
       <!--/ likes comments  share-->
@@ -109,8 +121,8 @@
       >
         <b-avatar
             :src="comment.avatar"
-            size="34"
             class="mt-25 mr-75"
+            size="34"
         />
         <div class="profile-user-info w-100">
           <div class="d-flex align-items-center justify-content-between">
@@ -119,10 +131,10 @@
             </h6>
             <b-link class="text-body">
               <feather-icon
+                  :class="comment.youLiked ? 'profile-likes' :'profile-icon'"
+                  class="mr-25"
                   icon="HeartIcon"
                   size="18"
-                  class="mr-25"
-                  :class="comment.youLiked ? 'profile-likes' :'profile-icon'"
               />
               <span class="text-muted align-middle">{{ comment.commentsLikes }}</span>
             </b-link>
@@ -135,8 +147,8 @@
       <!-- comment box -->
       <b-form-group>
         <b-form-textarea
-            rows="3"
             placeholder="Add Comment"
+            rows="3"
         />
       </b-form-group>
       <!--/ comment box -->
@@ -154,10 +166,22 @@
 
 <script>
 import {
-  BAvatar, BCard, BCardText, BImg, BLink, BRow, BCol, BAvatarGroup, VBTooltip, BFormTextarea, BButton, BFormGroup, BEmbed,
+  BAvatar,
+  BAvatarGroup,
+  BButton,
+  BCard,
+  BCardText,
+  BCol,
+  BEmbed,
+  BFormGroup,
+  BFormTextarea,
+  BImg,
+  BLink,
+  BRow,
+  VBTooltip,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
-import { kFormatter } from '@core/utils/filter'
+import {kFormatter} from '@core/utils/filter'
 
 export default {
   components: {
@@ -179,9 +203,9 @@ export default {
     Ripple,
   },
 
-  data(){
-    return{
-      post:{},
+  data() {
+    return {
+      post: {},
     }
   },
   props: {
