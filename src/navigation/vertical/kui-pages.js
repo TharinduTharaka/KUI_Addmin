@@ -18,6 +18,11 @@ export default [
     icon: 'FileTextIcon',
   },
   {
+    title: 'Attendance',
+    route: 'apps-attendance',
+    icon: 'FileTextIcon',
+  },
+  {
     title: 'Leaves',
     route: 'apps-leaves',
     icon: 'FileTextIcon',
