@@ -43,6 +43,13 @@ export default {
   },
   data() {
     return {
+
+      schoolLogo:'',
+      schoolName:'',
+      degreeProgramme:'',
+      startDate:'',
+      endDate:'',
+
       avatars: [
         {userImg: require('@/assets/images/portrait/small/avatar-s-9.jpg'), name: 'Billy Hopkins'},
         {userImg: require('@/assets/images/portrait/small/avatar-s-6.jpg'), name: 'Amy Carson'},
