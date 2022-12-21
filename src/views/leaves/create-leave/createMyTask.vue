@@ -1,35 +1,29 @@
 <template>
+
+
   <div>
+
+
+
     <b-card>
       <validation-observer ref="simpleRules">
+
+        <b-table
+            responsive="sm"
+            :items="items2"
+        />
+
+        <template #code>
+          {{ codeBasic }}
+        </template>
         <b-form>
           <b-row>
 
-            <!-- Task Title -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Task Title"
-                  label-for="v-title"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Task Title"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-title"
-                      v-model="title"
-                      placeholder="Enter Task Title"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
 
             <!-- Priority -->
             <b-col cols="12">
               <b-form-group
-                  label="Priority"
+                  label="Leave Type"
                   label-for="v-category"
               >
                 <validation-provider
@@ -50,98 +44,6 @@
               </b-form-group>
             </b-col>
 
-            <!-- Category -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Category"
-                  label-for="v-category"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Category"
-                    rules="required">
-                  <v-select
-                      v-model="getCategory"
-                      :options="category"
-                      label="title"
-                      placeholder="Please select">
-                    <template slot="option" slot-scope="option">
-                      <span>{{ option.title }}</span>
-                    </template>
-                  </v-select>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-
-            <b-col cols="12">
-              <b-form-group
-                  label="Recurring"
-                  label-for="v-recurring"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Recurring"
-                    rules="required">
-                  <v-select
-                      v-model="getRecurring"
-                      :options="recurring"
-                      label="title"
-                      placeholder="Please select">
-                    <template slot="option" slot-scope="option">
-                      <span>{{ option.title }}</span>
-                    </template>
-                  </v-select>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Estimate -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Estimate"
-                  label-for="v-estimate">
-                <validation-provider
-                    #default="{ errors }"
-                    name="Estimate"
-                    rules="required">
-                  <b-form-input
-                      id="v-estimate"
-                      disabled
-                      v-model="estimate"
-                      placeholder="Enter Estimate"
-                      type="number"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Original Estimate -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Original Estimate"
-                  label-for="v-originalEstimate"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Original Estimate"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-originalEstimate"
-                      v-model="originalEstimate"
-                      type="number"
-                      placeholder="Enter Original Estimate"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!--             Start Date -->
             <b-col cols="12">
               <b-form-group
                   label="Start Date"
@@ -183,11 +85,10 @@
               </b-form-group>
             </b-col>
 
-
             <!-- Label -->
             <b-col cols="12">
               <b-form-group
-                  label="Label"
+                  label="Total Leaves"
                   label-for="v-label"
               >
                 <validation-provider
@@ -208,7 +109,7 @@
             <!-- Task  Description -->
             <b-col cols="12">
               <b-form-group
-                  label="Task Description"
+                  label="Comment"
                   label-for="v-description"
               >
                 <validation-provider
@@ -225,75 +126,6 @@
                 </validation-provider>
               </b-form-group>
             </b-col>
-
-            <!-- Blocked Task -->
-            <!--            <b-col cols="12">-->
-            <!--              <b-form-group-->
-            <!--                  label="Blocked Task"-->
-            <!--                  label-for="v-department">-->
-            <!--                <div>-->
-            <!--                  <b-form-->
-            <!--                      ref="form"-->
-            <!--                      :style="{height: trHeight}"-->
-            <!--                      class="repeater-form"-->
-            <!--                      @submit.prevent="repeateAgain">-->
-
-            <!--                    &lt;!&ndash; Row Loop &ndash;&gt;-->
-            <!--                    <b-row-->
-            <!--                        v-for="(item, index) in items"-->
-            <!--                        :id="item.id"-->
-            <!--                        :key="item.id"-->
-            <!--                        ref="row">-->
-
-            <!--                      &lt;!&ndash; Item Name &ndash;&gt;-->
-            <!--                      <b-col md="12">-->
-            <!--                        <b-form-input-->
-            <!--                            v-if="a"-->
-            <!--                            id="item-name"-->
-            <!--                            v-model="item.name"-->
-            <!--                            placeholder="Employee Name"-->
-            <!--                            type="text"-->
-            <!--                        />-->
-            <!--                      </b-col>-->
-
-            <!--                      &lt;!&ndash; Remove Button &ndash;&gt;-->
-            <!--                      <b-col v-if="a" md="12"-->
-            <!--                             style="padding-top: 10px">-->
-            <!--                        <b-button-->
-            <!--                            v-ripple.400="'rgba(234, 84, 85, 0.15)'"-->
-            <!--                            variant="outline-danger"-->
-            <!--                            @click="removeItem(index)"-->
-            <!--                        >-->
-            <!--                          <feather-icon-->
-            <!--                              class="mr-25"-->
-            <!--                              icon="XIcon"-->
-            <!--                          />-->
-            <!--                          <span>Delete</span>-->
-            <!--                        </b-button>-->
-            <!--                      </b-col>-->
-
-            <!--                      <b-col cols="12">-->
-            <!--                        <hr>-->
-            <!--                      </b-col>-->
-            <!--                    </b-row>-->
-
-            <!--                  </b-form>-->
-            <!--                </div>-->
-            <!--                <b-button-->
-            <!--                    v-b-modal.modal-select2-->
-            <!--                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
-            <!--                    variant="primary"-->
-            <!--                    @click="addTask"-->
-            <!--                >-->
-            <!--                  <feather-icon-->
-            <!--                      class="mr-25"-->
-            <!--                      icon="PlusIcon"-->
-            <!--                  />-->
-            <!--                  <span>Add Task</span>-->
-            <!--                </b-button>-->
-            <!--              </b-form-group>-->
-            <!--            </b-col>-->
-
 
             <!-- submit and reset button -->
             <b-col cols="12">
@@ -366,12 +198,16 @@
 </template>
 
 <script>
-import BCardCode from '@core/components/b-card-code/BCardCode.vue'
+
 import vSelect from 'vue-select'
 import {ValidationObserver, ValidationProvider} from 'vee-validate'
 import {required} from '@validations'
 import flatPickr from 'vue-flatpickr-component'
 import {VueGoodTable} from 'vue-good-table'
+import BCardCode from '@core/components/b-card-code/BCardCode.vue'
+import { BTable } from 'bootstrap-vue'
+import { codeBasic } from '../code2'
+import leaveAPI from "@/api/leave_ui";
 import {
   BAvatar,
   BButton,
@@ -393,6 +229,7 @@ import {
 } from 'bootstrap-vue'
 import myTaskAPI from '@/api/my_task'
 import Ripple from 'vue-ripple-directive'
+import GoodTableBasic from './vue-good-table/GoodTableBasic'
 import {getUserData} from "@/auth/utils";
 /* eslint-disable */
 export default {
@@ -415,6 +252,7 @@ export default {
     BCardText,
     BCard,
     vSelect,
+    BTable
   },
   directives: {
     'b-modal': VBModal,
@@ -433,9 +271,9 @@ export default {
       originalEstimate: '',
       blockedTask: '',
       lastUpdatedUser: '',
-      getCategory: {},
-      getRecurring: {},
-      getPriority: {},
+      getCategory: null,
+      getRecurring: null,
+      getPriority: null,
 
       dateNtim: null,
       pageLength: 3,
@@ -470,13 +308,28 @@ export default {
       searchTerm: '',
       priority: [
         {
-          title: "High",
+          title: "Annual",
         },
         {
-          title: "Medium",
+          title: "Casual",
         },
         {
-          title: "Low",
+          title: "Lieu Leave",
+        },
+        {
+          title: "Special",
+        },
+        {
+          title: "Probation Half Day",
+        },
+        {
+          title: "Short Leave",
+        },
+        {
+          title: "Minor Staff - Monthly",
+        },
+        {
+          title: "Cleaning Staff",
         }
       ],
       recurring: [
@@ -539,9 +392,20 @@ export default {
         type: ['Book', 'Journal', 'Magazine', 'PDF', 'Article'],
         resourceOptions: ['Thesis', 'General'],
         option: [{title: 'Square'}, {title: 'Rectangle'}, {title: 'Rombo'}, {title: 'Romboid'}],
-      }
+      },
+      items2: [
+
+      ],
+      codeBasic,
     }
   },
+
+  async mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length
+    await this.getAllAvailableLeaves()
+  },
+
   computed: {
     statusVariant() {
       const statusColor = {
@@ -579,6 +443,13 @@ export default {
     }
   },
   methods: {
+
+    async getAllAvailableLeaves() {
+      let response = (await leaveAPI.getLeaveBalance(1))
+      console.log(response)
+      this.items2 = response.data.data
+    },
+
     showModal() {
       this.$refs['my-modal'].show()
     },
@@ -644,27 +515,23 @@ export default {
     async submit() {
       const userData = getUserData()
       const payload = {
-        user_id: userData.id,
-        category_id: this.getCategory.value,
-        recurring: this.getRecurring.title,
-        task_title: this.title,
-        task_description: this.taskDescription,
-        priority:this.getPriority.title,
-        end_date:this.dueDate,
+        leave_type:this.getPriority.title,
         start_date:this.startDate,
-        reporter_id: this.userID,
-        label: this.label,
-        estimate: this.estimate,
-        original_estimate: this.originalEstimate,
-        blocked_task: 1,
-        last_updated_user: userData.id,
+        end_date:this.dueDate,
+        total: this.label,
+        description: this.taskDescription
       }
-      await myTaskAPI.create(payload)
+      await leaveAPI.create(userData.id,payload)
           .then((response) => {
-            console.log('update')
-            this.makeToast(' Update successfully', 'success');
+            console.log(response.data.code)
+            if (response.data.code == 201){
+              this.makeToast(response.data.msg, 'danger');
+            }
+            else {
+              this.makeToast(' Update successfully', 'success');
+            }
             // toast("Order removed successfully", "success");
-            this.$router.go(-1)
+            //this.$router.go(-1)
           })
           .catch(({response}) => {
             this.error = response.data.error

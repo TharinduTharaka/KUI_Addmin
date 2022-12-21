@@ -34,9 +34,25 @@ export default[
     {
         path: '/apps/leaves/add',
         name: 'apps-leaves-add',
-        component: () => import('@/views/leaves/form-repeater/FormRepeaterBasic'),
+        component: () => import('@/views/leaves/create-leave/createMyTask'),
         meta: {
             pageTitle: 'Add My Leaves',
+        },
+    },
+    {
+        path: '/apps/supervisorLeave',
+        name: 'apps-supervisorLeave',
+        component: () => import('@/views/leaves/supervisor-leave/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Supervisor Leave',
+        },
+    },
+    {
+        path: '/apps/myRoster',
+        name: 'apps-myRoster',
+        component: () => import('@/views/leaves/roster/calendar/Calendar'),
+        meta: {
+            pageTitle: 'My Roster',
         },
     }
 ]

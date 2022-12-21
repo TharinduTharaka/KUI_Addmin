@@ -46,6 +46,13 @@ export default[
         meta: {
             pageTitle: 'Child Task',
         },
+    },{
+        path: '/apps/childLeave',
+        name: 'childLeave',
+        component: () => import('@/views/leaves/child-leave/vue-good-table/ChildTask'),
+        meta: {
+            pageTitle: 'Child Leave',
+        },
     },
     {
         path: '/apps/myTask/editMyTask/:task_id/:user_id',

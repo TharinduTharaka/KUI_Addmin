@@ -49,6 +49,32 @@
           </b-badge>
         </span>
 
+        <!-- Column: Action -->
+        <span v-else-if="props.column.field === 'action'">
+          <span>
+            <b-dropdown
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+            >
+              <template v-slot:button-content>
+                <feather-icon
+                    icon="MoreVerticalIcon"
+                    size="16"
+                    class="text-body align-middle mr-25"
+                />
+              </template>
+              <b-dropdown-item>
+                <feather-icon
+                    icon="TrashIcon"
+                    class="mr-50"
+                />
+                <span>Delete</span>
+              </b-dropdown-item>
+            </b-dropdown>
+          </span>
+        </span>
+
 
 
       </template>
@@ -118,6 +144,7 @@ import store from '@/store/index'
 import { codeColumnSearch } from './code'
 import databaseAPI from "@/api/database_ui";
 import leaveAPI from "@/api/leave_ui";
+import {getUserData} from "@/auth/utils";
 
 export default {
   components: {
@@ -217,6 +244,11 @@ export default {
             enabled: true,
             placeholder: 'Search Status',
           },
+        },
+        {
+          label: 'Action',
+          field: 'action',
+
         }
       ],
       items: [
@@ -238,8 +270,8 @@ export default {
       const statusColor = {
         /* eslint-disable key-spacing */
         1      : 'light-primary',
-        Professional : 'light-success',
-        Rejected     : 'light-danger',
+        5 : 'light-success',
+        4     : 'light-danger',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
         /* eslint-enable key-spacing */
@@ -251,8 +283,8 @@ export default {
       const statusValue = {
         /* eslint-disable key-spacing */
         1      : 'Active',
-        Professional : 'light-success',
-        Rejected     : 'light-danger',
+        5 : 'Supervisor Completed',
+        4     : 'Supervisor Rejected',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
         /* eslint-enable key-spacing */
@@ -278,7 +310,8 @@ export default {
   methods: {
 
     async getAllLeaves() {
-      let response = (await leaveAPI.getData(1))
+      const userData = getUserData()
+      let response = (await leaveAPI.getData(userData.id))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total
