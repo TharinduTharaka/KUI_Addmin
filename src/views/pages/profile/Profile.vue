@@ -125,12 +125,12 @@ export default {
       choosedField: ''
     }
   },
-  // created() {
-  //   this.$http.get('/profile/data').then(res => {
-  //     this.pData = res.data
-  //     console.log(this.pData)
-  //   })
-  // },
+  created() {
+    this.$http.get('/profile/data').then(res => {
+      this.pData = res.data
+      console.log(this.pData)
+    })
+  },
 
   mounted() {
     const userData = getUserData()
