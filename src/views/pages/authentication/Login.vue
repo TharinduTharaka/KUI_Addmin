@@ -253,10 +253,10 @@ export default {
           useJwt.login({
             email: this.userEmail,
             password: this.password,
-          })
-            .then(response => {
+          }).then(response => {
               console.log(response)
-              if (response.data == 'error') {
+
+              if (response.data === 'error') {
                 this.$toast({
                   component: ToastificationContent,
                   position: 'top-right',
@@ -267,11 +267,11 @@ export default {
                     text: `Invalid Username or Password`,
                   },
                 })
-              }
-              else {
+              }else {
                 const { userData } = response.data
                 useJwt.setToken(response.data.accessToken)
                 useJwt.setRefreshToken(response.data.refreshToken)
+
                 localStorage.setItem('userData', JSON.stringify(userData))
                 this.$ability.update(userData.ability)
 
