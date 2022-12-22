@@ -69,5 +69,13 @@ export default[
         meta: {
             pageTitle: 'Edit Child Task',
         },
+    },
+    {
+        path: '/apps/profile/addPost',
+        name: 'addProfileTask',
+        component: () => import('@/views/pages/profile/blog/BlogEdit'),
+        meta: {
+            pageTitle: 'Add My Profile Post',
+        },
     }
 ]

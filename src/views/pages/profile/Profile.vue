@@ -9,7 +9,7 @@
         <b-col
             order="1"
             order-lg="2">
-          <profile-post :posts="pData.post"/>
+          <profile-post :posts="feedData"/>
         </b-col>
         <!-- post -->
 
@@ -105,7 +105,11 @@ export default {
           email: "",
           address: "",
           joinedDate: "",
-          birthDay: ''
+          birthDay: '',
+          personType: '',
+          nicNo: '',
+          passportNo: '',
+          contactNo: '',
 
         },
         profileHeader: {
@@ -122,15 +126,17 @@ export default {
 
       },
       pData: {},
+      feedData: {},
       choosedField: ''
     }
   },
-  // created() {
-  //   this.$http.get('/profile/data').then(res => {
-  //     this.pData = res.data
-  //     console.log(this.pData)
-  //   })
-  // },
+  created() {
+    this.$http.get('/profile/data').then(res => {
+      this.pData = res.data
+      this.getAllProfileFeedData()
+    })
+    // this.getAllProfileFeedData()
+  },
 
   mounted() {
     const userData = getUserData()
@@ -148,13 +154,28 @@ export default {
 
 
       this.profileData.userAbout.email = data.email;
-      this.profileData.userAbout.address = data.perm_address;
-      this.profileData.userAbout.fullName = data.name_in_full;
-      this.profileData.userAbout.birthDay = data.date_of_birth;
+      this.profileData.userAbout.address = data.permAddress;
+      this.profileData.userAbout.fullName = data.nameInFull;
+      this.profileData.userAbout.birthDay = data.dateOfBirth;
+      this.profileData.userAbout.personType = data.personType;
+      this.profileData.userAbout.nicNo = data.nicNo;
+      this.profileData.userAbout.passportNo = data.passportNo;
+      this.profileData.userAbout.contactNo = data.contactNo;
 
-      this.profileData.profileHeader.userName = data.given_name;
-      this.profileData.profileHeader.employeeStatus = data.hr_employee_status;
+      this.profileData.profileHeader.userName = data.givenName;
+      this.profileData.profileHeader.employeeStatus = data.hrEmployeeStatus;
 
+    },
+    getAllProfileFeedData() {
+      const userData = getUserData()
+      profileAPI.getFeedData(userData.id).then((response) => {
+
+        this.feedData = response.data.data
+      })
+          .catch(({ response }) => {
+            this.error = response.data.error
+
+          })
     },
     eventHandler(event) {
       this.choosedField = event;

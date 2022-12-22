@@ -325,6 +325,26 @@
       </b-button>
     </b-modal>
 
+
+    <b-modal
+        ref="my-modal"
+        hide-footer
+        title="New Feature Alert !"
+    >
+      <div class="d-block text-center">
+        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+      </div>
+      <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          class="mt-3"
+          variant="outline-secondary"
+          block
+          @click="hideModal"
+      >
+        Review Child Task
+      </b-button>
+    </b-modal>
+
   </b-card>
 
 
