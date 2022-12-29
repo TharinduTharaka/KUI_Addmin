@@ -17,26 +17,31 @@ export default [
     route: 'apps-supervisorTask',
     icon: 'FileTextIcon',
   },
-  // {
-  //   title: 'Leaves',
-  //   route: 'apps-leaves',
-  //   icon: 'FileTextIcon',
-  // },
-  // {
-  //   title: 'Add My Leaves',
-  //   route: 'apps-leaves-add',
-  //   icon: 'FileTextIcon',
-  // },
-  // {
-  //   title: 'Supervisor Leave',
-  //   route: 'apps-supervisorLeave',
-  //   icon: 'FileTextIcon',
-  // },
-  // {
-  //   title: 'My Roster',
-  //   route: 'apps-myRoster',
-  //   icon: 'FileTextIcon',
-  // }
+  {
+    title: 'Attendance',
+    route: 'apps-attendance',
+    icon: 'FileTextIcon',
+  },
+  {
+    title: 'Leaves',
+    route: 'apps-leaves',
+    icon: 'FileTextIcon',
+  },
+  {
+    title: 'Add My Leaves',
+    route: 'apps-leaves-add',
+    icon: 'FileTextIcon',
+  },
+  {
+    title: 'Supervisor Leave',
+    route: 'apps-supervisorLeave',
+    icon: 'FileTextIcon',
+  },
+  {
+    title: 'My Roster',
+    route: 'apps-myRoster',
+    icon: 'FileTextIcon',
+  }
 
 
 ]

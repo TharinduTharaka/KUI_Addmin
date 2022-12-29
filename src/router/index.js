@@ -15,8 +15,11 @@ import library_concerns from './routes/library_concerns'
 import library_resource_concerns from './routes/library_resource_concerns'
 import service_concerns from './routes/physical_book'
 import pages from './routes/pages'
-import myTask from './routes/myTask'
-import supervisorTask from './routes/supervisorTask'
+
+
+import myTask from './routes/myTask';
+import attendance from "@/router/routes/attendance";
+import supervisorTask from './routes/supervisorTask';
 
 Vue.use(VueRouter)
 
@@ -40,6 +43,7 @@ const router = new VueRouter({
         ...uiElements,
         ...pages,
         ...myTask,
+        ...attendance,
         ...supervisorTask,
         {
             path: '*',
