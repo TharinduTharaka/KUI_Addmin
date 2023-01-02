@@ -18,7 +18,8 @@
                 >
                   <b-form-input
                       id="v-empId"
-                      v-model="empId"
+                      readonly="true"
+                      v-model="items.empId"
                       placeholder="Enter Employee ID"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -39,7 +40,8 @@
                 >
                   <b-form-datepicker
                       id="v-date"
-                      v-model="date"
+                      readonly="true"
+                      v-model="items.date"
                       placeholder="Enter Date"
                   />
 
@@ -48,10 +50,32 @@
               </b-form-group>
             </b-col>
 
+            <b-col cols="12">
+              <b-form-group
+                  label="Current In Time"
+                  label-for="v-inTime"
+              >
+                <validation-provider
+                    #default="{ errors }"
+                    name="In Time"
+                    rules="required"
+                >
+                  <b-form-input
+                      id="v-empId"
+                      readonly="true"
+                      v-model="items.inTime"
+                      placeholder="Enter In Time"
+                  />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+              </b-form-group>
+            </b-col>
+
+
             <!--in time-->
             <b-col cols="12">
               <b-form-group
-                  label="IN Time"
+
                   label-for="v-inTime"
               >
                 <validation-provider
@@ -59,56 +83,76 @@
                     name="Enter IN Time"
                     rules="required"
                 >
-                  <b-form-datepicker
-                      id="v-inTime"
-                      v-model="inTime"
-                      placeholder="Enter IN Time"
-                  />
+                  <div v-if="items.inTime === ''">
+                    <b-time
+                        v-model="items.inTimeNew"
+                        show-seconds
+                        locale="en"
+                    />
+                  </div>
+                  <div v-else>
+                    <b-time
+                        v-model="items.inTimeNew"
+                        show-seconds
+                        readonly="true"
+                        locale="en"
+                    />
+                  </div>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
 
-            <!--out time-->
             <b-col cols="12">
               <b-form-group
-                  label="Out Time"
+                  label="Current Out Time"
+                  label-for="v-inTime"
+              >
+<!--                <validation-provider-->
+<!--                    #default="{ errors }"-->
+<!--                    name="In Time"-->
+<!--                    rules="required"-->
+<!--                >-->
+                  <b-form-input
+                      id="v-empId"
+                      readonly="true"
+                      v-model="items.outTime"
+                      placeholder="Enter In Time"
+                  />
+<!--                  <small class="text-danger">{{ errors[0] }}</small>-->
+<!--                </validation-provider>-->
+              </b-form-group>
+            </b-col>
+
+
+            <!--in time-->
+            <b-col cols="12">
+              <b-form-group
+
                   label-for="v-outTime"
               >
                 <validation-provider
                     #default="{ errors }"
-                    name="Enter Out Time"
+                    name="Enter IN Time"
                     rules="required"
                 >
-                  <b-form-datepicker
-                      id="v-outTime"
-                      v-model="outTime"
-                      placeholder="Enter Out Time"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
+                  <div v-if="items.outTime === ''">
+                    <b-time
+                        v-model="items.outTimeNew"
+                        show-seconds
+                        locale="en"
+                    />
 
-            <!-- Type -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Type"
-                  label-for="v-type"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Type"
-                    rules="required">
-                  <v-select
-                      v-model="type"
-                      :options="typeList"
-                      label="title"
-                      placeholder="Please select">
-                    <template slot="option" slot-scope="option">
-                      <span>{{ option.title }}</span>
-                    </template>
-                  </v-select>
+                  </div>
+                  <div v-else>
+                    <b-time
+                        v-model="items.outTime"
+                        show-seconds
+                        readonly="true"
+                        locale="en"
+                    />
+
+                  </div>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -127,52 +171,9 @@
                 >
                   <b-form-textarea
                       id="v-comment"
-                      v-model="comment"
+                      v-model="items.comment"
                       placeholder="Enter Comment"
                   />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-            <!-- Approved By -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Approved By"
-                  label-for="v-approvedBy"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Approved By"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-approvedBy"
-                      v-model="approvedBy"
-                      placeholder="Enter Approved By Name"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
-<!--            Approved Date-->
-            <b-col cols="12">
-              <b-form-group
-                  label="Approved Date"
-                  label-for="v-approvedDate"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Approved Date"
-                    rules="required"
-                >
-                  <b-form-datepicker
-                      id="v-date"
-                      v-model="approvedDate"
-                      placeholder="Enter Approved Date"
-                  />
-
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -254,6 +255,7 @@ import {ValidationObserver, ValidationProvider} from 'vee-validate'
 import {required} from '@validations'
 import flatPickr from 'vue-flatpickr-component'
 import {VueGoodTable} from 'vue-good-table'
+import { BTime } from 'bootstrap-vue'
 import {
   BAvatar,
   BButton,
@@ -273,7 +275,7 @@ import {
   BRow,
   VBModal,
 } from 'bootstrap-vue'
-import myTaskAPI from '@/api/my_task'
+import attendance from '@/api/Attendance'
 import Ripple from 'vue-ripple-directive'
 import GoodTableBasic from './vue-good-table/GoodTableBasic'
 import {getUserData} from "@/auth/utils";
@@ -281,7 +283,7 @@ import {getUserData} from "@/auth/utils";
 export default {
   name: 'createMyTask',
   components: {
-    flatPickr, BCol, BRow, BFormDatepicker, BFormTimepicker,
+    BTime,flatPickr, BCol, BRow, BFormDatepicker, BFormTimepicker,
     BCardCode, VueGoodTable, GoodTableBasic,
     BAvatar,
     ValidationProvider,
@@ -307,7 +309,7 @@ export default {
   data() {
     return {
       userID: 1,
-
+      value: '',
       empId: '',
       date: '',
       inTime: '',
@@ -394,11 +396,16 @@ export default {
       ],
       addEmployeePopupActive: false,
       a: false,
-      items: [{
-        id: 1,
-        name: 'test',
-        prevHeight: 0,
-      }],
+      items: {
+        empId: 1,
+        date : null,
+        inTime : '',
+        inTimeNew : '',
+        outTime : '',
+        outTimeNew : '',
+        comment : ''
+
+      },
 
       nextTodoId: 2,
       file: '',
@@ -462,7 +469,21 @@ export default {
       required,
     }
   },
+  async mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length
+
+    await this.getAttendance()
+  },
   methods: {
+    async getAttendance() {
+      let response = (await attendance.getAllAttendanceByAttendanceData(this.$route.params.id))
+      console.log(response)
+      this.items = response.data.data;
+
+      console.log("items", this.items )
+      this.totalRows = response.data.data.length
+    },
     showModal() {
       this.$refs['my-modal'].show()
     },
@@ -528,22 +549,14 @@ export default {
     async submit() {
       const userData = getUserData()
       const payload = {
-        user_id: userData.id,
-        category_id: this.getCategory.value,
-        recurring: this.getRecurring.title,
-        task_title: this.title,
-        task_description: this.taskDescription,
-        priority: this.getPriority.title,
-        end_date: this.dueDate,
-        start_date: this.startDate,
-        reporter_id: this.userID,
-        label: this.label,
-        estimate: this.estimate,
-        original_estimate: this.originalEstimate,
-        blocked_task: 1,
-        last_updated_user: userData.id,
+        inTime: this.items.inTime,
+        inTimeNew: this.items.inTimeNew,
+        outTime: this.items.outTime,
+        outTimeNew: this.items.outTimeNew,
+        comment: this.items.comment,
+
       }
-      await myTaskAPI.create(payload)
+      await attendance.create(this.$route.params.id, payload)
           .then((response) => {
             console.log('update')
             this.makeToast(' Update successfully', 'success');
