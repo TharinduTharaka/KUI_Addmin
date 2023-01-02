@@ -33,6 +33,11 @@ export default [
     icon: 'FileTextIcon',
   },
   {
+    title: 'My Leave Balance',
+    route: 'apps-leaves-available',
+    icon: 'FileTextIcon',
+  },
+  {
     title: 'Supervisor Leave',
     route: 'apps-supervisorLeave',
     icon: 'FileTextIcon',

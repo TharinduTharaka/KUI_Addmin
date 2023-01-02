@@ -8,10 +8,6 @@
     <b-card>
       <validation-observer ref="simpleRules">
 
-        <b-table
-            responsive="sm"
-            :items="items2"
-        />
 
         <template #code>
           {{ codeBasic }}
@@ -227,7 +223,6 @@ import {
   BRow,
   VBModal,
 } from 'bootstrap-vue'
-import myTaskAPI from '@/api/my_task'
 import Ripple from 'vue-ripple-directive'
 import GoodTableBasic from './vue-good-table/GoodTableBasic'
 import {getUserData} from "@/auth/utils";
@@ -326,7 +321,7 @@ export default {
           title: "Short Leave",
         },
         {
-          title: "Minor Staff - Monthly",
+          title: "Minor Staff Monthly",
         },
         {
           title: "Cleaning Staff",
@@ -445,7 +440,8 @@ export default {
   methods: {
 
     async getAllAvailableLeaves() {
-      let response = (await leaveAPI.getLeaveBalance(1))
+      const userData = getUserData()
+      let response = (await leaveAPI.getLeaveBalance(userData.id))
       console.log(response)
       this.items2 = response.data.data
     },
@@ -528,7 +524,8 @@ export default {
               this.makeToast(response.data.msg, 'danger');
             }
             else {
-              this.makeToast(' Update successfully', 'success');
+
+              this.$router.push(`/apps/leaves`)
             }
             // toast("Order removed successfully", "success");
             //this.$router.go(-1)

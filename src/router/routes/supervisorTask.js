@@ -40,6 +40,14 @@ export default[
         },
     },
     {
+        path: '/apps/leaves/available-leaves',
+        name: 'apps-leaves-available',
+        component: () => import('@/views/leaves/availble-leaves/bs-table/TableCustomRender'),
+        meta: {
+            pageTitle: 'My Available Leaves',
+        },
+    },
+    {
         path: '/apps/supervisorLeave',
         name: 'apps-supervisorLeave',
         component: () => import('@/views/leaves/supervisor-leave/GoodTable.vue'),
