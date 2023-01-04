@@ -10,42 +10,43 @@ export default [
   {
     title: 'My Task',
     route: 'apps-myTask',
-    icon: 'FileTextIcon',
+    icon: 'BookOpenIcon',
   },
   {
     title: 'Supervisor Task',
     route: 'apps-supervisorTask',
-    icon: 'FileTextIcon',
+    icon: 'BookIcon',
   },
   {
     title: 'Attendance',
     route: 'apps-attendance',
-    icon: 'FileTextIcon',
+    icon: 'CheckCircleIcon',
+  },
+  {
+    title: 'Add My Leaves',
+    route: 'apps-leaves-add',
+    icon: 'FilePlusIcon',
   },
   {
     title: 'Leaves',
     route: 'apps-leaves',
     icon: 'FileTextIcon',
   },
-  {
-    title: 'Add My Leaves',
-    route: 'apps-leaves-add',
-    icon: 'FileTextIcon',
-  },
+
   {
     title: 'My Leave Balance',
     route: 'apps-leaves-available',
-    icon: 'FileTextIcon',
+    icon: 'FileIcon',
   },
   {
     title: 'Supervisor Leave',
     route: 'apps-supervisorLeave',
-    icon: 'FileTextIcon',
+    icon: 'ClipboardIcon',
   },
   {
     title: 'My Roster',
     route: 'apps-myRoster',
-    icon: 'FileTextIcon',
+    icon: 'CalendarIcon',
   }
 
 
