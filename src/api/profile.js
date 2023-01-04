@@ -4,6 +4,9 @@ export default {
     getProfileData: async function (user_id) {
         return await api.get(`/task/profile/details/${user_id}`)
     },
+    getAboutData: async function (user_id) {
+        return await api.get(`/task/profile/aboutDetails/${user_id}`)
+    },
     createPost: async function (user_id, payload) {
         return await api.post(`/task/profile/add_post/${user_id}`, payload)
     },

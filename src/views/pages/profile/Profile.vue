@@ -22,6 +22,7 @@
         </b-col>
         <!--/ load more  -->
       </b-row>
+
       <b-row v-if="choosedField==='about'">
         <!-- post -->
         <b-col
@@ -147,6 +148,7 @@ export default {
     this.getAllProfileData(userData.id)
   },
   methods: {
+
     async getAllProfileData(id) {
       let response = (await profileAPI.getProfileData(id));
       console.log(response.data.data[0]);
