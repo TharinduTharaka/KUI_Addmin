@@ -1,6 +1,6 @@
 <template>
   <b-card
-      :img-src="headerData.coverImg"
+      :img-src="coverImg"
       alt="cover photo"
       body-class="p-0"
       class="profile-header mb-2"
@@ -10,7 +10,7 @@
       <div class="profile-img-container d-flex align-items-center">
         <div class="profile-img">
           <b-img
-              :src="headerData.avatar"
+              :src="avatar"
               alt="profile photo"
               fluid
               rounded
@@ -18,11 +18,11 @@
         </div>
         <!-- profile title -->
         <div class="profile-title ml-3">
-          <h2 class="text-white">
-            {{name}}
-          </h2>
-          <p class="text-white">
-            {{jobTile}}
+          <h3 class="text-white">
+            {{ userName }}
+          </h3>
+          <p class="text-white" style="font-size: small">
+            {{employeeStatus}}
           </p>
         </div>
         <!--/ profile title -->
@@ -136,6 +136,8 @@
 import {BButton, BCard, BCollapse, BImg, BNavbar, BNavbarToggle, BNavItem, BTabs,} from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import feed from "@/views/pages/profile/subPages/Feed";
+import {getUserData} from "@/auth/utils";
+import profileAPI from "@/api/profile";
 
 export default {
   components: {
@@ -150,18 +152,24 @@ export default {
   },
   mounted() {
     this.feed = true
+
+
+    // this.about = true
+    const userData = getUserData()
+    // console.log(userData)
+    // this.userName = userData.fullName
+    this.getAllProfileData(userData.id);
+
+    console.log("profileData",this.profileData)
   },
+
   data() {
     return {
-
-      name:'Jone Doe',
-      profileImg:'',
-      coverImg:'',
-      jobTile:'lecturer',
-
-
-
       feed: false,
+      avatar: "/img/avatar-s-2.da5e73c7.jpg",
+      coverImg: "/img/timeline.aa03c008.jpg",
+      userName: '',
+      employeeStatus:'',
       about: false,
       hierarchy: false,
       educationalQualification: false,
@@ -172,14 +180,23 @@ export default {
     Ripple,
   },
   props: {
-    headerData: {
+    profileData:{
       type: Object,
-      default: () => {
-      },
     },
   },
 
   methods: {
+    async getAllProfileData(id) {
+      let response = (await profileAPI.getProfileData(id));
+      console.log(response.data.data[0]);
+      let data = response.data.data[0];
+
+
+      this.userName = data.given_name;
+      this.employeeStatus = data.hr_employee_status;
+
+    },
+
     chooseTabs(event) {
       this.$emit('chooseTabs',event)
       console.log(event)

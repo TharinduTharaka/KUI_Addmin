@@ -31,7 +31,7 @@
     </h1>
     <h1 class="mb-1 mt-50 text-white" v-if="count < 1">
 
-      {{ nameNew }},
+      {{ this.nameNew }}
     </h1>
     <b-card-text class="m-auto w-75">
       You have completed <strong>{{ this.count }}</strong> task(s) today.
@@ -55,6 +55,8 @@ export default {
   },
   async mounted() {
     await this.getAllTask()
+    const userData = getUserData()
+    this.userID = userData.id
   },
   data() {
     return {

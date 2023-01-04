@@ -69,12 +69,30 @@ $auth-1-inner-max-width: 400px !default;
   }
 
   .brand-logo {
+    //padding-left: 15px;
     display: flex;
     justify-content: center;
     margin: 1rem 0 2rem 0;
-    .brand-text {
-      font-weight: 600;
-    }
+    height: 120px;
+
+  }
+  .logo-title {
+
+    display: flex;
+    //justify-content: center;
+    //margin: 1rem 0 2rem 0;
+
+
+  }
+  .brand-text {
+    padding-top: 25px;
+    color: #ed1f24;
+    font-weight: 600;
+    padding-left: 1rem;
+    margin-bottom: 0;
+    letter-spacing: 0.01rem;
+    font-size: 2.45rem;
+    animation: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
   }
 
   .auth-footer-btn {

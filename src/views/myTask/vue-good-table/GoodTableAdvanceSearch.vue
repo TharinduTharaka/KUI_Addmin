@@ -1,6 +1,15 @@
 <template>
   <b-card>
     <b-button
+        v-if="isSupervisorPendingCount > 0"
+        style="margin-bottom: 10px"
+        variant="primary"
+        @click="() => $router.push(`/apps/supervisorTask`)"
+    >
+      Add
+    </b-button>
+    <b-button
+        v-if="isSupervisorPendingCount < 1"
         style="margin-bottom: 10px"
         variant="primary"
         @click="() => $router.push(`/apps/myTask/createMyTask`)"
@@ -42,34 +51,51 @@
         </b-col>
 
         <b-col md="2">
-          <b-form-group>
-            <label>Today Task:</label>
-            <b-form-checkbox
-                @input="() => $router.push(`/apps/myTask/filterMyTask/1/1/1/1`)"
-            ></b-form-checkbox>
-          </b-form-group>
+          <b-button
+              style="margin-bottom: 10px"
+              variant="success"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"
+          >
+            Pending Task List
+          </b-button>
         </b-col>
         <b-col md="2">
-          <b-form-group>
-            <label>Pending Task:</label>
-            <b-form-checkbox
-            ></b-form-checkbox>
-          </b-form-group>
+          <b-button
+              style="margin-bottom: 10px"
+              variant="primary"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"
+          >
+            Completed Task
+          </b-button>
+        </b-col>
+        <b-col md="2">
+          <b-button
+              style="margin-bottom: 10px"
+              variant="danger"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"
+          >
+            Deleted Task
+          </b-button>
+        </b-col>
+        <b-col md="2">
+          <b-button
+              style="margin-bottom: 10px"
+              variant="info"
+              @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"
+          >
+            Supervisor Completed
+          </b-button>
         </b-col>
 
-
-        <b-col md="2">
-          <b-form-group>
-            <label>Completed Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
-        <b-col md="2">
-          <b-form-group>
-            <label>Deleted Task:</label>
-            <b-form-checkbox></b-form-checkbox>
-          </b-form-group>
-        </b-col>
+<!--        <b-col md="2">-->
+<!--          <b-button-->
+<!--              style="margin-bottom: 10px"-->
+<!--              variant="success"-->
+<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+<!--          >-->
+<!--            Pending-->
+<!--          </b-button>-->
+<!--        </b-col>-->
       </b-row>
     </div>
 
@@ -211,7 +237,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/myTask/editMyTask/${items[row.index].id}/${userID}`)"
+                  @click="() => $router.push(`/apps/myTask/editMyTask/${row.item.id}/${userID}`)"
               >
                 edit
               </b-button>
@@ -220,8 +246,16 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-danger"
-                  @click="deleteResource(userID,items[row.index].id)">
+                  @click="deleteResource(userID,row.item.id)">
                 Delete
+              </b-button>
+              <b-button
+                  v-if="row.item.status ===1"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-primary"
+                  @click="updateNotApplicable(userID,row.item.id)">
+                Not Applicable
               </b-button>
             </div>
           </b-card>
@@ -230,6 +264,12 @@
         <template #cell(status)="data">
           <b-badge :variant="status[1][data.value]">
             {{ status[0][data.value] }}
+          </b-badge>
+        </template>
+
+        <template #cell(autoStatus)="data">
+          <b-badge :variant="autoStatus[1][data.value]">
+            {{ autoStatus[0][data.value] }}
           </b-badge>
         </template>
 
@@ -282,7 +322,93 @@
         </b-pagination>
       </div>
     </b-card-body>
+
+    <b-modal
+        ref="my-modal"
+        hide-footer
+        title="Attention Needed !"
+    >
+      <div class="d-block text-center">
+        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+      </div>
+      <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          class="mt-3"
+          variant="outline-secondary"
+          block
+          @click="hideModal"
+      >
+        Review Child Task
+      </b-button>
+    </b-modal>
+
+
+
+    <b-modal
+        ref="my-modal-new-feature"
+        hide-footer
+        title="New Feature Alert !"
+    >
+      <div class="d-block text-center">
+        <div class="misc-wrapper">
+          <b-link class="brand-logo">
+            <vuexy-logo />
+            <h2 class="brand-text text-primary ml-1">
+              KIU
+            </h2>
+          </b-link>
+
+          <div class="misc-inner p-2 p-sm-3">
+            <div class="w-100 text-center">
+              <h2 class="mb-1">
+                New Feature Alert 🚀
+              </h2>
+              <p class="mb-3">
+                We have created something awesome. Please check the awesomeness asap!
+              </p>
+
+              <!-- form -->
+              <b-form
+                  inline
+                  class="row justify-content-center m-0 mb-2"
+                  @submit.prevent
+              >
+
+
+                <b-button
+                    variant="primary"
+                    class="mb-1 btn-sm-block"
+                    type="submit"
+                    @click="hideNewFeatureModal"
+                >
+                  Check Profile
+                </b-button>
+              </b-form>
+
+              <b-img
+                  fluid
+                  :src="imgUrl"
+                  alt="Coming soon page"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+<!--      <b-button-->
+<!--          v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
+<!--          class="mt-3"-->
+<!--          variant="outline-secondary"-->
+<!--          block-->
+<!--          @click="hideModal"-->
+<!--      >-->
+<!--        Check The Feature-->
+<!--      </b-button>-->
+    </b-modal>
+
   </b-card>
+
+
+
 </template>
 
 <script>
@@ -312,6 +438,7 @@ import Ripple from 'vue-ripple-directive'
 import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
 import myTaskAPI from '@/api/my_task'
+import profileAPI from '@/api/profile'
 import {getUserData} from "@/auth/utils";
 // import {useRouter} from "vue-router";
 // import { codeAdvance } from './code'
@@ -351,6 +478,7 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      downImg: require('@/assets/images/pages/coming-soon.svg'),
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
@@ -380,9 +508,12 @@ export default {
       departmentOptions: ['Nursing', 'BMS', 'Psychology', 'Management', 'Acupuncture', 'IT'],
       rows: [],
       searchTerm: '',
+      isSupervisorPendingCount: 0,
+      newFeatureAlertCheckCount: 0,
       fields: [
         'show_details',
         'taskTitle',
+        'recurring',
         'startDate',
         'endDate',
         {
@@ -390,7 +521,12 @@ export default {
           label: 'Status'
 
         },
-        'estimate'
+        'estimate',
+        {
+          key: 'autoStatus',
+          label: 'Auto Status'
+
+        }
       ],
       /* eslint-disable global-require */
       items: [
@@ -419,6 +555,16 @@ export default {
           5: 'light-success'
         }
       ],
+      autoStatus: [
+        {
+          0: 'User Completed',
+          1: 'Uncompleted'
+        },
+        {
+          0: 'light-primary',
+          1: 'light-danger'
+        }
+      ],
       rating: [
         {
           1: 'Unacceptable',
@@ -426,6 +572,7 @@ export default {
           3: 'Successful',
           4: 'Exceeds Expectations',
           5: 'Exceptional',
+          6: 'Not Applicable',
         },
         {
           1: 'light-primary',
@@ -433,6 +580,7 @@ export default {
           3: 'light-success',
           4: 'light-info',
           5: 'light-success',
+          6: 'light-success',
         }
       ],
       priority: [
@@ -455,6 +603,14 @@ export default {
   },
   /* eslint-disable */
   computed: {
+    imgUrl() {
+      if (store.state.appConfig.layout.skin === 'dark') {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.downImg = require('@/assets/images/pages/coming-soon-dark.svg')
+        return this.downImg
+      }
+      return this.downImg
+    },
     direction() {
       if (store.state.appConfig.isRTL) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -467,8 +623,19 @@ export default {
     },
   },
   async mounted() {
-    // Set the initial number of items
+    const userData = getUserData()
+    this.userID = userData.id
     this.totalRows = this.items.length
+    await this.getIsSupervisorReviewCount()
+    await this.getNewFeatureAlertCount()
+
+    if (this.newFeatureAlertCheckCount < 2){
+      this.showNewFeature()
+    }
+    else if (this.isSupervisorPendingCount > 0){
+      this.showModal()
+    }
+
     await this.getAllTask()
   },
   methods: {
@@ -503,9 +670,7 @@ export default {
       const userData = getUserData()
       await myTaskAPI.delete(userData.id, taskID)
           .then((res) => {
-            console.log('deleted')
             this.makeToast('Removed successfully', 'success');
-            // toast("Order removed successfully", "success");
             this.getAllTask()
           })
           .catch(({response}) => {
@@ -513,6 +678,29 @@ export default {
             console.log(this.error)
             this.makeToast(this.error, 'danger');
           })
+    },
+    async updateNotApplicable(userID, taskID) {
+      const userData = getUserData()
+      await myTaskAPI.updateNotApplicable(userData.id, taskID, 1)
+          .then((res) => {
+            this.makeToast('Updated successfully', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async getIsSupervisorReviewCount() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getIsSupervisorPendingTaskCount(userData.id))
+      this.isSupervisorPendingCount = response.data.data;
+    },
+    async getNewFeatureAlertCount() {
+      const userData = getUserData()
+      let response = (await profileAPI.getNewFeatureCheckCount(userData.id,1))
+      this.newFeatureAlertCheckCount = response.data.data;
     },
     async updateEResourceStatus(data, status, updated_user) {
       const userData = getUserData()
@@ -532,6 +720,31 @@ export default {
       //     { params: { data, status, updated_user }})
       //     .then(response => this.$router.go());
     },
+    showModal() {
+      this.$refs['my-modal'].show()
+    },
+    hideModal() {
+      this.$refs['my-modal'].hide()
+      this.$router.push(`/apps/supervisorTask`)
+    },
+
+    showNewFeature() {
+      this.$refs['my-modal-new-feature'].show()
+    },
+    hideNewFeatureModal() {
+      this.$refs['my-modal-new-feature'].hide()
+      this.$router.push(`/pages/profile`)
+    },
+
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+      this.$refs['my-modal'].toggle('#toggle-btn')
+    },
   },
 }
 </script>
+
+<style lang="scss">
+@import '@core/scss/vue/pages/page-misc.scss';
+</style>

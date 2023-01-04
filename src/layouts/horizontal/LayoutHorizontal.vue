@@ -2,13 +2,11 @@
   <layout-horizontal>
 
     <router-view />
-
     <app-customizer
       v-if="showCustomizer"
       slot="customizer"
     />
   </layout-horizontal>
-
 </template>
 
 <script>

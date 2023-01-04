@@ -90,11 +90,7 @@
               <b-form-group
                   label="Rating"
                   label-for="v-rating">
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Rating"
-                    rules="required"
-                >
+
                   <v-select
                       v-model="getRating"
                       disabled
@@ -105,8 +101,7 @@
                       <span>{{ option.title }}</span>
                     </template>
                   </v-select>
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
+
               </b-form-group>
             </b-col>
 
@@ -218,13 +213,13 @@
               >
                 Submit
               </b-button>
-              <b-button
-                  size="sm"
-                  type="reset"
-                  variant="outline-secondary"
-              >
-                Reset
-              </b-button>
+<!--              <b-button-->
+<!--                  size="sm"-->
+<!--                  type="reset"-->
+<!--                  variant="outline-secondary"-->
+<!--              >-->
+<!--                Reset-->
+<!--              </b-button>-->
             </b-col>
           </b-row>
         </b-form>
@@ -342,6 +337,10 @@ export default {
         {
           title: "Exceptional",
           value: 5
+        },
+        {
+          title: "Not Applicable",
+          value: 6
         }
 
       ],

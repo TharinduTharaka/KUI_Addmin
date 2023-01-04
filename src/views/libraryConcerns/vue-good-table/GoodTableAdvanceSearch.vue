@@ -112,7 +112,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/libraryConcerns/edit/${items[row.index].id}`)"
+                  @click="() => $router.push(`/apps/libraryConcerns/edit/${row.item.id}`)"
               >
                 edit
               </b-button>

@@ -24,9 +24,17 @@ export default[
         },
     },
     {
-        path: '/apps/myTask/filterMyTask/:today/:pending/:com/:delete',
+        path: '/apps/myTask/filterMyTask/:status',
         name: 'filterTable',
         component: () => import('@/views/myTask/vue-good-table/FilterTable'),
+        meta: {
+            pageTitle: 'Filter Table',
+        },
+    },
+    {
+        path: '/apps/myTask/filterChildTask/:status',
+        name: 'filterTable',
+        component: () => import('@/views/myTask/vue-good-table/SupervisorFilterTable'),
         meta: {
             pageTitle: 'Filter Table',
         },
@@ -37,6 +45,13 @@ export default[
         component: () => import('@/views/myTask/vue-good-table/ChildTask'),
         meta: {
             pageTitle: 'Child Task',
+        },
+    },{
+        path: '/apps/childLeave',
+        name: 'childLeave',
+        component: () => import('@/views/leaves/child-leave/vue-good-table/ChildTask'),
+        meta: {
+            pageTitle: 'Child Leave',
         },
     },
     {
@@ -53,6 +68,14 @@ export default[
         component: () => import('@/views/myTask/editChildTask'),
         meta: {
             pageTitle: 'Edit Child Task',
+        },
+    },
+    {
+        path: '/apps/profile/addPost',
+        name: 'addProfileTask',
+        component: () => import('@/views/pages/profile/blog/BlogEdit'),
+        meta: {
+            pageTitle: 'Add My Profile Post',
         },
     }
 ]

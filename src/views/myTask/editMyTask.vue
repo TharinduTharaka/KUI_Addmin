@@ -64,6 +64,59 @@
               </b-form-group>
             </b-col>
 
+            <b-col cols="12">
+              <b-form-group
+                  label="Current Total Estimate"
+                  label-for="v-total-estimate"
+              >
+                <b-form-input
+                    id="v-estimate"
+                    v-model="totalEstimate"
+                    disabled
+                    placeholder="Enter total Estimate"
+                />
+              </b-form-group>
+            </b-col>
+
+            <b-col cols="12">
+              <b-form-group
+                  label="Estimate Breakdown"
+                  label-for="v-department">
+                <div>
+                  <b-form
+                      ref="form"
+                      :style="{height: trHeight}"
+                      class="repeater-form"
+                      @submit.prevent="repeateAgain">
+
+                    <b-row
+                        v-for="(item, index) in items"
+                        :id="item.id"
+                        :key="item.id"
+                        ref="row">
+
+                      <b-col cols="12">
+                        <hr>
+                      </b-col>
+                    </b-row>
+
+                  </b-form>
+                </div>
+                <b-button
+                    v-b-modal.modal-select2
+                    v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+                    variant="primary"
+                    @click="addTask"
+                >
+                  <feather-icon
+                      class="mr-25"
+                      icon="PlusIcon"
+                  />
+                  <span>Show Breakdown</span>
+                </b-button>
+              </b-form-group>
+            </b-col>
+
             <!-- estimate -->
             <b-col cols="12">
               <b-form-group
@@ -165,17 +218,28 @@
               >
                 Submit
               </b-button>
-              <b-button
-                  size="sm"
-                  type="reset"
-                  variant="outline-secondary"
-              >
-                Reset
-              </b-button>
+<!--              <b-button-->
+<!--                  size="sm"-->
+<!--                  type="reset"-->
+<!--                  variant="outline-secondary"-->
+<!--              >-->
+<!--                Reset-->
+<!--              </b-button>-->
             </b-col>
           </b-row>
         </b-form>
       </validation-observer>
+      <b-modal
+          id="modal-select2"
+          cancel-variant="outline-secondary"
+          centered
+          ok-disabled
+          size="lg"
+          title="Employee List"
+          @ok="handleOk"
+      >
+        <good-table-basic/>
+      </b-modal>
 
     </b-card>
 
@@ -206,11 +270,14 @@ import {
   BToast,
 } from 'bootstrap-vue'
 import myTaskAPI from '@/api/my_task'
+import GoodTableBasic from "@/views/myTask/vue-good-table/GoodTableBasic";
+import {getUserData} from "@/auth/utils";
 /* eslint-disable */
 export default {
   name: 'createResources',
   components: {
     BAvatar, BToast, BCol, BRow, BFormDatepicker, BFormTimepicker,
+    GoodTableBasic,
     ValidationProvider,
     ValidationObserver,
     BFormTextarea,
@@ -233,6 +300,8 @@ export default {
       getStatus: '',
       getRating: '',
       estimate: '',
+      totalEstimate: 0,
+      a: false,
       taskDescription: '',
       dueDate: '',
       startDate: '',
@@ -269,6 +338,10 @@ export default {
         {
           title: "Exceptional",
           value: 5
+        },
+        {
+          title: "Not Applicable",
+          value: 6
         }
 
       ],
@@ -279,13 +352,19 @@ export default {
         cover_name: ''
       },
       weight: '22',
+      nextTodoId: 2,
+      addEmployeePopupActive: false,
       dueTime: '',
 
 
       description: 'dsd',
       selfEvolution: '',
       comment: '',
-      items: [],
+      items: [{
+        id: 1,
+        name: 'test',
+        prevHeight: 0,
+      }],
 
       model: {
         file: '',
@@ -321,6 +400,15 @@ export default {
         solid: false,
       })
     },
+    handleOk(bvModalEvt) {
+      this.handleSubmit()
+    },
+    handleSubmit() {
+
+      this.$nextTick(() => {
+        this.$refs['my-modal'].toggle('#toggle-btn')
+      })
+    },
     validationForm() {
       this.$refs.simpleRules.validate()
           .then(success => {
@@ -329,11 +417,36 @@ export default {
             }
           })
     },
+    addTask() {
+      console.log("gggg")
+      console.log(this.items)
+      this.a = true;
+    },
+    removeItem(index) {
+      this.items.splice(index, 1)
+      this.trTrimHeight(this.$refs.row[0].offsetHeight)
+    },
+    repeateAgain() {
+      this.addEmployeePopupActive = true;
+      this.items.push({
+        id: this.nextTodoId += this.nextTodoId,
+      })
 
+      this.$nextTick(() => {
+        this.trAddHeight(this.$refs.row[0].offsetHeight)
+      })
+    },
+    async getTotalEstimate() {
+      let response = (await myTaskAPI.getEstimateBreakDown(this.$route.params.task_id))
+      console.log(response)
+      this.totalEstimate = response.data.data.total;
+    },
     async getAllData() {
       var task_id = this.$route.params.task_id
-      var user_id = this.$route.params.user_id
+      const userData = getUserData()
+      var user_id = userData.id
       let response = (await myTaskAPI.getTaskData(user_id, task_id))
+      await this.getTotalEstimate()
       console.log(task_id);
       const data = response.data.data[0];
       this.title = data.taskTitle

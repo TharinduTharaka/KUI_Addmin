@@ -31,7 +31,7 @@
                 />
               </span>
               <h2 class="brand-text">
-                KUI HR
+                KIU HR
               </h2>
             </b-link>
           </li>

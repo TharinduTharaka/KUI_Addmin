@@ -140,7 +140,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/documents/edit_library_documents/${items[row.index].id}`)"
+                  @click="() => $router.push(`/apps/documents/edit_library_documents/${row.item.id}`)"
               >
                 edit
               </b-button>

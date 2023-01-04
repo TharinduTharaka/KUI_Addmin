@@ -23,4 +23,44 @@ export default[
             pageTitle: 'Edit Supervisor Task',
         },
     },
+    {
+        path: '/apps/leaves',
+        name: 'apps-leaves',
+        component: () => import('@/views/leaves/GoodTable'),
+        meta: {
+            pageTitle: 'Leaves',
+        },
+    },
+    {
+        path: '/apps/leaves/add',
+        name: 'apps-leaves-add',
+        component: () => import('@/views/leaves/create-leave/createMyTask'),
+        meta: {
+            pageTitle: 'Add My Leaves',
+        },
+    },
+    {
+        path: '/apps/leaves/available-leaves',
+        name: 'apps-leaves-available',
+        component: () => import('@/views/leaves/availble-leaves/bs-table/TableCustomRender'),
+        meta: {
+            pageTitle: 'My Available Leaves',
+        },
+    },
+    {
+        path: '/apps/supervisorLeave',
+        name: 'apps-supervisorLeave',
+        component: () => import('@/views/leaves/supervisor-leave/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Supervisor Leave',
+        },
+    },
+    {
+        path: '/apps/myRoster',
+        name: 'apps-myRoster',
+        component: () => import('@/views/leaves/roster/calendar/Calendar'),
+        meta: {
+            pageTitle: 'My Roster',
+        },
+    }
 ]

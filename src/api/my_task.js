@@ -5,7 +5,12 @@ export default {
     getData: async function (user_id) {
         return await api.get(`/task/get-my-task?user_id=${user_id}`)
     },
-
+    getEstimateBreakDown: async function (task) {
+        return await api.get(`/task/total-estimate-by-task?task=${task}`)
+    },
+    getDataForFilter: async function (user_id, status) {
+        return await api.get(`/task/get-my-task?user_id=${user_id}&type=${status}`)
+    },
     getChildList: async function (user_id) {
         return await api.get(`/task/get-child-for-supervisor?supervisor=${user_id}`)
     },
@@ -16,6 +21,10 @@ export default {
 
     delete: async function (user_id, task_id) {
         return await api.put(`/task/delete-task?user_id=${user_id}&task_id=${task_id}`)
+    },
+
+    updateNotApplicable: async function (user_id, task_id, supervisor) {
+        return await api.put(`/task/update-not-applicable?user_id=${user_id}&task_id=${task_id}&is_supervisor=${supervisor}`)
     },
 
     deleteBySupervisor: async function (user_id, task_id) {
@@ -46,5 +55,8 @@ export default {
     },
     getSupportTracker: async function (id) {
         return await api.get(`/task/total-story-points-per-day?id=${id}`)
+    },
+    getIsSupervisorPendingTaskCount: async function (id) {
+        return await api.get(`/task/review-needed?supervisor_id=${id}`)
     }
 }

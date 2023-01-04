@@ -60,8 +60,7 @@
               />
               <b-button
                 variant="primary"
-                @click="isAddNewUserSidebarActive = true"
-              >
+                @click="isAddNewUserSidebarActive = true">
                 <span class="text-nowrap">Add User</span>
               </b-button>
             </div>

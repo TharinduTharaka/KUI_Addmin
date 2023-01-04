@@ -141,7 +141,7 @@
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-primary"
-                  @click="() => $router.push(`/apps/databaseUI/editDatabaseUI/${items[row.index].id}`)"
+                  @click="() => $router.push(`/apps/databaseUI/editDatabaseUI/${row.item.id}`)"
               >
                 edit
               </b-button>
