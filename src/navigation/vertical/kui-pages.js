@@ -32,7 +32,6 @@ export default [
     route: 'apps-leaves',
     icon: 'FileTextIcon',
   },
-
   {
     title: 'My Leave Balance',
     route: 'apps-leaves-available',

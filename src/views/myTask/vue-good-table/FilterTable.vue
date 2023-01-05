@@ -50,40 +50,36 @@
           </b-form-group>
         </b-col>
 
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
           <b-button
               v-if="$route.params.status === '1'"
-              style="margin-bottom: 10px"
-              variant="success"
+              variant="primary"
               @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"
           >
             Pending Task List
           </b-button>
         </b-col>
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
           <b-button
               v-if="$route.params.status === '3'"
-              style="margin-bottom: 10px"
-              variant="primary"
+              variant="success"
               @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"
           >
             Completed Task
           </b-button>
         </b-col>
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
           <b-button
               v-if="$route.params.status === '2'"
-              style="margin-bottom: 10px"
               variant="danger"
               @click="() => $router.push(`/apps/myTask/filterMyTask/2`)"
           >
-            Deleted Task
+            Deleted Task List
           </b-button>
         </b-col>
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
           <b-button
               v-if="$route.params.status === '4'"
-              style="margin-bottom: 10px"
               variant="info"
               @click="() => $router.push(`/apps/myTask/filterMyTask/4`)"
           >

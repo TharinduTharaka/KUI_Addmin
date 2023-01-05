@@ -35,8 +35,11 @@ export default[
         path: '/apps/myTask/filterChildTask/:status',
         name: 'filterTable',
         component: () => import('@/views/myTask/vue-good-table/SupervisorFilterTable'),
+        // meta: {
+        //     pageTitle: 'Filter Table',
+        // },
         meta: {
-            pageTitle: 'Filter Table',
+            pendingTaskPageTitle: 'Pending Task Filter Table',
         },
     },
     {
