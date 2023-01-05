@@ -57,10 +57,11 @@
 <!--            Pending Task List-->
 <!--          </b-button>-->
           <b-button
+              block
               variant="primary"
               @click="buttonFilter(1)"
           >
-            Pending Task List
+            Pending <br> Task List
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px">
@@ -71,26 +72,29 @@
 <!--            Completed Task List-->
 <!--          </b-button>-->
           <b-button
+              block
               variant="success"
               @click="buttonFilter(3)"
           >
-            Completed Task List
+            Completed <br> Task List
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px">
           <b-button
+              block
               variant="danger"
               @click="buttonFilter(2)"
           >
-            Deleted Task List
+            Deleted <br> Task List
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px">
           <b-button
+              block
               variant="info"
               @click="buttonFilter(4)"
           >
-            Supervisor Completed
+            Supervisor <br> Completed
           </b-button>
         </b-col>
 
