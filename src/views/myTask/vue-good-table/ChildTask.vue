@@ -1,13 +1,30 @@
 <template>
   <b-card>
+    <b-row>
+      <b-col>
+        <b-button
+            style="margin-bottom: 10px"
+            variant="primary"
+            @click="() => $router.push(`/apps/myTask/createChildTask`)"
+        >
+          Add
+        </b-button>
+      </b-col>
+      <b-col>
+        <div class="text-right" v-if="backButton">
+          <b-button
 
-    <b-button
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/myTask/createChildTask`)"
-    >
-      Add
-    </b-button>
+              style="margin-bottom: 10px;"
+              variant="primary"
+              @click="backButtonClick(false)"
+          >
+            back
+          </b-button>
+        </div>
+
+      </b-col>
+    </b-row>
+
     <b-sidebar
         id="sidebar-creat"
         backdrop
@@ -43,7 +60,7 @@
           </b-form-group>
         </b-col>
 
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="pendingButton">
           <!--          <b-button-->
           <!--              variant="primary"-->
           <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
@@ -53,12 +70,12 @@
           <b-button
               block
               variant="primary"
-              @click="buttonFilter(1)"
+              @click="buttonFilter(1,true)"
           >
             Pending <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="completedButton">
           <!--          <b-button-->
           <!--              variant="success"-->
           <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
@@ -68,25 +85,25 @@
           <b-button
               block
               variant="success"
-              @click="buttonFilter(3)"
+              @click="buttonFilter(3,true)"
           >
             Completed <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="deletedButton">
           <b-button
               block
               variant="danger"
-              @click="buttonFilter(2)"
+              @click="buttonFilter(2,true)"
           >
             Deleted <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">
           <b-button
               block
               variant="info"
-              @click="buttonFilter(4)"
+              @click="buttonFilter(4,true)"
           >
             Supervisor <br> Completed
           </b-button>
@@ -374,6 +391,11 @@ export default {
   /* eslint-disable */
   data() {
     return {
+      backButton: false,
+      pendingButton: true,
+      completedButton: true,
+      deletedButton: true,
+      supervisorButton: true,
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
@@ -497,12 +519,53 @@ export default {
     await this.getAllTask()
   },
   methods: {
-    async buttonFilter(val){
+    async backButtonClick(buttonClick) {
       const userData = getUserData()
-      let response = (await myTaskAPI.getDataForFilter(userData.id,val))
+      let response = (await myTaskAPI.getData(userData.id))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
+      this.backButton = buttonClick;
+      this.pendingButton = true;
+      this.completedButton = true;
+      this.deletedButton = true;
+      this.supervisorButton = true;
+
+    },
+    async buttonFilter(val, buttonClick) {
+      this.backButton = true;
+      const userData = getUserData()
+      let response = (await myTaskAPI.getDataForFilter(userData.id, val))
+      console.log(response)
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+      switch (val) {
+        case 1:
+          this.pendingButton = buttonClick;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 2:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = buttonClick;
+          this.supervisorButton = false;
+          break;
+        case 3:
+          this.pendingButton = false;
+          this.completedButton = buttonClick;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 4:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = buttonClick;
+          break;
+
+      }
     },
     advanceSearch(val) {
       this.filter = val

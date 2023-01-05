@@ -1,39 +1,61 @@
 <template>
   <b-card>
-    <b-button
-        v-if="isSupervisorPendingCount > 0"
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/supervisorTask`)"
-    >
-      Add
-    </b-button>
-    <b-button
-        v-if="isSupervisorPendingCount < 1"
-        style="margin-bottom: 10px"
-        variant="primary"
-        @click="() => $router.push(`/apps/myTask/createMyTask`)"
-    >
-      Add
-    </b-button>
-    <b-sidebar
-        id="sidebar-creat"
-        backdrop
-        bg-variant="white"
-        right
-        shadow
-    >
-      <sidebar-content title="Create"/>
-    </b-sidebar>
-    <b-sidebar
-        id="sidebar-edit"
-        backdrop
-        bg-variant="white"
-        right
-        shadow
-    >
-      <sidebar-content title="Edit"/>
-    </b-sidebar>
+
+    <b-row>
+      <b-col>
+        <b-button
+            v-if="isSupervisorPendingCount > 0"
+            style="margin-bottom: 10px"
+            variant="primary"
+            @click="() => $router.push(`/apps/supervisorTask`)"
+        >
+          Add
+        </b-button>
+        <b-button
+            v-if="isSupervisorPendingCount < 1"
+            style="margin-bottom: 10px"
+            variant="primary"
+            @click="() => $router.push(`/apps/myTask/createMyTask`)"
+        >
+          Add
+        </b-button>
+      </b-col>
+      <b-col>
+        <div class="text-right" v-if="backButton">
+          <b-button
+
+              style="margin-bottom: 10px;"
+              variant="primary"
+              @click="backButtonClick(false)"
+          >
+            back
+          </b-button>
+        </div>
+
+      </b-col>
+    </b-row>
+
+
+    <!--    <b-sidebar-->
+    <!--        id="sidebar-creat"-->
+    <!--        backdrop-->
+    <!--        bg-variant="white"-->
+    <!--        right-->
+    <!--        shadow-->
+    <!--    >-->
+    <!--      <sidebar-content title="Create"/>-->
+    <!--    </b-sidebar>-->
+    <!--    <b-sidebar-->
+    <!--        id="sidebar-edit"-->
+    <!--        backdrop-->
+    <!--        bg-variant="white"-->
+    <!--        right-->
+    <!--        shadow-->
+    <!--    >-->
+    <!--      <sidebar-content title="Edit"/>-->
+    <!--    </b-sidebar>-->
+
+
     <div class="custom-search">
 
       <!-- advance search input -->
@@ -49,64 +71,64 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
-<!--          <b-button-->
-<!--              variant="primary"-->
-<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
-<!--          >-->
-<!--            Pending Task List-->
-<!--          </b-button>-->
+        <b-col md="2" style="padding-top: 10px" v-if="pendingButton">
+          <!--          <b-button-->
+          <!--              variant="primary"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
+          <!--          >-->
+          <!--            Pending Task List-->
+          <!--          </b-button>-->
           <b-button
               block
               variant="primary"
-              @click="buttonFilter(1)"
+              @click="buttonFilter(1,true)"
           >
             Pending <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
-<!--          <b-button-->
-<!--              variant="success"-->
-<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
-<!--          >-->
-<!--            Completed Task List-->
-<!--          </b-button>-->
+        <b-col md="2" style="padding-top: 10px" v-if="completedButton">
+          <!--          <b-button-->
+          <!--              variant="success"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
+          <!--          >-->
+          <!--            Completed Task List-->
+          <!--          </b-button>-->
           <b-button
               block
               variant="success"
-              @click="buttonFilter(3)"
+              @click="buttonFilter(3,true)"
           >
             Completed <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="deletedButton">
           <b-button
               block
               variant="danger"
-              @click="buttonFilter(2)"
+              @click="buttonFilter(2,true)"
           >
             Deleted <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2" style="padding-top: 10px">
+        <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">
           <b-button
               block
               variant="info"
-              @click="buttonFilter(4)"
+              @click="buttonFilter(4,true)"
           >
             Supervisor <br> Completed
           </b-button>
         </b-col>
 
-<!--        <b-col md="2">-->
-<!--          <b-button-->
-<!--              style="margin-bottom: 10px"-->
-<!--              variant="success"-->
-<!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
-<!--          >-->
-<!--            Pending-->
-<!--          </b-button>-->
-<!--        </b-col>-->
+        <!--        <b-col md="2">-->
+        <!--          <b-button-->
+        <!--              style="margin-bottom: 10px"-->
+        <!--              variant="success"-->
+        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+        <!--          >-->
+        <!--            Pending-->
+        <!--          </b-button>-->
+        <!--        </b-col>-->
       </b-row>
     </div>
 
@@ -340,7 +362,8 @@
         title="Attention Needed !"
     >
       <div class="d-block text-center">
-        <h3>You Have To Review {{isSupervisorPendingCount}} Completed Child Tasks. Please Review Them First To Continue</h3>
+        <h3>You Have To Review {{ isSupervisorPendingCount }} Completed Child Tasks. Please Review Them First To
+          Continue</h3>
       </div>
       <b-button
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
@@ -354,7 +377,6 @@
     </b-modal>
 
 
-
     <b-modal
         ref="my-modal-new-feature"
         hide-footer
@@ -363,7 +385,7 @@
       <div class="d-block text-center">
         <div class="misc-wrapper">
           <b-link class="brand-logo">
-            <vuexy-logo />
+            <vuexy-logo/>
             <h2 class="brand-text text-primary ml-1">
               KIU
             </h2>
@@ -405,19 +427,18 @@
           </div>
         </div>
       </div>
-<!--      <b-button-->
-<!--          v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
-<!--          class="mt-3"-->
-<!--          variant="outline-secondary"-->
-<!--          block-->
-<!--          @click="hideModal"-->
-<!--      >-->
-<!--        Check The Feature-->
-<!--      </b-button>-->
+      <!--      <b-button-->
+      <!--          v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
+      <!--          class="mt-3"-->
+      <!--          variant="outline-secondary"-->
+      <!--          block-->
+      <!--          @click="hideModal"-->
+      <!--      >-->
+      <!--        Check The Feature-->
+      <!--      </b-button>-->
     </b-modal>
 
   </b-card>
-
 
 
 </template>
@@ -483,12 +504,17 @@ export default {
     'b-toggle': VBToggle,
     Ripple,
   },
-  filterTable(){
+  filterTable() {
     console.log(this.selected);
   },
   /* eslint-disable */
   data() {
     return {
+      backButton: false,
+      pendingButton: true,
+      completedButton: true,
+      deletedButton: true,
+      supervisorButton: true,
       downImg: require('@/assets/images/pages/coming-soon.svg'),
       userID: 1,
       pageLength: 5,
@@ -501,10 +527,10 @@ export default {
       sortDirection: 'asc',
       dir: false,
       options: [
-        { text: 'Orange', value: 'orange' },
-        { text: 'Apple', value: 'apple' },
-        { text: 'Pineapple', value: 'pineapple' },
-        { text: 'Grape', value: 'grape' }
+        {text: 'Orange', value: 'orange'},
+        {text: 'Apple', value: 'apple'},
+        {text: 'Pineapple', value: 'pineapple'},
+        {text: 'Grape', value: 'grape'}
       ],
 
       // filter: {
@@ -640,22 +666,62 @@ export default {
     await this.getIsSupervisorReviewCount()
     await this.getNewFeatureAlertCount()
 
-    if (this.newFeatureAlertCheckCount < 2){
+    if (this.newFeatureAlertCheckCount < 2) {
       this.showNewFeature()
-    }
-    else if (this.isSupervisorPendingCount > 0){
+    } else if (this.isSupervisorPendingCount > 0) {
       this.showModal()
     }
 
     await this.getAllTask()
   },
   methods: {
-    async buttonFilter(val){
+    async backButtonClick(buttonClick) {
       const userData = getUserData()
-      let response = (await myTaskAPI.getDataForFilter(userData.id,val))
+      let response = (await myTaskAPI.getData(userData.id))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
+      this.backButton = buttonClick;
+      this.pendingButton = true;
+      this.completedButton = true;
+      this.deletedButton = true;
+      this.supervisorButton = true;
+
+    },
+    async buttonFilter(val, buttonClick) {
+      this.backButton = true;
+      const userData = getUserData()
+      let response = (await myTaskAPI.getDataForFilter(userData.id, val))
+      console.log(response)
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+      switch (val) {
+        case 1:
+          this.pendingButton = buttonClick;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 2:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = buttonClick;
+          this.supervisorButton = false;
+          break;
+        case 3:
+          this.pendingButton = false;
+          this.completedButton = buttonClick;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 4:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = buttonClick;
+          break;
+
+      }
     },
     advanceSearch(val) {
       this.filter = val
@@ -717,7 +783,7 @@ export default {
     },
     async getNewFeatureAlertCount() {
       const userData = getUserData()
-      let response = (await profileAPI.getNewFeatureCheckCount(userData.id,1))
+      let response = (await profileAPI.getNewFeatureCheckCount(userData.id, 1))
       this.newFeatureAlertCheckCount = response.data.data;
     },
     async updateEResourceStatus(data, status, updated_user) {
