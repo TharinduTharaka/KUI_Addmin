@@ -43,40 +43,52 @@
           </b-form-group>
         </b-col>
 
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
+          <!--          <b-button-->
+          <!--              variant="primary"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
+          <!--          >-->
+          <!--            Pending Task List-->
+          <!--          </b-button>-->
           <b-button
-              style="margin-bottom: 10px"
+              block
               variant="primary"
-              @click="() => $router.push(`/apps/myTask/filterChildTask/3`)"
+              @click="buttonFilter(1)"
           >
-            Completed Task
+            Pending <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
+          <!--          <b-button-->
+          <!--              variant="success"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
+          <!--          >-->
+          <!--            Completed Task List-->
+          <!--          </b-button>-->
           <b-button
-              style="margin-bottom: 10px"
-              variant="info"
-              @click="() => $router.push(`/apps/myTask/filterChildTask/4`)"
-          >
-            Supervisor Completed
-          </b-button>
-        </b-col>
-        <b-col md="2">
-          <b-button
-              style="margin-bottom: 10px"
+              block
               variant="success"
-              @click="() => $router.push(`/apps/myTask/filterChildTask/1`)"
+              @click="buttonFilter(3)"
           >
-            Pending Task List
+            Completed <br> Task List
           </b-button>
         </b-col>
-        <b-col md="2">
+        <b-col md="2" style="padding-top: 10px">
           <b-button
-              style="margin-bottom: 10px"
+              block
               variant="danger"
-              @click="() => $router.push(`/apps/myTask/filterChildTask/2`)"
+              @click="buttonFilter(2)"
           >
-            Deleted Task
+            Deleted <br> Task List
+          </b-button>
+        </b-col>
+        <b-col md="2" style="padding-top: 10px">
+          <b-button
+              block
+              variant="info"
+              @click="buttonFilter(4)"
+          >
+            Supervisor <br> Completed
           </b-button>
         </b-col>
       </b-row>
@@ -485,6 +497,13 @@ export default {
     await this.getAllTask()
   },
   methods: {
+    async buttonFilter(val){
+      const userData = getUserData()
+      let response = (await myTaskAPI.getDataForFilter(userData.id,val))
+      console.log(response)
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+    },
     advanceSearch(val) {
       this.filter = val
     },
