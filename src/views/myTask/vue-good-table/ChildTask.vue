@@ -521,7 +521,7 @@ export default {
   methods: {
     async backButtonClick(buttonClick) {
       const userData = getUserData()
-      let response = (await myTaskAPI.getData(userData.id))
+      let response = (await myTaskAPI.getData(localStorage.getItem('child_id')))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
@@ -534,8 +534,8 @@ export default {
     },
     async buttonFilter(val, buttonClick) {
       this.backButton = true;
-      const userData = getUserData()
-      let response = (await myTaskAPI.getDataForFilter(userData.id, val))
+      const userData = this.$route.params.userID
+      let response = (await myTaskAPI.getDataForFilter(localStorage.getItem('child_id'), val))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
