@@ -62,5 +62,21 @@ export default[
         meta: {
             pageTitle: 'My Roster',
         },
-    }
+    },
+    {
+        path: '/apps/supervisorRoster',
+        name: 'apps-supervisorRoster',
+        component: () => import('@/views/leaves/supervisor-roster/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Supervisor Roster',
+        },
+    },
+    {
+        path: '/apps/childRoster',
+        name: 'apps-child-calendar',
+        component: () => import('@/views/leaves/roster/child-calendar/Calendar'),
+        meta: {
+            pageTitle: 'Child Calendar',
+        },
+    },
 ]

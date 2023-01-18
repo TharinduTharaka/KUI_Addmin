@@ -8,7 +8,7 @@
       You have won gold medal
     </b-card-text>
     <h3 class="mb-75 mt-2 pt-50">
-      <b-link>${{ kFormatter(data.saleToday) }}</b-link>
+      <b-link>In Time - 8.10</b-link>
     </h3>
     <b-img
       :src="require('@/assets/images/illustration/badge.svg')"

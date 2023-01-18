@@ -55,7 +55,7 @@ import calendarStoreModule from './calendarStoreModule'
 import CalendarSidebar from './calendar-sidebar/CalendarSidebar.vue'
 import CalendarEventHandler from './calendar-event-handler/CalendarEventHandler.vue'
 import { BRow, BCol } from 'bootstrap-vue'
-import GoodTableAdvanceSearch from '../child/vue-good-table/GoodTableAdvanceSearch.vue'
+import GoodTableAdvanceSearch from '../child-calendar/child/vue-good-table/GoodTableAdvanceSearch.vue'
 import useCalendar from './useCalendar'
 
 export default {

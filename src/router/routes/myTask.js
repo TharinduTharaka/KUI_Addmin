@@ -80,5 +80,13 @@ export default[
         meta: {
             pageTitle: 'Add My Profile Post',
         },
+    },
+    {
+        path: '/roster/editMyRoster/:task_id/:user_id',
+        name: 'editMyRoster',
+        component: () => import('@/views/leaves/roster/child/editMyTask'),
+        meta: {
+            pageTitle: 'Edit My Roster',
+        },
     }
 ]

@@ -46,6 +46,11 @@ export default [
     title: 'My Roster',
     route: 'apps-myRoster',
     icon: 'CalendarIcon',
+  },
+  {
+    title: 'Supervisor Roster',
+    route: 'apps-supervisorRoster',
+    icon: 'CalendarIcon',
   }
 
 

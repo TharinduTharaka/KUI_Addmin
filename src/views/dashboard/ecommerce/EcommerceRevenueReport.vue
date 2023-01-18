@@ -11,16 +11,16 @@
       >
         <div class="d-sm-flex justify-content-between align-items-center mb-3">
           <h4 class="card-title mb-50 mb-sm-0">
-            Revenue Report
+            Attendance Summery
           </h4>
           <div class="d-flex align-items-center">
             <div class="d-flex align-items-center mr-2">
               <span class="bullet bullet-primary svg-font-small-3 mr-50 cursor-pointer" />
-              <span>Earning</span>
+              <span>Work Days</span>
             </div>
             <div class="d-flex align-items-center ml-75">
               <span class="bullet bullet-warning svg-font-small-3 mr-50 cursor-pointer" />
-              <span>Expense</span>
+              <span>Leave Days</span>
             </div>
           </div>
         </div>
@@ -39,41 +39,36 @@
         md="4"
         class="budget-wrapper"
       >
-        <b-dropdown
-          text="2020"
-          size="sm"
-          class="budget-dropdown"
-          variant="outline-primary"
-        >
-          <b-dropdown-item
-            v-for="year in data.years"
-            :key="year"
-          >
-            {{ year }}
-          </b-dropdown-item>
-        </b-dropdown>
 
+
+        <br>
+        <span class="font-weight-bolder mr-25">Total working days upto date:</span>
         <h2 class="mb-25">
-          ${{ data.price }}
+          {{ data.price }}
         </h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <span class="font-weight-bolder mr-25">Total Working Days For 2023:</span>
         <div class="d-flex justify-content-center">
-          <span class="font-weight-bolder mr-25">Budget:</span>
-          <span>56,800</span>
-        </div>
-        <vue-apex-charts
-          id="budget-chart"
-          type="line"
-          height="80"
-          :options="budgetChart.options"
-          :series="data.budgetChart.series"
-        />
 
-        <b-button
-          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          variant="primary"
-        >
-          Increase Budget
-        </b-button>
+          <span>290</span>
+        </div>
+<!--        <vue-apex-charts-->
+<!--          id="budget-chart"-->
+<!--          type="line"-->
+<!--          height="80"-->
+<!--          :options="budgetChart.options"-->
+<!--          :series="data.budgetChart.series"-->
+<!--        />-->
+
+<!--        <b-button-->
+<!--          v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
+<!--          variant="primary"-->
+<!--        >-->
+<!--          Increase Budget-->
+<!--        </b-button>-->
       </b-col>
     </b-row>
   </b-card>

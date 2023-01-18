@@ -1,0 +1,742 @@
+<template>
+  <b-card>
+
+    <b-row>
+      <b-col>
+        <div class="text-right" v-if="backButton">
+          <b-button
+
+              style="margin-bottom: 10px;"
+              variant="primary"
+              @click="backButtonClick(false)"
+          >
+            back
+          </b-button>
+        </div>
+
+      </b-col>
+    </b-row>
+
+
+    <!--    <b-sidebar-->
+    <!--        id="sidebar-creat"-->
+    <!--        backdrop-->
+    <!--        bg-variant="white"-->
+    <!--        right-->
+    <!--        shadow-->
+    <!--    >-->
+    <!--      <sidebar-content title="Create"/>-->
+    <!--    </b-sidebar>-->
+    <!--    <b-sidebar-->
+    <!--        id="sidebar-edit"-->
+    <!--        backdrop-->
+    <!--        bg-variant="white"-->
+    <!--        right-->
+    <!--        shadow-->
+    <!--    >-->
+    <!--      <sidebar-content title="Edit"/>-->
+    <!--    </b-sidebar>-->
+
+
+    <div class="custom-search">
+
+      <!-- advance search input -->
+      <b-row>
+        <b-col md="4">
+          <b-form-group>
+            <label>Search:</label>
+            <b-form-input
+                class="d-inline-block"
+                placeholder="Search"
+                type="text"
+                @input="advanceSearch"
+            />
+          </b-form-group>
+        </b-col>
+        <b-col md="2" style="padding-top: 10px" v-if="pendingButton">
+          <!--          <b-button-->
+          <!--              variant="primary"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
+          <!--          >-->
+          <!--            Pending Task List-->
+          <!--          </b-button>-->
+          <b-button
+              block
+              variant="primary"
+              @click="buttonFilter(1,true)"
+          >
+            Pending <br> Roster List
+          </b-button>
+        </b-col>
+        <b-col md="2" style="padding-top: 10px" v-if="completedButton">
+          <!--          <b-button-->
+          <!--              variant="success"-->
+          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
+          <!--          >-->
+          <!--            Completed Task List-->
+          <!--          </b-button>-->
+          <b-button
+              block
+              variant="success"
+              @click="buttonFilter(8,true)"
+          >
+            Completed <br> Roster List
+          </b-button>
+        </b-col>
+        <b-col md="2" style="padding-top: 10px" v-if="deletedButton">
+          <b-button
+              block
+              variant="danger"
+              @click="buttonFilter(3,true)"
+          >
+            Change Requested
+          </b-button>
+        </b-col>
+        <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">
+          <b-button
+              block
+              variant="info"
+              @click="buttonFilter(6,true)"
+          >
+            Supervisor <br> Completed
+          </b-button>
+        </b-col>
+
+        <!--        <b-col md="2">-->
+        <!--          <b-button-->
+        <!--              style="margin-bottom: 10px"-->
+        <!--              variant="success"-->
+        <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/2/1/1/1`)"-->
+        <!--          >-->
+        <!--            Pending-->
+        <!--          </b-button>-->
+        <!--        </b-col>-->
+      </b-row>
+    </div>
+
+
+    <!-- table -->
+    <div>
+      <b-table
+          :current-page="currentPage"
+          :fields="fields"
+          :filter="filter"
+          :items="items"
+          :per-page="perPage"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          :sort-direction="sortDirection"
+          class="position-relative"
+          hover
+          responsive
+          striped>
+        <template #cell(show_details)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-form-checkbox
+              v-model="row.detailsShowing"
+              @change="row.toggleDetails"
+          >
+            {{ row.detailsShowing ? 'Hide' : 'Show' }}
+          </b-form-checkbox>
+        </template>
+        <!-- full detail on click -->
+        <template #row-details="row">
+          <b-card>
+
+
+            <div class="demo-inline-spacing">
+              <b-button
+                  size="sm"
+                  variant="outline-secondary"
+                  @click="row.toggleDetails"
+              >
+                Hide Details
+              </b-button>
+              <b-button
+                  v-if="row.item.status ===3"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-success"
+                  @click="updateRosterStatus(row.item.id, 7)">
+                Accept Change
+              </b-button>
+              <b-button
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-danger"
+                  @click="updateRosterStatus(row.item.id, 5)">
+                supervisor Delete
+              </b-button>
+              <b-button
+                  v-if="row.item.status ===8"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-success"
+                  @click="updateRosterStatus(row.item.id, 6)">
+                Supervisor Completed
+              </b-button>
+              <b-button
+                  v-if="row.item.status ===4"
+                  size="sm"
+                  style="margin-left: 10px"
+                  variant="outline-primary"
+                  @click="updateRosterStatus(row.item.id, 6)">
+                Not Applicable
+              </b-button>
+            </div>
+          </b-card>
+        </template>
+
+        <template #cell(status)="data">
+          <b-badge :variant="status[1][data.value]">
+            {{ status[0][data.value] }}
+          </b-badge>
+        </template>
+
+        <template #cell(autoStatus)="data">
+          <b-badge :variant="autoStatus[1][data.value]">
+            {{ autoStatus[0][data.value] }}
+          </b-badge>
+        </template>
+
+      </b-table>
+    </div>
+    <b-card-body class="d-flex justify-content-between flex-wrap pt-0">
+
+      <!-- page length -->
+      <b-form-group
+          class="text-nowrap mb-md-0 mr-1"
+          label="Per Page"
+          label-align="left"
+          label-cols="6"
+          label-for="sortBySelect"
+          label-size="sm"
+      >
+        <b-form-select
+            id="perPageSelect"
+            v-model="perPage"
+            :options="pageOptions"
+            inline
+            size="sm"
+        />
+      </b-form-group>
+
+      <!-- pagination -->
+      <div>
+        <b-pagination
+            v-model="currentPage"
+            :per-page="perPage"
+            :total-rows="totalRows"
+            class="mb-0"
+            first-number
+            last-number
+            next-class="next-item"
+            prev-class="prev-item"
+        >
+          <template #prev-text>
+            <feather-icon
+                icon="ChevronLeftIcon"
+                size="18"
+            />
+          </template>
+          <template #next-text>
+            <feather-icon
+                icon="ChevronRightIcon"
+                size="18"
+            />
+          </template>
+        </b-pagination>
+      </div>
+    </b-card-body>
+
+    <b-modal
+        ref="my-modal"
+        hide-footer
+        title="Attention Needed !"
+    >
+      <div class="d-block text-center">
+        <h3>You Have To Review {{ isSupervisorPendingCount }} Completed Child Tasks. Please Review Them First To
+          Continue</h3>
+      </div>
+      <b-button
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          class="mt-3"
+          variant="outline-secondary"
+          block
+          @click="hideModal"
+      >
+        Review Child Task
+      </b-button>
+    </b-modal>
+
+
+    <b-modal
+        ref="my-modal-new-feature"
+        hide-footer
+        title="New Feature Alert !"
+    >
+      <div class="d-block text-center">
+        <div class="misc-wrapper">
+          <b-link class="brand-logo">
+            <vuexy-logo/>
+            <h2 class="brand-text text-primary ml-1">
+              KIU
+            </h2>
+          </b-link>
+
+          <div class="misc-inner p-2 p-sm-3">
+            <div class="w-100 text-center">
+              <h2 class="mb-1">
+                New Feature Alert 🚀
+              </h2>
+              <p class="mb-3">
+                We have created something awesome. Please check the awesomeness asap!
+              </p>
+
+              <!-- form -->
+              <b-form
+                  inline
+                  class="row justify-content-center m-0 mb-2"
+                  @submit.prevent
+              >
+
+
+                <b-button
+                    variant="primary"
+                    class="mb-1 btn-sm-block"
+                    type="submit"
+                    @click="hideNewFeatureModal"
+                >
+                  Check Profile
+                </b-button>
+              </b-form>
+
+              <b-img
+                  fluid
+                  :src="imgUrl"
+                  alt="Coming soon page"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--      <b-button-->
+      <!--          v-ripple.400="'rgba(255, 255, 255, 0.15)'"-->
+      <!--          class="mt-3"-->
+      <!--          variant="outline-secondary"-->
+      <!--          block-->
+      <!--          @click="hideModal"-->
+      <!--      >-->
+      <!--        Check The Feature-->
+      <!--      </b-button>-->
+    </b-modal>
+
+  </b-card>
+
+
+</template>
+
+<script>
+// import BCardCode from '@core/components/b-card-code/BCardCode.vue'
+import {
+  BAvatar,
+  BBadge,
+  BButton,
+  BCard,
+  BCardBody,
+  BCol,
+  BFormCheckbox,
+  BFormGroup,
+  BFormInput,
+  BFormSelect,
+  BImg,
+  BPagination,
+  BRow,
+  BSidebar,
+  BTable,
+  BToast,
+  VBToggle,
+} from 'bootstrap-vue' // eslint-disable-line
+import {VueGoodTable} from 'vue-good-table'
+import store from '@/store/index'
+import Ripple from 'vue-ripple-directive'
+import SidebarContent from './SidebarContent.vue'
+import vSelect from 'vue-select'
+import myTaskAPI from '@/api/my_task'
+import rosterAPI from '@/api/roster'
+import profileAPI from '@/api/profile'
+import {getUserData} from "@/auth/utils";
+// import {useRouter} from "vue-router";
+// import { codeAdvance } from './code'
+/* eslint-disable */
+export default {
+  components: {
+    BCard,
+    BToast,
+    BImg,
+    BCardBody,
+    vSelect,
+    BBadge,
+    BSidebar,
+    SidebarContent,
+    BFormCheckbox,
+    BTable,
+    BButton,
+    VueGoodTable,
+    BAvatar,
+    BPagination,
+    BFormGroup,
+    BFormInput,
+    BFormSelect,
+    BRow,
+    BCol,
+    // eslint-disable-next-line vue/no-unused-components
+    // ToastificationContent,
+  },
+  /* eslint-disable */
+  directives: {
+    'b-toggle': VBToggle,
+    Ripple,
+  },
+  filterTable() {
+    console.log(this.selected);
+  },
+  /* eslint-disable */
+  data() {
+    return {
+      backButton: false,
+      pendingButton: true,
+      completedButton: true,
+      deletedButton: true,
+      supervisorButton: true,
+      downImg: require('@/assets/images/pages/coming-soon.svg'),
+      userID: 1,
+      pageLength: 5,
+      pageOptions: [3, 5, 10],
+      perPage: 5,
+      totalRows: 1,
+      currentPage: 1,
+      sortBy: '',
+      sortDesc: false,
+      sortDirection: 'asc',
+      dir: false,
+      options: [
+        {text: 'Orange', value: 'orange'},
+        {text: 'Apple', value: 'apple'},
+        {text: 'Pineapple', value: 'pineapple'},
+        {text: 'Grape', value: 'grape'}
+      ],
+
+      // filter: {
+      //   resource:null,
+      //   department:null,
+      // },
+
+      filter: null,
+      resource: '',
+      resourceOptions: ['Thesis', 'General'],
+      department: '',
+      departmentOptions: ['Nursing', 'BMS', 'Psychology', 'Management', 'Acupuncture', 'IT'],
+      rows: [],
+      searchTerm: '',
+      isSupervisorPendingCount: 0,
+      newFeatureAlertCheckCount: 0,
+      fields: [
+        'show_details',
+        'id',
+        {
+          key: 'status',
+          label: 'Status'
+
+        },
+        'title',
+        'start',
+        'end',
+        'type',
+        'description',
+        'requested_by',
+        'requested_for'
+      ],
+      /* eslint-disable global-require */
+      items: [
+        {
+          taskTitle: "",
+          startDate: "",
+          endDate: '',
+          status: "",
+          estimate: ""
+        },
+      ],
+      /* eslint-disable global-require */
+      status: [
+        {
+          1: 'Pending',
+          2: 'Deleted',
+          3: 'Change Requested',
+          4: 'Not Applicable ',
+          5: 'Supervisor Deleted',
+          6: 'Supervisor Accepted',
+          7: 'Change Accepted',
+          8: 'Completed'
+        },
+        {
+          1: 'light-primary',
+          2: 'light-danger',
+          3: 'light-danger',
+          4: 'light-primary',
+          5: 'light-danger',
+          6: 'light-success',
+          7: 'light-success',
+          8: 'light-success'
+        }
+      ],
+      autoStatus: [
+        {
+          0: 'User Completed',
+          1: 'Uncompleted'
+        },
+        {
+          0: 'light-primary',
+          1: 'light-danger'
+        }
+      ],
+      rating: [
+        {
+          1: 'Unacceptable',
+          2: 'Inconsistent',
+          3: 'Successful',
+          4: 'Exceeds Expectations',
+          5: 'Exceptional',
+          6: 'Not Applicable',
+        },
+        {
+          1: 'light-primary',
+          2: 'light-danger',
+          3: 'light-success',
+          4: 'light-info',
+          5: 'light-success',
+          6: 'light-success',
+        }
+      ],
+      priority: [
+        {
+          High: 'High',
+          Medium: 'Medium',
+          Low: 'Low',
+        },
+        {
+          High: 'light-danger',
+          Medium: 'light-primary',
+          Low: 'light-success',
+        }
+      ],
+    }
+  },
+  setup() {
+    // const router = useRouter();
+    return {}
+  },
+  /* eslint-disable */
+  computed: {
+    imgUrl() {
+      if (store.state.appConfig.layout.skin === 'dark') {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.downImg = require('@/assets/images/pages/coming-soon-dark.svg')
+        return this.downImg
+      }
+      return this.downImg
+    },
+    direction() {
+      if (store.state.appConfig.isRTL) {
+        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+        this.dir = true
+        return this.dir
+      }
+      // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+      this.dir = false
+      return this.dir
+    },
+  },
+  async mounted() {
+    const userData = getUserData()
+    this.userID = localStorage.getItem('child_id')
+    this.totalRows = this.items.length
+    // await this.getIsSupervisorReviewCount()
+    // await this.getNewFeatureAlertCount()
+    //
+    // if (this.newFeatureAlertCheckCount < 2) {
+    //   this.showNewFeature()
+    // } else if (this.isSupervisorPendingCount > 0) {
+    //   this.showModal()
+    // }
+
+    await this.getAllTask()
+  },
+  methods: {
+    async backButtonClick(buttonClick) {
+      await this.getAllTask()
+
+      this.backButton = buttonClick;
+      this.pendingButton = true;
+      this.completedButton = true;
+      this.deletedButton = true;
+      this.supervisorButton = true;
+
+    },
+    async buttonFilter(val, buttonClick) {
+      this.backButton = true;
+      const userData = getUserData()
+      let response = (await rosterAPI.getRosterForTable(localStorage.getItem('child_id'), val))
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+      switch (val) {
+        case 1:
+          this.pendingButton = buttonClick;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 3:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = buttonClick;
+          this.supervisorButton = false;
+          break;
+        case 8:
+          this.pendingButton = false;
+          this.completedButton = buttonClick;
+          this.deletedButton = false;
+          this.supervisorButton = false;
+          break;
+        case 6:
+          this.pendingButton = false;
+          this.completedButton = false;
+          this.deletedButton = false;
+          this.supervisorButton = buttonClick;
+          break;
+
+      }
+    },
+    advanceSearch(val) {
+      this.filter = val
+    },
+    onRowClick(params) {
+      console.log(params)
+    },
+    getStatus(val) {
+      if (val === 'draft') {
+        return 'published'
+      } else {
+        return 'draft'
+      }
+    },
+    makeToast(msg, variant) {
+      this.$bvToast.toast(`${msg}`, {
+        title: `${variant || 'default'}`,
+        variant,
+        solid: false,
+      })
+    },
+    async getAllTask() {
+      const userData = getUserData()
+      let response = (await rosterAPI.getRosterForTable(localStorage.getItem('child_id'),0))
+      console.log(response)
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+    },
+    async deleteResource(userID, taskID) {
+      const userData = getUserData()
+      await myTaskAPI.delete(localStorage.getItem('child_id'), taskID)
+          .then((res) => {
+            this.makeToast('Removed successfully', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async updateRosterStatus(taskID, status) {
+      const userData = getUserData()
+      await rosterAPI.changeStatus(localStorage.getItem('child_id'), taskID, status)
+          .then((res) => {
+            this.makeToast('Updated successfully', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async updateNotApplicable(userID, taskID) {
+      const userData = getUserData()
+      await myTaskAPI.updateNotApplicable(localStorage.getItem('child_id'), taskID, 1)
+          .then((res) => {
+            this.makeToast('Updated successfully', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+    },
+    async getIsSupervisorReviewCount() {
+      const userData = getUserData()
+      let response = (await myTaskAPI.getIsSupervisorPendingTaskCount(localStorage.getItem('child_id')))
+      this.isSupervisorPendingCount = response.data.data;
+    },
+    async getNewFeatureAlertCount() {
+      const userData = getUserData()
+      let response = (await profileAPI.getNewFeatureCheckCount(localStorage.getItem('child_id'), 1))
+      this.newFeatureAlertCheckCount = response.data.data;
+    },
+    async updateEResourceStatus(data, status, updated_user) {
+      const userData = getUserData()
+      await eResourcesAPI.updateStatus(data, status, localStorage.getItem('child_id'))
+          .then((res) => {
+            console.log('update')
+            this.makeToast('Status Update successfully', 'success');
+            // toast("Order removed successfully", "success");
+            this.getAllEResources()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+      // axios.put("http://13.232.138.190:8081/resource/update-eresource-status", null,
+      //     { params: { data, status, updated_user }})
+      //     .then(response => this.$router.go());
+    },
+    showModal() {
+      this.$refs['my-modal'].show()
+    },
+    hideModal() {
+      this.$refs['my-modal'].hide()
+      this.$router.push(`/apps/supervisorTask`)
+    },
+
+    showNewFeature() {
+      this.$refs['my-modal-new-feature'].show()
+    },
+    hideNewFeatureModal() {
+      this.$refs['my-modal-new-feature'].hide()
+      this.$router.push(`/pages/profile`)
+    },
+
+    toggleModal() {
+      // We pass the ID of the button that we want to return focus to
+      // when the modal has hidden
+      this.$refs['my-modal'].toggle('#toggle-btn')
+    },
+  },
+}
+</script>
+
+<style lang="scss">
+@import '@core/scss/vue/pages/page-misc.scss';
+</style>
