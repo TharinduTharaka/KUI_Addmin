@@ -53,6 +53,9 @@
 import {
   BCard, BCardHeader, BCardTitle, BCardText, BCardBody, BRow, BCol, BMedia, BMediaAside, BAvatar, BMediaBody,
 } from 'bootstrap-vue'
+import {getUserData} from "@/auth/utils";
+import {kFormatter} from "@core/utils/filter";
+import attendanceAPI from "@/api/Attendance";
 
 export default {
   components: {
@@ -69,10 +72,35 @@ export default {
     BMediaBody,
   },
   props: {
-    data: {
+    data2: {
       type: Array,
       default: () => [],
     },
   },
+  data() {
+    return {
+      data: {
+        type: Array,
+        default: () => [],
+      },
+    }
+  },
+  async mounted() {
+    const userData = getUserData()
+    this.userID = userData.id
+
+    await this.getTodayInTime()
+
+  },
+  methods: {
+    kFormatter,
+    async getTodayInTime() {
+      const userData = getUserData()
+      let response = (await attendanceAPI.getAttendanceStat(userData.id))
+      console.log(response)
+      this.data = response.data.data;
+      this.totalRows = response.data.data.length
+    }
+  }
 }
 </script>

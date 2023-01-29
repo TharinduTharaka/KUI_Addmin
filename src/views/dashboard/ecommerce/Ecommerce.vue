@@ -52,9 +52,9 @@
 
     <b-row class="match-height">
       <!-- Company Table Card -->
-      <b-col lg="8">
-        <ecommerce-company-table :table-data="data.companyTable" />
-      </b-col>
+<!--      <b-col lg="8">-->
+<!--        <ecommerce-company-table :table-data="data.companyTable" />-->
+<!--      </b-col>-->
       <!--/ Company Table Card -->
 
       <!-- Developer Meetup Card -->
@@ -67,30 +67,30 @@
       <!--/ Developer Meetup Card -->
 
       <!-- Browser States Card -->
-      <b-col
-        lg="4"
-        md="6"
-      >
-        <ecommerce-browser-states />
-      </b-col>
+<!--      <b-col-->
+<!--        lg="4"-->
+<!--        md="6"-->
+<!--      >-->
+<!--        <ecommerce-browser-states />-->
+<!--      </b-col>-->
       <!--/ Browser States Card -->
 
       <!-- Goal Overview Card -->
-      <b-col
-        lg="4"
-        md="6"
-      >
-        <ecommerce-goal-overview :data="data.goalOverview" />
-      </b-col>
+<!--      <b-col-->
+<!--        lg="4"-->
+<!--        md="6"-->
+<!--      >-->
+<!--        <ecommerce-goal-overview :data="data.goalOverview" />-->
+<!--      </b-col>-->
       <!--/ Goal Overview Card -->
 
       <!-- Transaction Card -->
-      <b-col
-        lg="4"
-        md="6"
-      >
-        <ecommerce-transactions :data="data.transactionData" />
-      </b-col>
+<!--      <b-col-->
+<!--        lg="4"-->
+<!--        md="6"-->
+<!--      >-->
+<!--        <ecommerce-transactions :data="data.transactionData" />-->
+<!--      </b-col>-->
       <!--/ Transaction Card -->
     </b-row>
   </section>

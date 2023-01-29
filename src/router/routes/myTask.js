@@ -8,6 +8,14 @@ export default[
         },
     },
     {
+        path: '/apps/myPenalty',
+        name: 'apps-my-penalty',
+        component: () => import('@/views/penalty/penalty-table/vue-good-table/GoodTable.vue'),
+        meta: {
+            pageTitle: 'My Penalty',
+        },
+    },
+    {
         path: '/apps/myTask/createMyTask',
         name: 'createMyTask',
         component: () => import('@/views/myTask/createMyTask'),
@@ -55,6 +63,13 @@ export default[
         component: () => import('@/views/leaves/child-leave/vue-good-table/ChildTask'),
         meta: {
             pageTitle: 'Child Leave',
+        },
+    },{
+        path: '/apps/childAttendance',
+        name: 'childAttendance',
+        component: () => import('@/views/Attendance/child-attendance/GoodTable'),
+        meta: {
+            pageTitle: 'Child Attendance',
         },
     },
     {

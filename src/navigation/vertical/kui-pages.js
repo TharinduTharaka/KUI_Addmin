@@ -23,6 +23,11 @@ export default [
     icon: 'CheckCircleIcon',
   },
   {
+    title: 'Supervisor Attendance',
+    route: 'apps-supervisor-attendance',
+    icon: 'CheckCircleIcon',
+  },
+  {
     title: 'Add My Leaves',
     route: 'apps-leaves-add',
     icon: 'FilePlusIcon',
@@ -51,6 +56,16 @@ export default [
     title: 'Supervisor Roster',
     route: 'apps-supervisorRoster',
     icon: 'CalendarIcon',
+  },
+  {
+    title: 'My Penalty',
+    route: 'apps-my-penalty',
+    icon: 'FileIcon',
+  },
+  {
+    title: 'My Over Time',
+    route: 'apps-my-over-time',
+    icon: 'FileIcon',
   }
 
 

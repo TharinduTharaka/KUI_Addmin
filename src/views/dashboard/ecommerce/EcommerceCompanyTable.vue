@@ -98,11 +98,19 @@ export default {
   data() {
     return {
       fields: [
-        { key: 'company', label: 'COMPANY' },
-        { key: 'category', label: 'CATEGORY' },
-        { key: 'views', label: 'VIEWS' },
-        { key: 'revenue', label: 'REVENUE' },
-        { key: 'sales', label: 'SALES' },
+        { key: 'type', label: 'LEAVE TYPE' },
+        { key: 'Jan', label: 'JAN' },
+        { key: 'Feb', label: 'FEB' },
+        { key: 'Mar', label: 'MAR' },
+        { key: 'Apr', label: 'APR' },
+        { key: 'May', label: 'MAY' },
+        { key: 'June', label: 'JUNE' },
+        { key: 'July', label: 'JULY' },
+        { key: 'Aug', label: 'AUG' },
+        { key: 'Sep', label: 'SEP' },
+        { key: 'Oct', label: 'OCT' },
+        { key: 'Nov', label: 'NOV' },
+        { key: 'Dev', label: 'DEC' },
       ],
     }
   },

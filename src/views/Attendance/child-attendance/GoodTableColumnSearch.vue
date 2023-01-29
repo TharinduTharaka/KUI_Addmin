@@ -64,6 +64,13 @@
                     class="text-body align-middle mr-25"
                 />
               </template>
+              <b-dropdown-item @click="onRowClickApprove(props)">
+                <feather-icon
+                    icon="ChevronRightIcon"
+                    class="mr-50"
+                />
+                <span>Approve</span>
+              </b-dropdown-item>
               <b-dropdown-item @click="onRowClick(props)">
                 <feather-icon
                     icon="TrashIcon"
@@ -146,6 +153,7 @@ import databaseAPI from "@/api/database_ui";
 import attendanceAPI from "@/api/Attendance";
 import {getUserData} from "@/auth/utils";
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
+import myTaskAPI from "@/api/my_task";
 
 export default {
   components: {
@@ -263,7 +271,7 @@ export default {
   async mounted() {
     // Set the initial number of items
     this.totalRows = this.items.length
-    await this.getAllLeaves()
+    await this.getAllAttendance()
   },
 
   computed: {
@@ -325,10 +333,38 @@ export default {
         })
       }
       else {
-        this.$router.push(`/apps/attendance/editAttendance/${params.formattedRow.id}`)
+        this.$router.push(`/apps/attendance/deleteAttendance/${params.formattedRow.id}`)
       }
     },
-    async getAllLeaves() {
+    onRowClickApprove(params) {
+
+      if (params.formattedRow.status !== 2) {
+
+        const variant = 'danger';
+
+        this.$bvToast.toast(`This Attendance Cannot Be Approved`, {
+          title: `${variant || 'default'}`,
+          variant,
+          solid: false,
+        })
+      } else {
+
+        const userData = getUserData()
+        attendanceAPI.changeAttendanceStatus(params.formattedRow.id, userData.id, 3, '')
+            .then((res) => {
+              this.getAllAttendance()
+            })
+            .catch(({response}) => {
+              this.error = response.data.error
+              console.log(this.error)
+              this.makeToast(this.error, 'danger');
+            })
+
+
+
+      }
+    },
+    async getAllAttendance() {
       const userData = getUserData()
       let response = (await attendanceAPI.getAllAttendanceData(userData.id))
       console.log(response)

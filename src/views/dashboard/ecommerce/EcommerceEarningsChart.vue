@@ -4,28 +4,26 @@
     class="earnings-card"
   >
     <b-row>
-      <b-col cols="6">
+      <b-col cols="10">
         <b-card-title class="mb-1">
-          Earnings
+          <h1>Total Penalty</h1>
         </b-card-title>
-        <div class="font-small-2">
-          This Month
-        </div>
-        <h5 class="mb-1">
-          $4055.56
-        </h5>
-        <b-card-text class="text-muted font-small-2">
-          <span class="font-weight-bolder">68.2%</span><span> more earnings than last month.</span>
-        </b-card-text>
+
+        <h2 class="mb-1">
+          {{penalty}} .RS
+        </h2>
+<!--        <b-card-text class="text-muted font-small-2">-->
+<!--          <span class="font-weight-bolder">68.2%</span><span> more earnings than last month.</span>-->
+<!--        </b-card-text>-->
       </b-col>
-      <b-col cols="6">
-        <!-- chart -->
-        <vue-apex-charts
-          height="120"
-          :options="earningsChart.chartOptions"
-          :series="data.series"
-        />
-      </b-col>
+<!--      <b-col cols="6">-->
+<!--        &lt;!&ndash; chart &ndash;&gt;-->
+<!--        <vue-apex-charts-->
+<!--          height="120"-->
+<!--          :options="earningsChart.chartOptions"-->
+<!--          :series="data.series"-->
+<!--        />-->
+<!--      </b-col>-->
     </b-row>
   </b-card>
 </template>
@@ -36,6 +34,9 @@ import {
 } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
+import {getUserData} from "@/auth/utils";
+import {kFormatter} from "@core/utils/filter";
+import attendanceAPI from "@/api/Attendance";
 
 const $earningsStrokeColor2 = '#28c76f66'
 const $earningsStrokeColor3 = '#28c76f33'
@@ -143,7 +144,25 @@ export default {
           ],
         },
       },
+      penalty : 1
     }
   },
+  async mounted() {
+    const userData = getUserData()
+    this.userID = userData.id
+
+    await this.getTotalPenalty()
+
+  },
+  methods: {
+    kFormatter,
+    async getTotalPenalty() {
+      const userData = getUserData()
+      let response = (await attendanceAPI.getPenaltyValue(userData.id))
+      console.log(response)
+      this.penalty = response.data.data;
+      this.totalRows = response.data.data.length
+    }
+  }
 }
 </script>

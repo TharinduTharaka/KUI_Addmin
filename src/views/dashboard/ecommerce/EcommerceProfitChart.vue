@@ -4,9 +4,9 @@
     class="card-tiny-line-stats"
     body-class="pb-50"
   >
-    <h6>Profit</h6>
+    <h6>Available Leaves</h6>
     <h2 class="font-weight-bolder mb-1">
-      6,24k
+      {{items.available}}
     </h2>
     <!-- chart -->
     <vue-apex-charts
@@ -21,6 +21,9 @@
 import { BCard } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
+import {getUserData} from "@/auth/utils";
+import {kFormatter} from "@core/utils/filter";
+import attendanceAPI from "@/api/Attendance";
 
 const $trackBgColor = '#EBEBEB'
 
@@ -118,7 +121,27 @@ export default {
           },
         },
       },
+      items : {
+        available : "",
+        taken : ""
+      }
     }
   },
+  async mounted() {
+    const userData = getUserData()
+    this.userID = userData.id
+
+    await this.getTotalTakenLeaves()
+
+  },
+  methods: {
+    kFormatter,
+    async getTotalTakenLeaves() {
+      const userData = getUserData()
+      let response = (await attendanceAPI.getTotalTakenLeaves(userData.id))
+      console.log(response)
+      this.items = response.data.data;
+    }
+  }
 }
 </script>

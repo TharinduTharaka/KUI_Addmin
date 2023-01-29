@@ -53,54 +53,54 @@
             />
           </b-form-group>
         </b-col>
-        <b-col md="2" style="padding-top: 10px" v-if="pendingButton">
-          <!--          <b-button-->
-          <!--              variant="primary"-->
-          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"-->
-          <!--          >-->
-          <!--            Pending Task List-->
-          <!--          </b-button>-->
-          <b-button
-              block
-              variant="primary"
-              @click="buttonFilter(1,true)"
-          >
-            Pending <br> Roster List
-          </b-button>
-        </b-col>
-        <b-col md="2" style="padding-top: 10px" v-if="completedButton">
-          <!--          <b-button-->
-          <!--              variant="success"-->
-          <!--              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"-->
-          <!--          >-->
-          <!--            Completed Task List-->
-          <!--          </b-button>-->
-          <b-button
-              block
-              variant="success"
-              @click="buttonFilter(8,true)"
-          >
-            Completed <br> Roster List
-          </b-button>
-        </b-col>
-        <b-col md="2" style="padding-top: 10px" v-if="deletedButton">
-          <b-button
-              block
-              variant="danger"
-              @click="buttonFilter(3,true)"
-          >
-            Change Requested
-          </b-button>
-        </b-col>
-        <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">
-          <b-button
-              block
-              variant="info"
-              @click="buttonFilter(6,true)"
-          >
-            Supervisor <br> Completed
-          </b-button>
-        </b-col>
+<!--        <b-col md="2" style="padding-top: 10px" v-if="pendingButton">-->
+<!--          &lt;!&ndash;          <b-button&ndash;&gt;-->
+<!--          &lt;!&ndash;              variant="primary"&ndash;&gt;-->
+<!--          &lt;!&ndash;              @click="() => $router.push(`/apps/myTask/filterMyTask/1`)"&ndash;&gt;-->
+<!--          &lt;!&ndash;          >&ndash;&gt;-->
+<!--          &lt;!&ndash;            Pending Task List&ndash;&gt;-->
+<!--          &lt;!&ndash;          </b-button>&ndash;&gt;-->
+<!--          <b-button-->
+<!--              block-->
+<!--              variant="primary"-->
+<!--              @click="buttonFilter(1,true)"-->
+<!--          >-->
+<!--            Pending <br> Roster List-->
+<!--          </b-button>-->
+<!--        </b-col>-->
+<!--        <b-col md="2" style="padding-top: 10px" v-if="completedButton">-->
+<!--          &lt;!&ndash;          <b-button&ndash;&gt;-->
+<!--          &lt;!&ndash;              variant="success"&ndash;&gt;-->
+<!--          &lt;!&ndash;              @click="() => $router.push(`/apps/myTask/filterMyTask/3`)"&ndash;&gt;-->
+<!--          &lt;!&ndash;          >&ndash;&gt;-->
+<!--          &lt;!&ndash;            Completed Task List&ndash;&gt;-->
+<!--          &lt;!&ndash;          </b-button>&ndash;&gt;-->
+<!--          <b-button-->
+<!--              block-->
+<!--              variant="success"-->
+<!--              @click="buttonFilter(8,true)"-->
+<!--          >-->
+<!--            Completed <br> Roster List-->
+<!--          </b-button>-->
+<!--        </b-col>-->
+<!--        <b-col md="2" style="padding-top: 10px" v-if="deletedButton">-->
+<!--          <b-button-->
+<!--              block-->
+<!--              variant="danger"-->
+<!--              @click="buttonFilter(3,true)"-->
+<!--          >-->
+<!--            Change Requested-->
+<!--          </b-button>-->
+<!--        </b-col>-->
+<!--        <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">-->
+<!--          <b-button-->
+<!--              block-->
+<!--              variant="info"-->
+<!--              @click="buttonFilter(6,true)"-->
+<!--          >-->
+<!--            Supervisor <br> Completed-->
+<!--          </b-button>-->
+<!--        </b-col>-->
 
         <!--        <b-col md="2">-->
         <!--          <b-button-->
@@ -367,6 +367,7 @@ import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
 import myTaskAPI from '@/api/my_task'
 import rosterAPI from '@/api/roster'
+import penaltyAPI from '@/api/penalty'
 import profileAPI from '@/api/profile'
 import {getUserData} from "@/auth/utils";
 // import {useRouter} from "vue-router";
@@ -447,18 +448,17 @@ export default {
       fields: [
         'show_details',
         'id',
+        'empName',
+        'penaltyAmount',
         {
           key: 'status',
           label: 'Status'
 
         },
-        'title',
-        'start',
-        'end',
-        'type',
-        'description',
-        'requested_by',
-        'requested_for'
+        'reason',
+        'createdDate',
+        'approvedDate',
+        'approvedBy'
       ],
       /* eslint-disable global-require */
       items: [
@@ -589,7 +589,7 @@ export default {
     async buttonFilter(val, buttonClick) {
       this.backButton = true;
       const userData = getUserData()
-      let response = (await rosterAPI.getRosterForTable(userData.id, val))
+      let response = (await penaltyAPI.getPenalty(userData.id, val))
       this.items = response.data.data;
       this.totalRows = response.data.data.length
       switch (val) {
@@ -642,7 +642,7 @@ export default {
     },
     async getAllTask() {
       const userData = getUserData()
-      let response = (await rosterAPI.getRosterForTable(userData.id,0))
+      let response = (await penaltyAPI.getPenalty(userData.id,0))
       console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length

@@ -26,5 +26,8 @@ export default {
   getChildList: async function (user_id) {
     return await api.get(`roster/get-child-for-supervisor?supervisor=${user_id}`)
   },
+  getLatestRoster: async function (user_id) {
+    return await api.get(`roster/get-my-latest-roster/${user_id}`)
+  },
 }
 

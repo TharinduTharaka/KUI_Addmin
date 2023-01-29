@@ -3,9 +3,9 @@
     v-if="data"
     body-class="pb-50"
   >
-    <h6>Orders</h6>
+    <h6>Taken Leaves</h6>
     <h2 class="font-weight-bolder mb-1">
-      2,76k
+      {{items.taken}}
     </h2>
     <!-- chart -->
     <vue-apex-charts
@@ -20,6 +20,9 @@
 import { BCard } from 'bootstrap-vue'
 import VueApexCharts from 'vue-apexcharts'
 import { $themeColors } from '@themeConfig'
+import {getUserData} from "@/auth/utils";
+import {kFormatter} from "@core/utils/filter";
+import attendanceAPI from "@/api/Attendance";
 
 const $barColor = '#f3f3f3'
 
@@ -94,7 +97,27 @@ export default {
           },
         },
       },
+      items : {
+        available : "",
+        taken : ""
+      }
     }
   },
+  async mounted() {
+    const userData = getUserData()
+    this.userID = userData.id
+
+    await this.getTotalTakenLeaves()
+
+  },
+  methods: {
+    kFormatter,
+    async getTotalTakenLeaves() {
+      const userData = getUserData()
+      let response = (await attendanceAPI.getTotalTakenLeaves(userData.id))
+      console.log(response)
+      this.items = response.data.data;
+    }
+  }
 }
 </script>
