@@ -55,19 +55,14 @@
                   label="Current In Time"
                   label-for="v-inTime"
               >
-                <validation-provider
-                    #default="{ errors }"
-                    name="In Time"
-                    rules="required"
-                >
-                  <b-form-input
-                      id="v-empId"
-                      readonly="true"
-                      v-model="items.inTime"
-                      placeholder="Enter In Time"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
+
+                <b-form-input
+                    id="v-empId"
+                    readonly="true"
+                    v-model="items.inTime"
+                    placeholder="Enter In Time"
+                />
+
               </b-form-group>
             </b-col>
 

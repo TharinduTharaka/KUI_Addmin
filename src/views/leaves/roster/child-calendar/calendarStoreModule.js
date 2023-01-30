@@ -40,7 +40,7 @@ export default {
       const userData = getUserData()
       return new Promise((resolve, reject) => {
 
-        rosterApi.getRoster(userData.id, calendars.join(','))
+        rosterApi.getRoster(localStorage.getItem('child_id'), calendars.join(','))
             .then( response => resolve(response.data))
             .catch(error => reject(error))
       })

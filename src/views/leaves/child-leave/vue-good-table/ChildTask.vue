@@ -407,7 +407,7 @@ export default {
     },
     async getAllLeaves() {
       //let response = (await leaveAPI.getData(localStorage.getItem('child_id')))
-      let response = (await leaveAPI.getData(464))
+      let response = (await leaveAPI.getData(localStorage.getItem('child_id')))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total
@@ -440,40 +440,8 @@ export default {
             console.log(this.error)
             this.makeToast(this.error, 'danger');
           })
-    },
-    async revertBySupervisor(userID, taskID) {
-      const userData = getUserData()
-      await myTaskAPI.revertBySupervisor(userData.id, taskID)
-          .then((res) => {
-            console.log('deleted')
-            this.makeToast('Revert successfully', 'success');
-            // toast("Order removed successfully", "success");
-            this.getAllTask()
-          })
-          .catch(({response}) => {
-            this.error = response.data.error
-            console.log(this.error)
-            this.makeToast(this.error, 'danger');
-          })
-    },
-    async updateEResourceStatus(data, status, updated_user) {
-      const userData = getUserData()
-      await eResourcesAPI.updateStatus(data, status, userData.id)
-          .then((res) => {
-            console.log('update')
-            this.makeToast('Status Update successfully', 'success');
-            // toast("Order removed successfully", "success");
-            this.getAllEResources()
-          })
-          .catch(({response}) => {
-            this.error = response.data.error
-            console.log(this.error)
-            this.makeToast(this.error, 'danger');
-          })
-      // axios.put("http://13.232.138.190:8081/resource/update-eresource-status", null,
-      //     { params: { data, status, updated_user }})
-      //     .then(response => this.$router.go());
-    },
+    }
+
   },
 }
 </script>

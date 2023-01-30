@@ -365,8 +365,8 @@ export default {
       }
     },
     async getAllAttendance() {
-      const userData = getUserData()
-      let response = (await attendanceAPI.getAllAttendanceData(userData.id))
+
+      let response = (await attendanceAPI.getAllAttendanceData(localStorage.getItem('child_id')))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total
