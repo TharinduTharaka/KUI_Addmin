@@ -26,8 +26,12 @@ export default {
         color: 'info',
         label: 'Exam',
       },
+      {
+        color: 'info',
+        label: 'Business',
+      },
     ],
-    selectedCalendars: ['Poya_Day', 'Company_Holiday', 'Workday', 'Statutory_Holiday', 'Exam'],
+    selectedCalendars: ['Poya_Day', 'Company_Holiday', 'Workday', 'Statutory_Holiday', 'Exam', 'Business'],
   },
   getters: {},
   mutations: {

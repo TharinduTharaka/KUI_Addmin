@@ -37,6 +37,7 @@ export default function userCalendar() {
     Poya_Day: 'danger',
     Statutory_Holiday: 'warning',
     ETC: 'info',
+    Business: 'info',
   }
 
   // ------------------------------------------------
