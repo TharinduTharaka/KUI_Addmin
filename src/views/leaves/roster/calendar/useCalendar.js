@@ -32,10 +32,10 @@ export default function userCalendar() {
   // calendars
   // ------------------------------------------------
   const calendarsColor = {
-    Business: 'primary',
-    Holiday: 'success',
-    Personal: 'danger',
-    Family: 'warning',
+    Company_Holiday: 'primary',
+    Workday: 'success',
+    Poya_Day: 'danger',
+    Statutory_Holiday: 'warning',
     ETC: 'info',
   }
 

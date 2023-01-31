@@ -26,13 +26,13 @@
         </div>
 
         <!-- chart -->
-        <vue-apex-charts
-          id="revenue-report-chart"
-          type="bar"
-          height="230"
-          :options="revenueReport.chartOptions"
-          :series="data.revenueReport.series"
-        />
+<!--        <vue-apex-charts-->
+<!--          id="revenue-report-chart"-->
+<!--          type="bar"-->
+<!--          height="230"-->
+<!--          :options="revenueReport.chartOptions"-->
+<!--          :series="data.revenueReport.series"-->
+<!--        />-->
       </b-col>
 
       <b-col
@@ -44,7 +44,7 @@
         <br>
         <span class="font-weight-bolder mr-25">Total working days upto date:</span>
         <h2 class="mb-25">
-          {{ data.price }}
+          Updating
         </h2>
         <br>
         <br>
@@ -53,7 +53,7 @@
         <span class="font-weight-bolder mr-25">Total Working Days For 2023:</span>
         <div class="d-flex justify-content-center">
 
-          <span>290</span>
+          <span>Updating</span>
         </div>
 <!--        <vue-apex-charts-->
 <!--          id="budget-chart"-->
