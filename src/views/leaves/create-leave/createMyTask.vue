@@ -309,7 +309,7 @@ export default {
           title: "Casual",
         },
         {
-          title: "Day Off - Jan",
+          title: "Day Off - Feb",
         },
         {
           title: "Lieu Leave",

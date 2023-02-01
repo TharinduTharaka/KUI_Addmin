@@ -8,26 +8,30 @@ export default {
     calendarOptions: [
       {
         color: 'danger',
-        label: 'Personal',
+        label: 'Poya_Day',
       },
       {
         color: 'primary',
-        label: 'Business',
+        label: 'Company_Holiday',
       },
       {
         color: 'warning',
-        label: 'Family',
+        label: 'Workday',
       },
       {
         color: 'success',
-        label: 'Holiday',
+        label: 'Statutory_Holiday',
       },
       {
         color: 'info',
-        label: 'ETC',
+        label: 'Exam',
+      },
+      {
+        color: 'info',
+        label: 'Business',
       },
     ],
-    selectedCalendars: ['Personal', 'Business', 'Family', 'Holiday', 'ETC'],
+    selectedCalendars: ['Poya_Day', 'Company_Holiday', 'Workday', 'Statutory_Holiday', 'Exam', 'Business'],
   },
   getters: {},
   mutations: {

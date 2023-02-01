@@ -36,7 +36,7 @@ export default function userCalendar() {
     Workday: 'success',
     Poya_Day: 'danger',
     Statutory_Holiday: 'warning',
-    ETC: 'info',
+    Exam: 'info',
     Business: 'info',
   }
 
