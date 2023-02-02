@@ -508,16 +508,20 @@ export default {
       ],
       category: [
         {
-          title: "Category1",
+          title: "Examination",
           value: 1
         },
         {
-          title: "Category2",
+          title: "Lecturing",
           value: 2
         },
         {
-          title: "Category3",
+          title: "Other",
           value: 3
+        },
+        {
+          title: "Research",
+          value: 4
         }
 
       ],
