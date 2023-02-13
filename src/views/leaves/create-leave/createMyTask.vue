@@ -306,7 +306,16 @@ export default {
           title: "Annual",
         },
         {
-          title: "Casual",
+          title: "Casual - Accident or vehicle breakdown",
+        },
+        {
+          title: "Casual - Police or court appearance",
+        },
+        {
+          title: "Casual - Funeral",
+        },
+        {
+          title: "Casual - Sudden Illness",
         },
         {
           title: "Day Off - Feb",
