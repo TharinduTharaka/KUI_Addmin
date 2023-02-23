@@ -59,7 +59,7 @@
 
     <b-table
       ref="refInvoiceListTable"
-      v-if="userId === 296"
+      v-if="userId === 99999999999"
       :items="fetchInvoices"
       responsive
       :fields="tableColumns"
