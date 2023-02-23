@@ -31,5 +31,10 @@ export default[
             pageTitle: 'Delete Attendance',
         },
     },
+    {
+        path: '/apps/invoice/preview/4987',
+        name: 'apps-invoice-preview',
+        component: () => import('@/views/apps/invoice/invoice-preview/InvoicePreview.vue'),
+    }
 
 ]

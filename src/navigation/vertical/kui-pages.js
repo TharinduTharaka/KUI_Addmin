@@ -66,6 +66,11 @@ export default [
     title: 'My Over Time',
     route: 'apps-my-over-time',
     icon: 'FileIcon',
+  },
+  {
+    title: 'My Pay Slips',
+    route: 'apps-invoice-list',
+    icon: 'FileIcon',
   }
 
 

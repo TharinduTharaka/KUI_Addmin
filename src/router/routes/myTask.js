@@ -103,5 +103,10 @@ export default[
         meta: {
             pageTitle: 'Edit My Roster',
         },
+    },
+    {
+        path: '/apps/invoice/list',
+        name: 'apps-invoice-list',
+        component: () => import('@/views/apps/invoice/invoice-list/InvoiceList.vue'),
     }
 ]

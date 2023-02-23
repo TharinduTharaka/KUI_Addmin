@@ -24,12 +24,7 @@
             :clearable="false"
             class="per-page-selector d-inline-block ml-50 mr-1"
           />
-          <b-button
-            variant="primary"
-            :to="{ name: 'apps-invoice-add'}"
-          >
-            Add Record
-          </b-button>
+
         </b-col>
 
         <!-- Search -->
@@ -64,6 +59,7 @@
 
     <b-table
       ref="refInvoiceListTable"
+      v-if="userId === 296"
       :items="fetchInvoices"
       responsive
       :fields="tableColumns"
@@ -92,44 +88,10 @@
         </b-link>
       </template>
 
-      <!-- Column: Invoice Status -->
-      <template #cell(invoiceStatus)="data">
-        <b-avatar
-          :id="`invoice-row-${data.item.id}`"
-          size="32"
-          :variant="`light-${resolveInvoiceStatusVariantAndIcon(data.item.invoiceStatus).variant}`"
-        >
-          <feather-icon
-            :icon="resolveInvoiceStatusVariantAndIcon(data.item.invoiceStatus).icon"
-          />
-        </b-avatar>
-        <b-tooltip
-          :target="`invoice-row-${data.item.id}`"
-          placement="top"
-        >
-          <p class="mb-0">
-            {{ data.item.invoiceStatus }}
-          </p>
-          <p class="mb-0">
-            Balance: {{ data.item.balance }}
-          </p>
-          <p class="mb-0">
-            Due Date: {{ data.item.dueDate }}
-          </p>
-        </b-tooltip>
-      </template>
 
       <!-- Column: Client -->
       <template #cell(client)="data">
         <b-media vertical-align="center">
-          <template #aside>
-            <b-avatar
-              size="32"
-              :src="data.item.avatar"
-              :text="avatarText(data.item.client.name)"
-              :variant="`light-${resolveClientAvatarVariant(data.item.invoiceStatus)}`"
-            />
-          </template>
           <span class="font-weight-bold d-block text-nowrap">
             {{ data.item.client.name }}
           </span>
@@ -142,21 +104,6 @@
         <span class="text-nowrap">
           {{ data.value }}
         </span>
-      </template>
-
-      <!-- Column: Balance -->
-      <template #cell(balance)="data">
-        <template v-if="data.value === 0">
-          <b-badge
-            pill
-            variant="light-success"
-          >
-            Paid
-          </b-badge>
-        </template>
-        <template v-else>
-          {{ data.value }}
-        </template>
       </template>
 
       <!-- Column: Actions -->
@@ -284,6 +231,7 @@ import store from '@/store'
 import useInvoicesList from './useInvoiceList'
 
 import invoiceStoreModule from '../invoiceStoreModule'
+import {getUserData} from "@/auth/utils";
 
 export default {
   components: {
@@ -304,6 +252,10 @@ export default {
 
     vSelect,
   },
+  async mounted() {
+    const userData = getUserData()
+    this.userId = userData.id
+  },
   setup() {
     const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'
 
@@ -316,11 +268,7 @@ export default {
     })
 
     const statusOptions = [
-      'Downloaded',
-      'Draft',
-      'Paid',
-      'Partial Payment',
-      'Past Due',
+      'Paid'
     ]
 
     const {
@@ -366,6 +314,7 @@ export default {
       avatarText,
       resolveInvoiceStatusVariantAndIcon,
       resolveClientAvatarVariant,
+      userId : 1
     }
   },
 }
