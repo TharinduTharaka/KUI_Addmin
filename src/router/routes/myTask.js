@@ -8,6 +8,14 @@ export default[
         },
     },
     {
+        path: '/apps/payrollDetails',
+        name: 'apps-payroll-details',
+        component: () => import('@/views/processPayroll/vue-good-table/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Payroll Details',
+        },
+    },
+    {
         path: '/apps/myPenalty',
         name: 'apps-my-penalty',
         component: () => import('@/views/penalty/penalty-table/vue-good-table/GoodTable.vue'),
@@ -57,14 +65,24 @@ export default[
         meta: {
             pageTitle: 'Child Task',
         },
-    },{
+    },
+    {
         path: '/apps/childLeave',
         name: 'childLeave',
         component: () => import('@/views/leaves/child-leave/vue-good-table/ChildTask'),
         meta: {
             pageTitle: 'Child Leave',
         },
-    },{
+    },
+    {
+        path: '/apps/childOtApproval',
+        name: 'childLeave',
+        component: () => import('@/views/processOtApproval/childOtApproval/vue-good-table/ChildTask'),
+        meta: {
+            pageTitle: 'Child OT Approval',
+        },
+    },
+    {
         path: '/apps/childAttendance',
         name: 'childAttendance',
         component: () => import('@/views/Attendance/child-attendance/GoodTable'),

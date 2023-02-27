@@ -2,11 +2,6 @@ export default [
   {
     header: 'Pages',
   },
-  // {
-  //   title: '1',
-  //   route: 'apps-eResources',
-  //   icon: 'MailIcon',
-  // },
   {
     title: 'My Task',
     route: 'apps-myTask',
@@ -70,6 +65,16 @@ export default [
   {
     title: 'My Pay Slips',
     route: 'apps-invoice-list',
+    icon: 'FileIcon',
+  },
+  {
+    title: 'Process Pay Slips',
+    route: 'apps-processPayslip',
+    icon: 'FileIcon',
+  },
+  {
+    title: 'Process OT Approval',
+    route: 'apps-otApproval',
     icon: 'FileIcon',
   }
 

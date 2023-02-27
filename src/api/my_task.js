@@ -58,5 +58,15 @@ export default {
     },
     getIsSupervisorPendingTaskCount: async function (id) {
         return await api.get(`/task/review-needed?supervisor_id=${id}`)
-    }
+    },
+
+    getPayrollAllConfig: async function (user_id) {
+        return await api.get(`payroll/payroll-people-config-get-all`)
+    },
+    updateStatus: async function (task_id, status) {
+        return await api.put(`payroll/update-status/${task_id}/${status}`)
+    },
+    addAdvance: async function (id, value) {
+        return await api.put(`payroll/add-advance/${id}/${value}`)
+    },
 }

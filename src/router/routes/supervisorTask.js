@@ -64,11 +64,19 @@ export default[
         },
     },
     {
-        path: '/apps/supervisorRoster',
+        path: '/apps/processPayroll',
         name: 'apps-supervisorRoster',
         component: () => import('@/views/leaves/supervisor-roster/GoodTable.vue'),
         meta: {
             pageTitle: 'Supervisor Roster',
+        },
+    },
+    {
+        path: '/apps/process-payslip',
+        name: 'apps-processPayslip',
+        component: () => import('@/views/processPayroll/payroll-summery/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Payroll Summery',
         },
     },
     {
@@ -77,6 +85,14 @@ export default[
         component: () => import('@/views/leaves/roster/child-calendar/Calendar'),
         meta: {
             pageTitle: 'Child Calendar',
+        },
+    },
+    {
+        path: '/apps/process-ot-approval',
+        name: 'apps-otApproval',
+        component: () => import('@/views/processOtApproval/otApprovalSummery/GoodTable.vue'),
+        meta: {
+            pageTitle: 'OT approval',
         },
     },
 ]

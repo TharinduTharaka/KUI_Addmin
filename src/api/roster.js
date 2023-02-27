@@ -29,5 +29,8 @@ export default {
   getLatestRoster: async function (user_id) {
     return await api.get(`roster/get-my-latest-roster/${user_id}`)
   },
+  getPayrollSummery: async function () {
+    return await api.get(`payroll/get-payroll-summery`)
+  },
 }
 

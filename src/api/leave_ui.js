@@ -17,5 +17,14 @@ export default {
   updateStatus: async function (task, status, user) {
     return await api.put(`leave/update-status/${task}/${status}/${user}`)
   },
+  getChildListAttendance: async function (user_id) {
+    return await api.get(`attendance/get-child-for-supervisor?supervisor=${user_id}`)
+  },
+  getAllAttendanceDataForApproval: async function (user_id) {
+    return await api.get(`/attendance/get-attendance-by-id-for-approval?user_id=${user_id}`)
+  },
+  updateAttendanceStatus: async function (id, status) {
+    return await api.put(`/attendance/update-status/${id}/${status}`)
+  },
 
 }
