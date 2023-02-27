@@ -45,7 +45,7 @@ module.exports = {
   },
   transpileDependencies: ['vue-echarts', 'resize-detector'],
   devServer: {
-    port: 80,
+    port: 8082,
     disableHostCheck:true,
     host: '0.0.0.0'
   }
