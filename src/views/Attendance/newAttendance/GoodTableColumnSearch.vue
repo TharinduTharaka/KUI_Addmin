@@ -48,6 +48,11 @@
             {{ getStatusData(props.row.status) }}
           </b-badge>
         </span>
+        <span v-else-if="props.column.field === 'attendanceStatus'">
+          <b-badge :variant="getFinalStatusVariant(props.row.attendanceStatus)">
+            {{ getFinalStatus(props.row.attendanceStatus) }}
+          </b-badge>
+        </span>
 
         <!-- Column: Action -->
         <span v-else-if="props.column.field === 'action'">
@@ -231,6 +236,38 @@ export default {
           },
         },
         {
+          label: 'attendanceStatus',
+          field: 'attendanceStatus',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search Status',
+          },
+        },
+        {
+          label: 'Total Working Time',
+          field: 'totalWorkingTime',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search id',
+          },
+        },
+        {
+          label: 'Late Time',
+          field: 'lateTime',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search id',
+          },
+        },
+        {
+          label: 'Over Time',
+          field: 'otTime',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search id',
+          },
+        },
+        {
           label: 'Approved By',
           field: 'approvedBy',
           filterOptions: {
@@ -291,6 +328,49 @@ export default {
         5      : 'Supervisor Rejected',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
+        /* eslint-enable key-spacing */
+      }
+
+      return status => statusValue[status]
+    },
+    getFinalStatusVariant() {
+      const statusColor = {
+        '-1'      : 'light-danger',
+        0      : 'light-warning',
+        1      : 'light-info',
+        2      : 'light-success',
+        3      : 'light-success',
+        4      : 'light-success',
+        5      : 'light-success',
+        6      : 'light-success',
+        7      : 'light-success',
+        8      : 'light-danger',
+        9      : 'light-warning',
+        10     : 'light-warning',
+        11     : 'light-success',
+        12     : 'light-success',
+
+      }
+
+      return status => statusColor[status]
+    },
+    getFinalStatus() {
+      const statusValue = {
+        /* eslint-disable key-spacing */
+        '-1'      : 'No Pay Weekend',
+        0      : 'Saturday Half Day',
+        1      : 'Sunday Leave',
+        2      : 'Saturday Normal Work',
+        3      : 'Saturday Full And Day Off Cover',
+        4      : 'Sunday Full Day Work For Day Off',
+        5      : 'Sunday Half Day Work For Day Off',
+        6      : 'Sunday Extra Day Full Work',
+        7      : 'Saturday Normal Day And Extra Work',
+        8      : 'No Pay Weekday',
+        9      : 'Week Day Half Day',
+        10     : 'Week Day Full Day Leave',
+        11     : 'Week Day Working Day',
+        12     : 'Sunday Extra Half Work',
         /* eslint-enable key-spacing */
       }
 
