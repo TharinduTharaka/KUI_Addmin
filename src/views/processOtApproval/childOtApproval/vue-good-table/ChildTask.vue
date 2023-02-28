@@ -101,6 +101,11 @@
             {{ applyOt[0][data.value] }}
           </b-badge>
         </template>
+        <template #cell(attendanceStatus)="data">
+          <b-badge :variant="realStatus[1][data.value]">
+            {{ realStatus[0][data.value] }}
+          </b-badge>
+        </template>
 
       </b-table>
     </div>
@@ -262,6 +267,11 @@ export default {
         'outTime',
         'comment',
         {
+          key: 'attendanceStatus',
+          label: 'Attendance Status'
+
+        },
+        {
           key: 'status',
           label: 'Status'
 
@@ -325,6 +335,40 @@ export default {
           4: 'light-info',
           5: 'light-success',
           6: 'light-success',
+        }
+      ],
+      realStatus: [
+        {
+          '-1'      : 'No Pay Weekend',
+          0      : 'Saturday Half Day',
+          1      : 'Sunday Leave',
+          2      : 'Saturday Normal Work',
+          3      : 'Saturday Full And Day Off Cover',
+          4      : 'Sunday Full Day Work For Day Off',
+          5      : 'Sunday Half Day Work For Day Off',
+          6      : 'Sunday Extra Day Full Work',
+          7      : 'Saturday Normal Day And Extra Work',
+          8      : 'No Pay Weekday',
+          9      : 'Week Day Half Day',
+          10     : 'Week Day Full Day Leave',
+          11     : 'Week Day Working Day',
+          12     : 'Sunday Extra Half Work',
+        },
+        {
+          '-1'      : 'light-danger',
+          0      : 'light-warning',
+          1      : 'light-info',
+          2      : 'light-success',
+          3      : 'light-success',
+          4      : 'light-success',
+          5      : 'light-success',
+          6      : 'light-success',
+          7      : 'light-success',
+          8      : 'light-danger',
+          9      : 'light-warning',
+          10     : 'light-warning',
+          11     : 'light-success',
+          12     : 'light-success',
         }
       ],
       priority: [
