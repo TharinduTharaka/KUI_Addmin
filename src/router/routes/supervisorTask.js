@@ -32,6 +32,14 @@ export default[
         },
     },
     {
+        path: '/apps/minor-staff-leaves',
+        name: 'apps-leaves',
+        component: () => import('@/views/minor-staff2/minorStaffLeave/GoodTable'),
+        meta: {
+            pageTitle: 'Leaves',
+        },
+    },
+    {
         path: '/apps/leaves/add',
         name: 'apps-leaves-add',
         component: () => import('@/views/leaves/create-leave/createMyTask'),
@@ -39,6 +47,15 @@ export default[
             pageTitle: 'Add My Leaves',
         },
     },
+    {
+        path: '/apps/minor-staff-leaves/add',
+        name: 'apps-leaves-add',
+        component: () => import('@/views/minor-staff2/create-leave/createMyTask'),
+        meta: {
+            pageTitle: 'Add Minor Staff Leaves',
+        },
+    },
+
     {
         path: '/apps/leaves/available-leaves',
         name: 'apps-leaves-available',
@@ -93,6 +110,14 @@ export default[
         component: () => import('@/views/processOtApproval/otApprovalSummery/GoodTable.vue'),
         meta: {
             pageTitle: 'OT approval',
+        },
+    },
+    {
+        path: '/apps/process-minor-staff',
+        name: 'apps-minor-staff',
+        component: () => import('@/views/minor-staff2/otApprovalSummery/GoodTable.vue'),
+        meta: {
+            pageTitle: 'process minor staff',
         },
     },
 ]

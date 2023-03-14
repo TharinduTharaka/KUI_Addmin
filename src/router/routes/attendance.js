@@ -35,6 +35,14 @@ export default[
         path: '/apps/invoice/preview/4987',
         name: 'apps-invoice-preview',
         component: () => import('@/views/apps/invoice/invoice-preview/InvoicePreview.vue'),
+    },
+    {
+        path: '/apps/minor-staff-attendance',
+        name: 'apps-attendance',
+        component: () => import('@/views/minor-staff2/newAttendanceMinorStaff/GoodTable'),
+        meta: {
+            pageTitle: 'Attendance',
+        },
     }
 
 ]

@@ -76,6 +76,11 @@ export default [
     title: 'Process OT Approval',
     route: 'apps-otApproval',
     icon: 'FileIcon',
+  },
+  {
+    title: 'Process Minor Staff',
+    route: 'apps-minor-staff',
+    icon: 'FileIcon',
   }
 
 

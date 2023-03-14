@@ -1,5 +1,5 @@
 <template>
-  <b-card-code title="My Attendance">
+  <b-card-code title="My Leave Table">
 
     <!-- input search -->
     <div class="custom-search d-flex justify-content-end">
@@ -48,11 +48,6 @@
             {{ getStatusData(props.row.status) }}
           </b-badge>
         </span>
-        <span v-else-if="props.column.field === 'attendanceStatus'">
-          <b-badge :variant="getFinalStatusVariant(props.row.attendanceStatus)">
-            {{ getFinalStatus(props.row.attendanceStatus) }}
-          </b-badge>
-        </span>
 
         <!-- Column: Action -->
         <span v-else-if="props.column.field === 'action'">
@@ -69,19 +64,15 @@
                     class="text-body align-middle mr-25"
                 />
               </template>
-              <b-dropdown-item @click="onRowClick(props)">
+              <b-dropdown-item>
                 <feather-icon
                     icon="TrashIcon"
                     class="mr-50"
                 />
-                <span>Edit</span>
+                <span>Delete</span>
               </b-dropdown-item>
             </b-dropdown>
           </span>
-        </span>
-
-        <span v-else-if="props.column.field === 'action2'">
-
         </span>
 
 
@@ -152,9 +143,8 @@ import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
 import { codeColumnSearch } from './code'
 import databaseAPI from "@/api/database_ui";
-import attendanceAPI from "@/api/Attendance";
+import leaveAPI from "@/api/leave_ui";
 import {getUserData} from "@/auth/utils";
-import ToastificationContent from "@core/components/toastification/ToastificationContent";
 
 export default {
   components: {
@@ -171,7 +161,7 @@ export default {
   },
   data() {
     return {
-      pageLength: 20,
+      pageLength: 3,
       dir: false,
       codeColumnSearch,
       columns: [
@@ -184,43 +174,19 @@ export default {
           },
         },
         {
-          label: 'Name',
-          field: 'empName',
+          label: 'Leave Type',
+          field: 'leaveType',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Name',
+            placeholder: 'Search Email',
           },
         },
         {
-          label: 'Date',
-          field: 'date',
+          label: 'Total Leave',
+          field: 'totalLeave',
           filterOptions: {
             enabled: true,
             placeholder: 'Search Date',
-          },
-        },
-        {
-          label: 'In Time',
-          field: 'inTime',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search In Time',
-          },
-        },
-        {
-          label: 'Out Time',
-          field: 'outTime',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Out Time',
-          },
-        },
-        {
-          label: 'Type',
-          field: 'type',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Type',
           },
         },
         {
@@ -228,7 +194,7 @@ export default {
           field: 'comment',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Comment',
+            placeholder: 'Search Salary',
           },
         },
         {
@@ -236,39 +202,31 @@ export default {
           field: 'status',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Status',
+            placeholder: 'Search Salary',
           },
         },
         {
-          label: 'attendanceStatus',
-          field: 'attendanceStatus',
+          label: 'From Date',
+          field: 'fromDate',
           filterOptions: {
             enabled: true,
             placeholder: 'Search Status',
           },
         },
         {
-          label: 'Total Working Time',
-          field: 'totalWorkingTime',
+          label: 'To Date',
+          field: 'toDate',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search id',
+            placeholder: 'Search Status',
           },
         },
         {
-          label: 'Late Time',
-          field: 'lateTime',
+          label: 'Created Date',
+          field: 'createdDate',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search id',
-          },
-        },
-        {
-          label: 'Over Time',
-          field: 'otTime',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search id',
+            placeholder: 'Search Status',
           },
         },
         {
@@ -276,7 +234,7 @@ export default {
           field: 'approvedBy',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Approved By',
+            placeholder: 'Search Status',
           },
         },
         {
@@ -284,17 +242,12 @@ export default {
           field: 'approvedDate',
           filterOptions: {
             enabled: true,
-            placeholder: 'Search Approved Date',
+            placeholder: 'Search Status',
           },
         },
         {
           label: 'Action',
           field: 'action',
-
-        },
-        {
-          label: 'Action2',
-          field: 'action2',
 
         }
       ],
@@ -316,10 +269,9 @@ export default {
     statusVariant() {
       const statusColor = {
         /* eslint-disable key-spacing */
-        1      : 'light-danger',
-        2      : 'light-warning',
-        3      : 'light-info',
-        4      : 'light-success',
+        1      : 'light-primary',
+        5 : 'light-success',
+        4     : 'light-danger',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
         /* eslint-enable key-spacing */
@@ -330,56 +282,11 @@ export default {
     getStatusData() {
       const statusValue = {
         /* eslint-disable key-spacing */
-        1      : 'Need Your Attention',
-        2      : 'Supervisor Pending',
-        3      : 'Success',
-        4      : 'Supervisor Completed',
-        5      : 'Supervisor Rejected',
+        1      : 'Active',
+        5 : 'Supervisor Completed',
+        4     : 'Supervisor Rejected',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
-        /* eslint-enable key-spacing */
-      }
-
-      return status => statusValue[status]
-    },
-    getFinalStatusVariant() {
-      const statusColor = {
-        '-1'      : 'light-danger',
-        0      : 'light-warning',
-        1      : 'light-info',
-        2      : 'light-success',
-        3      : 'light-success',
-        4      : 'light-success',
-        5      : 'light-success',
-        6      : 'light-success',
-        7      : 'light-success',
-        8      : 'light-danger',
-        9      : 'light-warning',
-        10     : 'light-warning',
-        11     : 'light-success',
-        12     : 'light-success',
-
-      }
-
-      return status => statusColor[status]
-    },
-    getFinalStatus() {
-      const statusValue = {
-        /* eslint-disable key-spacing */
-        '-1'      : 'No Pay Weekend',
-        0      : 'Saturday Half Day',
-        1      : 'Sunday Leave',
-        2      : 'Saturday Normal Work',
-        3      : 'Saturday Full And Day Off Cover',
-        4      : 'Sunday Full Day Work For Day Off',
-        5      : 'Sunday Half Day Work For Day Off',
-        6      : 'Sunday Extra Day Full Work',
-        7      : 'Saturday Normal Day And Extra Work',
-        8      : 'No Pay Weekday',
-        9      : 'Week Day Half Day',
-        10     : 'Week Day Full Day Leave',
-        11     : 'Week Day Working Day',
-        12     : 'Sunday Extra Half Work',
         /* eslint-enable key-spacing */
       }
 
@@ -401,25 +308,10 @@ export default {
       .then(res => { this.rows = res.data })
   },
   methods: {
-    onRowClick(params) {
 
-      if (params.formattedRow.status !== 1) {
-
-        const variant = 'danger';
-
-        this.$bvToast.toast(`This Row Cannot Be Edited`, {
-          title: `${variant || 'default'}`,
-          variant,
-          solid: false,
-        })
-      }
-      else {
-        this.$router.push(`/apps/attendance/editAttendance/${params.formattedRow.id}`)
-      }
-    },
     async getAllLeaves() {
-      const userData = getUserData()
-      let response = (await attendanceAPI.getAllAttendanceData(userData.id))
+      const userData = localStorage.getItem('child_id')
+      let response = (await leaveAPI.getData(userData))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total
