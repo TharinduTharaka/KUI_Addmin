@@ -32,17 +32,32 @@
         variant="primary"
         @click="updateStatus(-1, 2)"
     >
-      Approve All
+      Approve All OT
+    </b-button>
+
+    <b-button
+        style="margin-bottom: 10px"
+        variant="warning"
+        @click="updateStatus(-1, 3)"
+    >
+      Revert All OT
     </b-button>
     <div>
 
     </div>
     <b-button
         style="margin-bottom: 10px"
-        variant="warning"
-        @click="updateStatus(-1, 3)"
+        variant="primary"
+        @click="updateStatus(-1, 6)"
     >
-      Revert All
+      Approve All Late
+    </b-button>
+    <b-button
+        style="margin-bottom: 10px"
+        variant="warning"
+        @click="updateStatus(-1, 5)"
+    >
+      Revert All Late
     </b-button>
 
 
@@ -76,7 +91,7 @@
 
           <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
           <b-button
-              v-if="row.item.applyOt === 0"
+              v-if="row.item.applyOt === 0 || row.item.applyOt === 3"
               size="sm"
               variant="success"
               @click="updateStatus(row.item.id, 1)">
@@ -90,6 +105,24 @@
             Remove OT
           </b-button>
         </template>
+        <template #cell(action2)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-button
+              v-if="row.item.applyLate === 0 || row.item.applyLate === 3"
+              size="sm"
+              variant="success"
+              @click="updateStatus(row.item.id, 4)">
+            Apply Late
+          </b-button>
+          <b-button
+              v-if="row.item.applyLate === 1"
+              size="sm"
+              variant="danger"
+              @click="updateStatus(row.item.id, 4)">
+            Remove Late
+          </b-button>
+        </template>
 
         <template #cell(status)="data">
           <b-badge :variant="status[1][data.value]">
@@ -99,6 +132,11 @@
         <template #cell(applyOt)="data">
           <b-badge :variant="applyOt[1][data.value]">
             {{ applyOt[0][data.value] }}
+          </b-badge>
+        </template>
+        <template #cell(applyLate)="data">
+          <b-badge :variant="applyLate[1][data.value]">
+            {{ applyLate[0][data.value] }}
           </b-badge>
         </template>
         <template #cell(attendanceStatus)="data">
@@ -236,12 +274,6 @@ export default {
       sortDesc: false,
       sortDirection: 'asc',
       dir: false,
-      options: [
-        { text: 'Orange', value: 'orange' },
-        { text: 'Apple', value: 'apple' },
-        { text: 'Pineapple', value: 'pineapple' },
-        { text: 'Grape', value: 'grape' }
-      ],
 
       // filter: {
       //   resource:null,
@@ -260,6 +292,12 @@ export default {
         {
           key: 'applyOt',
           label: 'Apply OT'
+
+        },
+        'action2',
+        {
+          key: 'applyLate',
+          label: 'Apply Late'
 
         },
         'date',
@@ -290,6 +328,7 @@ export default {
           endDate: '',
           status: "",
           applyOt : 0,
+          applyLate : 0,
           estimate: ""
         },
       ],
@@ -312,11 +351,25 @@ export default {
       applyOt: [
         {
           1      : 'OT Applicable',
-          0      : 'OT Not applicable'
+          0      : 'OT Not applicable',
+          3      : 'OT Requested'
         },
         {
-          1      : 'light-warning',
-          0      : 'light-success'
+          1      : 'light-danger',
+          0      : 'light-success',
+          3      : 'light-warning'
+        }
+      ],
+      applyLate: [
+        {
+          1      : 'Late Applicable',
+          0      : 'Late Not applicable',
+          3      : 'Late Requested'
+        },
+        {
+          1      : 'light-danger',
+          0      : 'light-success',
+          3      : 'light-warning'
         }
       ],
       rating: [
@@ -429,8 +482,8 @@ export default {
       })
     },
     async getAllLeaves() {
-      //let response = (await leaveAPI.getData(localStorage.getItem('child_id')))
-      let response = (await leaveAPI.getAllAttendanceDataForApproval(localStorage.getItem('child_id')))
+      const date_val = this.$route.params.date_val;
+      let response = (await leaveAPI.getAllAttendanceDataForApproval(localStorage.getItem('child_id'),date_val))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total
@@ -452,9 +505,10 @@ export default {
           })
     },
     async updateStatus(id, status) {
+      const date = this.$route.params.date_val;
       if (id === -1)
         id = localStorage.getItem('child_id')
-      await leaveAPI.updateAttendanceStatus(id, status)
+      await leaveAPI.updateAttendanceStatus(id, status, date)
           .then((res) => {
             this.makeToast('Updated successfully', 'success');
             this.getAllLeaves()

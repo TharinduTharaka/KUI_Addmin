@@ -75,7 +75,7 @@ export default[
         },
     },
     {
-        path: '/apps/childOtApproval',
+        path: '/apps/childOtApproval/:date_val',
         name: 'childLeave',
         component: () => import('@/views/processOtApproval/childOtApproval/vue-good-table/ChildTask'),
         meta: {

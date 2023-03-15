@@ -430,7 +430,7 @@ export default {
     },
     async getAllLeaves() {
       //let response = (await leaveAPI.getData(localStorage.getItem('child_id')))
-      let response = (await leaveAPI.getAllAttendanceDataForApproval(localStorage.getItem('child_id')))
+      let response = (await leaveAPI.getAllAttendanceDataForApproval(localStorage.getItem('child_id'), ''))
       console.log(response)
       this.items = response.data.data
       this.totalRows = response.data.data.total

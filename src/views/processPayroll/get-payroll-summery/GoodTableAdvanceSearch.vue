@@ -34,31 +34,6 @@
               />
             </b-form-group>
           </b-col>
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Today Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Pending Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
-
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Completed Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Deleted Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
         </b-row>
       </div>
 
@@ -94,7 +69,7 @@
             <b-button
                 size="sm"
                 variant="primary"
-                @click="getChildTask(row.item.id, row.item.givenName)">
+                @click="getChildTask(row.item.date)">
               see more
             </b-button>
           </template>
@@ -236,7 +211,6 @@
 </template>
 
 <script>
-// import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
   BAvatar,
   BBadge,
@@ -262,10 +236,10 @@ import Ripple from 'vue-ripple-directive'
 import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
 import leaveAPI from "@/api/leave_ui";
+import rosterAPI from "@/api/roster";
 import {getUserData} from "@/auth/utils";
-// import {useRouter} from "vue-router";
-// import { codeAdvance } from './code'
-/* eslint-disable */
+
+
 export default {
   components: {
     BCard,
@@ -301,7 +275,7 @@ export default {
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
-      perPage: 20,
+      perPage: 5,
       totalRows: 1,
       currentPage: 1,
       sortBy: '',
@@ -322,22 +296,16 @@ export default {
       rows: [],
       searchTerm: '',
       fields: [
-        'id',
-        'nameInFull',
-        'givenName',
-        'email',
-        'contactNo',
+        'date',
+        'month',
         'action'
       ],
       /* eslint-disable global-require */
       items: [
         {
-          id: "",
-          nameInFull: "",
-          givenName: '',
-          email: "",
-          nicNo: "",
-          contactNo: ""
+          id: "1",
+          processDate: "",
+          status: '1'
         },
       ],
       /* eslint-disable global-require */
@@ -386,11 +354,8 @@ export default {
     onRowClick(params) {
       console.log(params)
     },
-    getChildTask(user_id, user_name) {
-      localStorage.setItem('child_id', JSON.stringify(user_id))
-      localStorage.setItem('child_name', JSON.stringify(user_name))
-      const date_val = this.$route.params.date_val;
-      this.$router.push(`/apps/childOtApproval/${date_val}`)
+    getChildTask(date) {
+      this.$router.push(`/apps/process-ot-approval/${date}`)
       return {}
     },
     getStatus(val) {
@@ -408,7 +373,7 @@ export default {
       })
     },
     async getAllLeaves() {
-      let response = (await leaveAPI.getChildListAttendance(-1))
+      let response = (await rosterAPI.getPayrollDateRangeSummery())
       this.items = response.data.data;
       this.totalRows = response.data.data.length
     }

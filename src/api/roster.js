@@ -32,5 +32,8 @@ export default {
   getPayrollSummery: async function () {
     return await api.get(`payroll/get-payroll-summery`)
   },
+  getPayrollDateRangeSummery: async function () {
+    return await api.get(`attendance/get-ot-process-dates`)
+  },
 }
 

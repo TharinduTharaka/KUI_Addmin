@@ -73,8 +73,8 @@ export default [
     icon: 'FileIcon',
   },
   {
-    title: 'Process OT Approval',
-    route: 'apps-otApproval',
+    title: 'Process Daily Config',
+    route: 'apps-process-daily-config',
     icon: 'FileIcon',
   },
   {

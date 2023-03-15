@@ -53,11 +53,21 @@
             {{ getFinalStatus(props.row.attendanceStatus) }}
           </b-badge>
         </span>
+        <span v-else-if="props.column.field === 'applyOt'">
+          <b-badge :variant="getApplyOtStatusColour(props.row.applyOt)">
+            {{ getApplyOtStatusValue(props.row.applyOt) }}
+          </b-badge>
+        </span>
+        <span v-else-if="props.column.field === 'applyLate'">
+          <b-badge :variant="getApplyLateStatusColour(props.row.applyLate)">
+            {{ getApplyLateStatusValue(props.row.applyLate) }}
+          </b-badge>
+        </span>
 
         <!-- Column: Action -->
         <span v-else-if="props.column.field === 'action'">
           <span>
-            <b-dropdown
+            <b-button
                 variant="link"
                 toggle-class="text-decoration-none"
                 no-caret
@@ -76,12 +86,72 @@
                 />
                 <span>Edit</span>
               </b-dropdown-item>
-            </b-dropdown>
+            </b-button>
           </span>
         </span>
 
         <span v-else-if="props.column.field === 'action2'">
+          <span>
+            <b-button
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+            >
+              <template v-slot:button-content>
+                <feather-icon
+                    icon="MoreVerticalIcon"
+                    size="16"
+                    class="text-body align-middle mr-25"
+                />
+              </template>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 7)" v-if="props.formattedRow.applyOt === 0">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Request OT</span>
+              </b-dropdown-item>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 8)" v-if="props.formattedRow.applyOt === 3">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Remove OT Request</span>
+              </b-dropdown-item>
+            </b-button>
+          </span>
+        </span>
 
+        <span v-else-if="props.column.field === 'action3'">
+          <span>
+            <b-button
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+            >
+              <template v-slot:button-content>
+                <feather-icon
+                    icon="MoreVerticalIcon"
+                    size="16"
+                    class="text-body align-middle mr-25"
+                />
+              </template>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 9)" v-if="props.formattedRow.applyLate === 0">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Request Late</span>
+              </b-dropdown-item>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 10)" v-if="props.formattedRow.applyLate === 3">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Remove Late Request</span>
+              </b-dropdown-item>
+            </b-button>
+          </span>
         </span>
 
 
@@ -125,6 +195,8 @@
                   size="18"
                 />
               </template>
+
+
               <template #next-text>
                 <feather-icon
                   icon="ChevronRightIcon"
@@ -155,6 +227,7 @@ import databaseAPI from "@/api/database_ui";
 import attendanceAPI from "@/api/Attendance";
 import {getUserData} from "@/auth/utils";
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
+import leaveAPI from "@/api/leave_ui";
 
 export default {
   components: {
@@ -293,8 +366,29 @@ export default {
 
         },
         {
+          label: 'applyOt',
+          field: 'applyOt',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search Apply OT',
+          },
+        },
+        {
           label: 'Action2',
           field: 'action2',
+
+        },
+        {
+          label: 'applyLate',
+          field: 'applyLate',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search Apply Late',
+          },
+        },
+        {
+          label: 'Action3',
+          field: 'action3',
 
         }
       ],
@@ -307,7 +401,6 @@ export default {
   },
 
   async mounted() {
-    // Set the initial number of items
     this.totalRows = this.items.length
     await this.getAllLeaves()
   },
@@ -385,6 +478,38 @@ export default {
 
       return status => statusValue[status]
     },
+    getApplyOtStatusColour() {
+      const statusColor = {
+        0      : 'light-success',
+        1      : 'light-info',
+        3      : 'light-warning'
+      }
+      return status => statusColor[status]
+    },
+    getApplyOtStatusValue() {
+      const statusColor = {
+        0      : 'OT Not Applicable',
+        1      : 'OT Applicable',
+        3      : 'OT Requested'
+      }
+      return status => statusColor[status]
+    },
+    getApplyLateStatusColour() {
+      const statusColor = {
+        0      : 'light-success',
+        1      : 'light-info',
+        3      : 'light-warning'
+      }
+      return status => statusColor[status]
+    },
+    getApplyLateStatusValue() {
+      const statusColor = {
+        0      : 'Late Not Applicable',
+        1      : 'Late Applicable',
+        3      : 'Late Requested'
+      }
+      return status => statusColor[status]
+    },
     direction() {
       if (store.state.appConfig.isRTL) {
         // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -416,6 +541,20 @@ export default {
       else {
         this.$router.push(`/apps/attendance/editAttendance/${params.formattedRow.id}`)
       }
+    },
+    async onRowClickForOtApply(params, status_id) {
+
+      leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
+          .then((res) => {
+            this.getAllLeaves()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+
+
     },
     async getAllLeaves() {
       const userData = getUserData()

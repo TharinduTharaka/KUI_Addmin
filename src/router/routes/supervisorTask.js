@@ -105,7 +105,7 @@ export default[
         },
     },
     {
-        path: '/apps/process-ot-approval',
+        path: '/apps/process-ot-approval/:date_val',
         name: 'apps-otApproval',
         component: () => import('@/views/processOtApproval/otApprovalSummery/GoodTable.vue'),
         meta: {
@@ -118,6 +118,14 @@ export default[
         component: () => import('@/views/minor-staff2/otApprovalSummery/GoodTable.vue'),
         meta: {
             pageTitle: 'process minor staff',
+        },
+    },
+    {
+        path: '/apps/process-daily-config',
+        name: 'apps-process-daily-config',
+        component: () => import('@/views/processPayroll/get-payroll-summery/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Process Daily Config',
         },
     },
 ]
