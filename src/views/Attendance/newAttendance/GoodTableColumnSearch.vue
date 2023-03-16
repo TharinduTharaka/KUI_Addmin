@@ -361,6 +361,11 @@ export default {
           },
         },
         {
+          label: 'Action',
+          field: 'action',
+
+        },
+        {
           label: 'applyOt',
           field: 'applyOt',
           filterOptions: {
@@ -385,12 +390,7 @@ export default {
           label: 'Action3',
           field: 'action3',
 
-        },
-        {
-          label: 'Action',
-          field: 'action',
-
-        },
+        }
       ],
       items: [
 
