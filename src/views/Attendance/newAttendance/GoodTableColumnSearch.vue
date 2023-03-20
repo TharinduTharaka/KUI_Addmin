@@ -337,6 +337,14 @@ export default {
           },
         },
         {
+          label: 'Morning Late Time',
+          field: 'morningLateTime',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search id',
+          },
+        },
+        {
           label: 'Over Time',
           field: 'otTime',
           filterOptions: {

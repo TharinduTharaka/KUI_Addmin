@@ -255,7 +255,6 @@ export default {
   async mounted() {
     const userData = getUserData()
     this.userId = userData.id
-    localStorage.setItem('child_id', JSON.stringify(this.userId))
   },
   setup() {
     const INVOICE_APP_STORE_MODULE_NAME = 'app-invoice'

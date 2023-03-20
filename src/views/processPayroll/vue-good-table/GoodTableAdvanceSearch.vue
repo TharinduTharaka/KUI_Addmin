@@ -46,9 +46,9 @@
           <b-button
               block
               variant="primary"
-              @click="buttonFilter(1,true)"
+              @click="processOtLate()"
           >
-            Process OT
+            Process OT/Late
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px" v-if="completedButton">
@@ -57,7 +57,7 @@
               variant="success"
               @click="buttonFilter(3,true)"
           >
-            Process No Pay
+            Process PayRoll
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px" v-if="deletedButton">
@@ -66,7 +66,7 @@
               variant="danger"
               @click="buttonFilter(2,true)"
           >
-            Process Salary
+            Publish All
           </b-button>
         </b-col>
         <b-col md="2" style="padding-top: 10px" v-if="supervisorButton">
@@ -75,7 +75,7 @@
               variant="info"
               @click="buttonFilter(4,true)"
           >
-            Supervisor <br> Completed
+            Revert All
           </b-button>
         </b-col>
       </b-row>
@@ -141,6 +141,26 @@
               variant="outline-info"
               @click="updateEResourceStatus(row.item.id,1)">
             OT From Basic
+          </b-button>
+        </template>
+        <template #cell(watchSalary)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-button
+              size="sm"
+              variant="primary"
+              @click="getSalaryReport(row.item.empId)">
+            See Salary
+          </b-button>
+        </template>
+        <template #cell(watchReport)="row">
+
+          <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+          <b-button
+              size="sm"
+              variant="primary"
+              @click="getSalaryDetailReport(row.item.empId)">
+            See Detail Report
           </b-button>
         </template>
         <!-- full detail on click -->
@@ -420,11 +440,6 @@ export default {
       fields: [
         'show_details',
         'id',
-        {
-          key: 'notApplicable',
-          label: 'Is Applicable'
-
-        },
         'name',
         'action2',
         {
@@ -455,7 +470,8 @@ export default {
         'applicableDates',
         'totalOt',
         'totalNoPay',
-        'action'
+        'watchSalary',
+        'watchReport'
       ],
       /* eslint-disable global-require */
       items: [
@@ -640,6 +656,16 @@ export default {
     advanceSearch(val) {
       this.filter = val
     },
+    getSalaryReport(user_id) {
+      localStorage.setItem('child_id', JSON.stringify(user_id))
+      this.$router.push(`/apps/invoice/preview/4987`)
+      return {}
+    },
+    getSalaryDetailReport(user_id) {
+      localStorage.setItem('child_id', JSON.stringify(user_id))
+      this.$router.push(`/apps/invoice/preview/details/4987`)
+      return {}
+    },
     onRowClick(params) {
       console.log(params)
     },
@@ -659,9 +685,21 @@ export default {
     },
     async getAllTask() {
       let response = (await myTaskAPI.getPayrollAllConfig(1))
-      console.log(response)
       this.items = response.data.data;
       this.totalRows = response.data.data.length
+    },
+    async processOtLate() {
+      await myTaskAPI.processOtLate()
+          .then((res) => {
+            this.makeToast('Successfully Completed the process', 'success');
+            this.getAllTask()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+
     },
     async deleteResource(userID, taskID) {
       const userData = getUserData()

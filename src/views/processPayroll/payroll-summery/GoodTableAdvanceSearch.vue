@@ -1,5 +1,13 @@
 <template>
   <div v-if="this.userID === 296">
+
+    <b-button
+        style="margin-bottom: 10px"
+        variant="primary"
+        @click="createPayrollSummary()"
+    >
+      Add
+    </b-button>
     <b-card>
       <b-sidebar
           id="sidebar-creat"
@@ -67,10 +75,35 @@
 
             <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
             <b-button
+                v-if="row.item.status == 1 || row.item.status == 3"
                 size="sm"
                 variant="primary"
                 @click="getChildTask(row.item.id)">
               see more
+            </b-button>
+          </template>
+
+          <template #cell(action2)="row">
+
+            <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+            <b-button
+                v-if="row.item.status == 1"
+                size="sm"
+                variant="danger"
+                @click="changeStatus(2)">
+              Delete
+            </b-button>
+          </template>
+
+          <template #cell(action3)="row">
+
+            <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
+            <b-button
+                v-if="row.item.status == 1"
+                size="sm"
+                variant="info"
+                @click="changeStatus(3)">
+              Complete
             </b-button>
           </template>
           <!-- full detail on click -->
@@ -144,7 +177,7 @@
                     size="sm"
                     style="margin-left: 10px"
                     variant="outline-danger"
-                    @click="deleteResource(userID,5)">
+                    @click="changeStatus(2)">
                   Delete
                 </b-button>
               </div>
@@ -299,7 +332,9 @@ export default {
         'id',
         'processDate',
         'status',
-        'action'
+        'action',
+        'action2',
+        'action3'
       ],
       /* eslint-disable global-require */
       items: [
@@ -358,6 +393,28 @@ export default {
     getChildTask(user_id) {
       this.$router.push(`/apps/payrollDetails`)
       return {}
+    },
+    async changeStatus(status) {
+      await rosterAPI.changePayRollStatus(status)
+          .then((response) => {
+            if (response.data.code === 400){
+              this.makeToast("Error", 'danger');
+            }
+            else {
+              this.getAllLeaves()
+            }
+          })
+    },
+    async createPayrollSummary(status) {
+      await rosterAPI.createPayrollSummary()
+          .then((response) => {
+            if (response.data.code === 400){
+              this.makeToast(response.data.msg, 'danger');
+            }
+            else {
+              this.getAllLeaves()
+            }
+          })
     },
     getStatus(val) {
       if (val === 'draft') {

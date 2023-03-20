@@ -69,4 +69,13 @@ export default {
     addAdvance: async function (id, value) {
         return await api.put(`payroll/add-advance/${id}/${value}`)
     },
+    getPayRollInfo: async function (id) {
+        return await api.get(`payroll/get-payroll-pdf-info/${id}`)
+    },
+    getAttendanceByIDForMonth: async function (id) {
+        return await api.get(`attendance/get-attendance-by-id-for-pdf/${id}`)
+    },
+    processOtLate: async function () {
+        return await api.get(`attendance/process-ot/1/1`)
+    },
 }

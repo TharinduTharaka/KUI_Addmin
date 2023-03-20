@@ -110,64 +110,24 @@
                   class="p-0"
               >
                 <h6 class="mb-2">
-                  Employee Details:
+                  Attendance Detail Report:
                 </h6>
-                <h6 class="mb-25">
-                  Name : {{ invoiceData.name }}
-                </h6>
-                <p class="card-text mb-25">
-                  EPF No : {{ invoiceData.epfNo }}
-                </p>
-                <p class="card-text mb-25">
-                  Designation : {{ invoiceData.designation }}
-                </p>
-                <p class="card-text mb-25">
-                  Date : {{ invoiceData.date }}
-                </p>
+<!--                <h6 class="mb-25">-->
+<!--                  Name : {{ invoiceData.name }}-->
+<!--                </h6>-->
+<!--                <p class="card-text mb-25">-->
+<!--                  Date : {{ invoiceData.date }}-->
+<!--                </p>-->
               </b-col>
 
-              <!-- Col: Payment Details -->
-                            <b-col
-                              xl="6"
-                              cols="12"
-                              class="p-0 mt-xl-0 mt-2 d-flex justify-content-xl-end"
-                            >
-                              <div>
-                                <h6 class="mb-2">
-                                  Payment Details:
-                                </h6>
-                                <table>
-                                  <tbody>
-                                    <tr>
-                                      <td class="pr-1">
-                                        Total Amount:
-                                      </td>
-                                      <td><span class="font-weight-bold">{{ invoiceData.totalAmount }}</span></td>
-                                    </tr>
-                                    <tr>
-                                      <td class="pr-1">
-                                        Bank name:
-                                      </td>
-                                      <td></td>
-                                    </tr>
-<!--                                    <tr>-->
-<!--                                      <td class="pr-1">-->
-<!--                                        Country:-->
-<!--                                      </td>-->
-<!--                                      <td></td>-->
-<!--                                    </tr>-->
-                                  </tbody>
-                                </table>
-                              </div>
-                            </b-col>
             </b-row>
           </b-card-body>
 
           <!-- Invoice Description: Table -->
           <b-table-lite
               responsive
-              :items="invoiceData.payrollPdfInfoEarningObjectList"
-              :fields="['earnings','total']"
+              :items="invoiceData.data"
+              :fields="['date','status','otAmount','lateAmount','noPay','morningLate']"
           >
             <template #cell(taskDescription)="data">
               <b-card-text class="text-nowrap">
@@ -175,214 +135,6 @@
               </b-card-text>
             </template>
           </b-table-lite>
-
-          <!-- Invoice Description: Total -->
-          <b-card-body class="invoice-padding pb-0">
-            <b-row>
-
-              <!-- Col: Sales Persion -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3"
-                  order="2"
-                  order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Total Gross Earnings:</span>
-                </b-card-text>
-              </b-col>
-
-              <!-- Col: Total -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-              >
-                <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.grossSalary }}
-                    </p>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-
-          <b-card-body class="invoice-padding pb-0">
-            <b-row>
-
-              <!-- Col: Sales Persion -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3"
-                  order="2"
-                  order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">EPF 12%:</span>
-                </b-card-text>
-              </b-col>
-
-              <!-- Col: Total -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-              >
-                <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.epfAddition }}
-                    </p>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-
-          <b-card-body class="invoice-padding pb-0">
-            <b-row>
-
-              <!-- Col: Sales Persion -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3"
-                  order="2"
-                  order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">ETF 3%:</span>
-                </b-card-text>
-              </b-col>
-
-              <!-- Col: Total -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-              >
-                <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.etf }}
-                    </p>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-
-          <!-- Spacer -->
-          <hr class="invoice-spacing">
-
-          <b-table-lite
-              responsive
-              :td-class="'text-right'"
-              :items="invoiceData.payrollPdfInfoDeductionObjects"
-              :fields="['deduction','total']"
-          >
-          </b-table-lite>
-
-          <b-card-body class="invoice-padding pb-0">
-            <b-row>
-
-              <!-- Col: Sales Persion -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3"
-                  order="2"
-                  order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Total Deductions:</span>
-                </b-card-text>
-              </b-col>
-
-              <!-- Col: Total -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-              >
-                <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.totalDeductions }}
-                    </p>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-
-          <b-card-body class="invoice-padding pb-0">
-            <b-row>
-
-              <!-- Col: Sales Persion -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-0 mt-3"
-                  order="2"
-                  order-md="1"
-              >
-                <b-card-text class="mb-0">
-                  <span class="font-weight-bold">Employee:</span>
-                  <span class="ml-75">{{ invoiceData.name }} </span>
-                </b-card-text>
-              </b-col>
-
-              <!-- Col: Total -->
-              <b-col
-                  cols="12"
-                  md="6"
-                  class="mt-md-6 d-flex justify-content-end"
-                  order="1"
-                  order-md="2"
-              >
-                <div class="invoice-total-wrapper">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">
-                      Gross Salary:
-                    </p>
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.grossSalary }}
-                    </p>
-                  </div>
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">
-                      Deductions:
-                    </p>
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.payrollEntityDetails.totalDeductions }}
-                    </p>
-                  </div>
-                  <hr class="my-50">
-                  <div class="invoice-total-item">
-                    <p class="invoice-total-title">
-                      Net Salary:
-                    </p>
-                    <p class="invoice-total-amount">
-                      {{ invoiceData.totalAmount }}
-                    </p>
-                  </div>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
 
           <!-- Spacer -->
           <hr class="invoice-spacing">
@@ -553,9 +305,9 @@ export default {
       if (store.hasModule(INVOICE_APP_STORE_MODULE_NAME)) store.unregisterModule(INVOICE_APP_STORE_MODULE_NAME)
     })
 
-    myTaskAPI.getPayRollInfo(localStorage.getItem('child_id'))
+    myTaskAPI.getAttendanceByIDForMonth(localStorage.getItem('child_id'))
         .then(response => {
-          invoiceData.value = response.data.data
+          invoiceData.value = response.data
         })
         .catch(error => {
           if (error.response.status === 404) {

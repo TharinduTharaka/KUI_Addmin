@@ -35,5 +35,11 @@ export default {
   getPayrollDateRangeSummery: async function () {
     return await api.get(`attendance/get-ot-process-dates`)
   },
+  changePayRollStatus: async function (status) {
+    return await api.put(`payroll/change-payroll-summary-status/${status}`)
+  },
+  createPayrollSummary: async function (status) {
+    return await api.post(`payroll/create-payroll-summary`)
+  },
 }
 
