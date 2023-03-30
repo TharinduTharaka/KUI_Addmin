@@ -78,4 +78,8 @@ export default {
     processOtLate: async function () {
         return await api.get(`attendance/process-ot/1/1`)
     },
+    getDailyTaskCount: async function (id) {
+        return await api.get(`task/get-daily-task-count/${id}`)
+    },
 }
+

@@ -8,6 +8,14 @@ export default[
         },
     },
     {
+        path: '/apps/myDailyCount',
+        name: 'apps-myDailyCount',
+        component: () => import('@/views/myDailyCount/vue-good-table/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Supervisor Task',
+        },
+    },
+    {
         path: '/apps/supervisorTask/createMyTask',
         name: 'createMyTask',
         component: () => import('@/views/myTask/createMyTask'),

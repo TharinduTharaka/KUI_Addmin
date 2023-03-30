@@ -8,6 +8,11 @@ export default [
     icon: 'BookOpenIcon',
   },
   {
+    title: 'My Task Breakdown',
+    route: 'apps-myDailyCount',
+    icon: 'BookOpenIcon',
+  },
+  {
     title: 'Supervisor Task',
     route: 'apps-supervisorTask',
     icon: 'BookIcon',
