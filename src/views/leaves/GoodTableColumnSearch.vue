@@ -64,7 +64,7 @@
                     class="text-body align-middle mr-25"
                 />
               </template>
-              <b-dropdown-item>
+              <b-dropdown-item @click="updateStatus(props.formattedRow.id, 2)">
                 <feather-icon
                     icon="TrashIcon"
                     class="mr-50"
@@ -272,6 +272,7 @@ export default {
         1      : 'light-primary',
         5 : 'light-success',
         4     : 'light-danger',
+        2     : 'light-danger',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
         /* eslint-enable key-spacing */
@@ -284,6 +285,7 @@ export default {
         /* eslint-disable key-spacing */
         1      : 'Active',
         5 : 'Supervisor Completed',
+        2 : 'User Deleted',
         4     : 'Supervisor Rejected',
         Resigned     : 'light-warning',
         Applied      : 'light-info',
@@ -316,6 +318,18 @@ export default {
       this.items = response.data.data
       this.totalRows = response.data.data.total
 
+    },
+    async updateStatus(taskID, status) {
+      const userData = getUserData()
+      await leaveAPI.updateStatus(taskID, status, userData.id)
+          .then((res) => {
+            this.$router.push(`/apps/leaves/available-leaves`)
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
     }
   }
 }

@@ -122,12 +122,12 @@
                 Approve
               </b-button>
               <b-button
-                  v-if="row.item.status ===1 || row.item.status === 3"
+                  v-if="row.item.status ===1 || row.item.status === 3 || row.item.status === 2"
                   size="sm"
                   style="margin-left: 10px"
                   variant="outline-danger"
                   @click="updateStatus(row.item.id, 4)">
-                Reject
+                Reject/Delete
               </b-button>
             </div>
           </b-card>
