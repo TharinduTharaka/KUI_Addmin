@@ -303,6 +303,9 @@ export default {
       searchTerm: '',
       priority: [
         {
+          title: "Special Company Holiday - Apr",
+        },
+        {
           title: "Annual",
         },
         {
