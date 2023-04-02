@@ -318,7 +318,7 @@ export default {
           title: "Casual - Sudden Illness",
         },
         {
-          title: "Day Off - Mar",
+          title: "Day Off - Apr",
         },
         {
           title: "Lieu Leave",
