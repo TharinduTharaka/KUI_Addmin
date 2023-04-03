@@ -261,7 +261,7 @@ export default {
       userID: 1,
       pageLength: 5,
       pageOptions: [3, 5, 10],
-      perPage: 5,
+      perPage: 1000,
       totalRows: 1,
       currentPage: 1,
       sortBy: '',
