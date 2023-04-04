@@ -255,6 +255,11 @@
                   md="4">
                 <strong>Rating Comment : </strong>{{ row.item.ratingComment }}
               </b-col>
+              <b-col
+                  class="mb-1"
+                  md="4">
+                <strong>Created Date : </strong>{{ row.item.createDate }}
+              </b-col>
             </b-row>
 
             <div class="demo-inline-spacing">
