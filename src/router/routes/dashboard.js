@@ -9,4 +9,9 @@ export default [
     name: 'dashboard-ecommerce',
     component: () => import('@/views/dashboard/ecommerce/Ecommerce.vue'),
   },
+  {
+    path: '/dashboard/performance',
+    name: 'dashboard-performance',
+    component: () => import('@/views/dashboard/performance/Analytics.vue'),
+  },
 ]

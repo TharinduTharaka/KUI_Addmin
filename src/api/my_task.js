@@ -81,5 +81,8 @@ export default {
     getDailyTaskCount: async function (id) {
         return await api.get(`task/get-daily-task-count/${id}`)
     },
+    getPerformanceById: async function (id) {
+        return await api.get(`performance/get-performance-by-id/${id}` )
+    },
 }
 
