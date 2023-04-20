@@ -112,7 +112,8 @@ export default {
   },
   created() {
     // data
-    myTaskAPI.getPerformanceById(464)
+    const userData = getUserData()
+    myTaskAPI.getPerformanceById(userData.id)
         .then((response) => {
           console.log(response.data.data)
           this.data = response.data
