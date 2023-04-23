@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.userID === 296">
+  <div>
     <b-card>
       <b-sidebar
           id="sidebar-creat"
@@ -436,7 +436,8 @@ export default {
       })
     },
     async getAllLeaves() {
-      let response = (await leaveAPI.getMinorStaffList(-1))
+      const userData = getUserData()
+      let response = (await leaveAPI.getMinorStaffList(userData.id))
       this.items = response.data.data;
       this.totalRows = response.data.data.length
     }
