@@ -234,14 +234,14 @@
                   @click="deleteResource(userID,row.item.id)">
                 Delete
               </b-button>
-              <b-button
-                  v-if="row.item.status ===1"
-                  size="sm"
-                  style="margin-left: 10px"
-                  variant="outline-primary"
-                  @click="updateNotApplicable(userID,row.item.id)">
-                Not Applicable
-              </b-button>
+<!--              <b-button-->
+<!--                  v-if="row.item.status ===1"-->
+<!--                  size="sm"-->
+<!--                  style="margin-left: 10px"-->
+<!--                  variant="outline-primary"-->
+<!--                  @click="updateNotApplicable(userID,row.item.id)">-->
+<!--                Not Applicable-->
+<!--              </b-button>-->
             </div>
           </b-card>
         </template>

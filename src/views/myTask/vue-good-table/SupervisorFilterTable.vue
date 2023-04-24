@@ -215,14 +215,14 @@
               >
                 edit
               </b-button>
-              <b-button
-                  v-if="row.item.status ===1 || row.item.status === 3"
-                  size="sm"
-                  style="margin-left: 10px"
-                  variant="outline-primary"
-                  @click="updateNotApplicable(userID,row.item.id)">
-                Not Applicable
-              </b-button>
+<!--              <b-button-->
+<!--                  v-if="row.item.status ===1 || row.item.status === 3"-->
+<!--                  size="sm"-->
+<!--                  style="margin-left: 10px"-->
+<!--                  variant="outline-primary"-->
+<!--                  @click="updateNotApplicable(userID,row.item.id)">-->
+<!--                Not Applicable-->
+<!--              </b-button>-->
               <b-button
                   v-if="row.item.status ===1 || row.item.status ===2"
                   size="sm"
