@@ -338,10 +338,6 @@ export default {
         {
           title: "Exceptional",
           value: 5
-        },
-        {
-          title: "Not Applicable",
-          value: 6
         }
 
       ],
