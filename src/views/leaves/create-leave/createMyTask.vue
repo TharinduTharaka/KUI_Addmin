@@ -324,6 +324,9 @@ export default {
           title: "Day Off - Apr",
         },
         {
+          title: "Day Off - May",
+        },
+        {
           title: "Lieu Leave",
         },
         {
