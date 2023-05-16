@@ -107,14 +107,14 @@
                     class="text-body align-middle mr-25"
                 />
               </template>
-              <b-dropdown-item @click="onRowClickForOtApply(props, 9)" v-if="props.formattedRow.applyLate === 2">
+              <b-dropdown-item @click="onRowClickForOtApply(props, 11)" v-if="props.formattedRow.applyLate === 3">
                 <feather-icon
                     icon="MessageSquareIcon"
                     class="mr-50"
                 />
                 <span>Approve Late</span>
               </b-dropdown-item>
-              <b-dropdown-item @click="onRowClickForOtApply(props, 10)" v-if="props.formattedRow.applyLate === 3">
+              <b-dropdown-item @click="onRowClickForOtApply(props, 12)" v-if="props.formattedRow.applyLate === 3">
                 <feather-icon
                     icon="MessageSquareIcon"
                     class="mr-50"
