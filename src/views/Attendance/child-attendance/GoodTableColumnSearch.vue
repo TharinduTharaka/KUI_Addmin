@@ -492,7 +492,7 @@ export default {
 
       leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
           .then((res) => {
-            this.getAllLeaves()
+            this.getAllAttendance()
           })
           .catch(({response}) => {
             this.error = response.data.error
