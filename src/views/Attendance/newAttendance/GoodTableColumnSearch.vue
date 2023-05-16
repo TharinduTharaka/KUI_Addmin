@@ -506,7 +506,9 @@ export default {
       const statusColor = {
         0      : 'light-success',
         1      : 'light-info',
-        3      : 'light-warning'
+        3      : 'light-warning',
+        4      : 'light-primary',
+        5      : 'light-danger'
       }
       return status => statusColor[status]
     },
@@ -514,7 +516,9 @@ export default {
       const statusColor = {
         0      : 'Late Not Applicable',
         1      : 'Late Applicable',
-        3      : 'Late Requested'
+        3      : 'Late Requested',
+        4      : 'Late Approved',
+        5      : 'Late Rejected'
       }
       return status => statusColor[status]
     },

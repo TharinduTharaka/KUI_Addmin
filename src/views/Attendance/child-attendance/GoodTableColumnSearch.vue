@@ -53,6 +53,11 @@
             {{ getFinalStatus(props.row.attendanceStatus) }}
           </b-badge>
         </span>
+        <span v-else-if="props.column.field === 'applyLate'">
+          <b-badge :variant="getApplyLateStatusColour(props.row.applyLate)">
+            {{ getApplyLateStatusValue(props.row.applyLate) }}
+          </b-badge>
+        </span>
 
         <!-- Column: Action -->
         <span v-else-if="props.column.field === 'action'">
@@ -84,6 +89,39 @@
                 <span>Edit</span>
               </b-dropdown-item>
             </b-dropdown>
+          </span>
+        </span>
+
+
+        <span v-else-if="props.column.field === 'action3'">
+          <span>
+            <b-button
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+            >
+              <template v-slot:button-content>
+                <feather-icon
+                    icon="MoreVerticalIcon"
+                    size="16"
+                    class="text-body align-middle mr-25"
+                />
+              </template>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 9)" v-if="props.formattedRow.applyLate === 2">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Approve Late</span>
+              </b-dropdown-item>
+              <b-dropdown-item @click="onRowClickForOtApply(props, 10)" v-if="props.formattedRow.applyLate === 3">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Reject Late</span>
+              </b-dropdown-item>
+            </b-button>
           </span>
         </span>
 
@@ -159,6 +197,7 @@ import attendanceAPI from "@/api/Attendance";
 import {getUserData} from "@/auth/utils";
 import ToastificationContent from "@core/components/toastification/ToastificationContent";
 import myTaskAPI from "@/api/my_task";
+import leaveAPI from "@/api/leave_ui";
 
 export default {
   components: {
@@ -292,6 +331,19 @@ export default {
           },
         },
         {
+          label: 'applyLate',
+          field: 'applyLate',
+          filterOptions: {
+            enabled: true,
+            placeholder: 'Search Apply Late',
+          },
+        },
+        {
+          label: 'Action3',
+          field: 'action3',
+
+        },
+        {
           label: 'Action',
           field: 'action',
 
@@ -324,6 +376,26 @@ export default {
         /* eslint-enable key-spacing */
       }
 
+      return status => statusColor[status]
+    },
+    getApplyLateStatusColour() {
+      const statusColor = {
+        0      : 'light-success',
+        1      : 'light-info',
+        3      : 'light-warning',
+        4      : 'light-primary',
+        5      : 'light-danger'
+      }
+      return status => statusColor[status]
+    },
+    getApplyLateStatusValue() {
+      const statusColor = {
+        0      : 'Late Not Applicable',
+        1      : 'Late Applicable',
+        3      : 'Late Requested',
+        4      : 'Late Approved',
+        5      : 'Late Rejected'
+      }
       return status => statusColor[status]
     },
     getStatusData() {
@@ -415,6 +487,20 @@ export default {
       else {
         this.$router.push(`/apps/attendance/deleteAttendance/${params.formattedRow.id}`)
       }
+    },
+    async onRowClickForOtApply(params, status_id) {
+
+      leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
+          .then((res) => {
+            this.getAllLeaves()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+
+
     },
     onRowClickApprove(params) {
 
