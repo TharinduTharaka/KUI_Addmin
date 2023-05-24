@@ -163,6 +163,18 @@
             </b-row>
           </b-card-body>
 
+          <b-table-lite
+              responsive
+              :items="invoiceData.payrollPdfInfoBasicObjects"
+              :fields="['basic','total']"
+          >
+            <template #cell(taskDescription)="data">
+              <b-card-text class="text-nowrap">
+                {{ data.item.description }}
+              </b-card-text>
+            </template>
+          </b-table-lite>
+
           <!-- Invoice Description: Table -->
           <b-table-lite
               responsive
@@ -588,6 +600,7 @@ export default {
           date: "",
           totalAmount: "",
           payrollPdfInfoEarningObjectList: [],
+          payrollPdfInfoBasicObjects: [],
           payrollPdfInfoDeductionObjects: [],
           payrollEntityDetails: {
             id: 356,
