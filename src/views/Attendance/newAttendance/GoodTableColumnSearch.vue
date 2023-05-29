@@ -58,6 +58,11 @@
             {{ getApplyOtStatusValue(props.row.applyOt) }}
           </b-badge>
         </span>
+        <span v-else-if="props.column.field === 'requestIssue'">
+          <b-badge :variant="getRequestIssueStatusColour(props.row.requestIssue)">
+            {{ getRequestIssueStatusValue(props.row.requestIssue) }}
+          </b-badge>
+        </span>
         <span v-else-if="props.column.field === 'applyLate'">
           <b-badge :variant="getApplyLateStatusColour(props.row.applyLate)">
             {{ getApplyLateStatusValue(props.row.applyLate) }}
@@ -154,6 +159,38 @@
           </span>
         </span>
 
+
+        <span v-else-if="props.column.field === 'action4'">
+          <span>
+            <b-button
+                variant="link"
+                toggle-class="text-decoration-none"
+                no-caret
+            >
+              <template v-slot:button-content>
+                <feather-icon
+                    icon="MoreVerticalIcon" 
+                    size="16"
+                    class="text-body align-middle mr-25"
+                />
+              </template>
+              <b-dropdown-item @click="onRowClickForReviewRequest(props, 1)" v-if="props.formattedRow.requestIssue === 0">
+                <feather-icon
+                    icon="MessageSquareIcon"
+                    class="mr-50"
+                />
+                <span>Request Issue</span>
+              </b-dropdown-item>
+<!--              <b-dropdown-item @click="onRowClickForReviewRequest(props, 10)" v-if="props.formattedRow.applyLate === 3">-->
+<!--                <feather-icon-->
+<!--                    icon="MessageSquareIcon"-->
+<!--                    class="mr-50"-->
+<!--                />-->
+<!--                <span>Remove Late Request</span>-->
+<!--              </b-dropdown-item>-->
+            </b-button>
+          </span>
+        </span>
 
 
       </template>
@@ -287,6 +324,19 @@ export default {
             enabled: true,
             placeholder: 'Search Out Time',
           },
+        },
+        {
+          label: 'requestIssue',
+          field: 'requestIssue',
+          filterOptions: {
+            enabled: false,
+            placeholder: 'Search Apply OT',
+          },
+        },
+        {
+          label: 'Action4',
+          field: 'action4',
+
         },
         {
           label: 'Type',
@@ -502,7 +552,27 @@ export default {
       }
       return status => statusColor[status]
     },
+    getRequestIssueStatusValue() {
+      const statusColor = {
+        0      : 'No Issue',
+        1      : 'Request Issue',
+        2      : 'Review Pending',
+        3      : 'Request Accepted',
+        4      : 'Request Rejected'
+      }
+      return status => statusColor[status]
+    },
     getApplyLateStatusColour() {
+      const statusColor = {
+        0      : 'light-success',
+        1      : 'light-info',
+        3      : 'light-warning',
+        4      : 'light-primary',
+        5      : 'light-danger'
+      }
+      return status => statusColor[status]
+    },
+    getRequestIssueStatusColour() {
       const statusColor = {
         0      : 'light-success',
         1      : 'light-info',
@@ -557,6 +627,20 @@ export default {
     async onRowClickForOtApply(params, status_id) {
 
       leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
+          .then((res) => {
+            this.getAllLeaves()
+          })
+          .catch(({response}) => {
+            this.error = response.data.error
+            console.log(this.error)
+            this.makeToast(this.error, 'danger');
+          })
+
+
+    },
+    async onRowClickForReviewRequest(params, status_id) {
+
+      leaveAPI.updateAttendanceStatusForReviewRequest(params.formattedRow.id, status_id, '2')
           .then((res) => {
             this.getAllLeaves()
           })

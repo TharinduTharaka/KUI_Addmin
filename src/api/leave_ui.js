@@ -29,5 +29,8 @@ export default {
   updateAttendanceStatus: async function (id, status, date) {
     return await api.put(`/attendance/update-status/${id}/${status}/${date}`)
   },
+  updateAttendanceStatusForReviewRequest: async function (id, status, date) {
+    return await api.put(`/attendance/update-status-for-request-issue/${id}/${status}/${date}`)
+  },
 
 }
