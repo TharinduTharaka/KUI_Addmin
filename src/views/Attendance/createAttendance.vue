@@ -78,7 +78,7 @@
                     name="Enter IN Time"
                     rules="required"
                 >
-                  <div v-if="items.inTime === ''">
+                  <div v-if="items.inTime === '' || items.requestIssue === 3">
                     <b-time
                         v-model="items.inTimeNew"
                         show-seconds
@@ -131,7 +131,7 @@
                     name="Enter IN Time"
                     rules="required"
                 >
-                  <div v-if="items.outTime === ''">
+                  <div v-if="items.outTime === '' || items.requestIssue === 3">
                     <b-time
                         v-model="items.outTimeNew"
                         show-seconds
@@ -308,6 +308,7 @@ export default {
       empId: '',
       date: '',
       inTime: '',
+      requestIssue: 0,
       outTime: '',
       type: '',
       comment: '',
@@ -549,7 +550,7 @@ export default {
         outTime: this.items.outTime,
         outTimeNew: this.items.outTimeNew,
         comment: this.items.comment,
-
+        requestIssue: this.items.requestIssue,
       }
       await attendance.create(this.$route.params.id, payload)
           .then((response) => {

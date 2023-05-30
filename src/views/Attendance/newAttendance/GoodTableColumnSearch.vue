@@ -169,7 +169,7 @@
             >
               <template v-slot:button-content>
                 <feather-icon
-                    icon="MoreVerticalIcon" 
+                    icon="MoreVerticalIcon"
                     size="16"
                     class="text-body align-middle mr-25"
                 />
@@ -610,7 +610,7 @@ export default {
   methods: {
     onRowClick(params) {
 
-      if (params.formattedRow.status !== 1) {
+      if (params.formattedRow.status !== 1 && params.formattedRow.requestIssue !== 3) {
 
         const variant = 'danger';
 
