@@ -347,6 +347,12 @@ export default {
           title: "Day Off - May",
         },
         {
+          title: "Day Off - June",
+        },
+        {
+          title: "Special Company Holiday - June",
+        },
+        {
           title: "Lieu Leave",
         },
         {

@@ -303,9 +303,6 @@ export default {
       searchTerm: '',
       priority: [
         {
-          title: "Special Company Holiday - Apr",
-        },
-        {
           title: "Annual",
         },
         {
@@ -319,12 +316,6 @@ export default {
         },
         {
           title: "Casual - Sudden Illness",
-        },
-        {
-          title: "Day Off - Apr",
-        },
-        {
-          title: "Day Off - May",
         },
         {
           title: "Lieu Leave",
@@ -343,6 +334,12 @@ export default {
         },
         {
           title: "Cleaning Staff",
+        },
+        {
+          title: "Day Off - June",
+        },
+        {
+          title: "Special Company Holiday - June",
         }
       ],
       recurring: [
