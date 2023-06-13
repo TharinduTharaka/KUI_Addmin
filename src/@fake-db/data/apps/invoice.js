@@ -6,14 +6,14 @@ const data = {
   invoices: [
     {
       id: 4987,
-      issuedDate: '10 Jan 2023',
+      issuedDate: '13 June 2023',
       client: {
         address: 'Secretary',
         company: '254',
         companyEmail: '',
         country: 'USA',
         contact: 'Jan-23',
-        name: 'B.Thishani Imasha Rodrigo',
+        name: 'Click 4987 For Salary Slip',
       },
       service: 'Software Development',
       total: 3428,
