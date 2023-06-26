@@ -340,7 +340,11 @@ export default {
         },
         {
           title: "Special Company Holiday - June",
+        },
+        {
+          title: "Special - Marketing",
         }
+
       ],
       recurring: [
         {

@@ -369,6 +369,9 @@ export default {
         },
         {
           title: "Cleaning Staff",
+        },
+        {
+          title: "Special - Marketing",
         }
       ],
       recurring: [
