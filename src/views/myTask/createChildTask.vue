@@ -512,22 +512,6 @@ export default {
           value: 1
         },
         {
-          title: "Lecturing - Preparation",
-          value: 2
-        },
-        {
-          title: "Other",
-          value: 3
-        },
-        {
-          title: "Research - Own",
-          value: 4
-        },
-        {
-          title: "Lecturing - Conducting",
-          value: 5
-        },
-        {
           title: "Examination - Paper Preparing",
           value: 6
         },
@@ -536,8 +520,24 @@ export default {
           value: 7
         },
         {
+          title: "Research - Own",
+          value: 4
+        },
+        {
           title: "Research - Student",
           value: 8
+        },
+        {
+          title: "Lecturing - Preparation",
+          value: 2
+        },
+        {
+          title: "Lecturing - Conducting",
+          value: 5
+        },
+        {
+          title: "Other",
+          value: 3
         }
 
       ],
