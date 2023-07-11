@@ -508,11 +508,11 @@ export default {
       ],
       category: [
         {
-          title: "Examination",
+          title: "Examination - Invigilating",
           value: 1
         },
         {
-          title: "Lecturing",
+          title: "Lecturing - Preparation",
           value: 2
         },
         {
@@ -520,8 +520,24 @@ export default {
           value: 3
         },
         {
-          title: "Research",
+          title: "Research - Own",
           value: 4
+        },
+        {
+          title: "Lecturing - Conducting",
+          value: 5
+        },
+        {
+          title: "Examination - Paper Preparing",
+          value: 6
+        },
+        {
+          title: "Examination - Paper Marking",
+          value: 7
+        },
+        {
+          title: "Research - Student",
+          value: 8
         }
 
       ],
