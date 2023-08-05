@@ -342,6 +342,9 @@ export default {
           title: "Day Off - July",
         },
         {
+          title: "Day Off - Aug",
+        },
+        {
           title: "Special Company Holiday - June",
         },
         {
