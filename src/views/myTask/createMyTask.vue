@@ -156,6 +156,7 @@
                       id="v-startDate"
                       v-model="startDate"
                       placeholder="Enter Due Time"
+                      :min="minDate"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -176,6 +177,7 @@
                       id="v-dueDate"
                       v-model="dueDate"
                       placeholder="Enter Due Time"
+                      :min="minDate"
                   />
 
                   <small class="text-danger">{{ errors[0] }}</small>
@@ -580,7 +582,8 @@ export default {
         type: ['Book', 'Journal', 'Magazine', 'PDF', 'Article'],
         resourceOptions: ['Thesis', 'General'],
         option: [{title: 'Square'}, {title: 'Rectangle'}, {title: 'Rombo'}, {title: 'Romboid'}],
-      }
+      },
+      minDate: new Date()
     }
   },
   computed: {
