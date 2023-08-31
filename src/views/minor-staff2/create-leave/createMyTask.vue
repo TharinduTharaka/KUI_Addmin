@@ -356,6 +356,9 @@ export default {
           title: "Day Off - Aug",
         },
         {
+          title: "Convocation 2023 Leave",
+        },
+        {
           title: "Special Company Holiday - June",
         },
         {
