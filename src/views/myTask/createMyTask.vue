@@ -446,6 +446,13 @@ export default {
   },
   /* eslint-disable */
   data() {
+    const now = new Date()
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
+    // 15th two months prior
+    const minDate = new Date(today)
+    minDate.setDate(minDate.getDate() - 1)
+
     return {
       userID: 1,
       categoryID: '',
@@ -583,7 +590,8 @@ export default {
         resourceOptions: ['Thesis', 'General'],
         option: [{title: 'Square'}, {title: 'Rectangle'}, {title: 'Rombo'}, {title: 'Romboid'}],
       },
-      minDate: new Date()
+      minDate: minDate
+
     }
   },
   computed: {
