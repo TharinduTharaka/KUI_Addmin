@@ -348,6 +348,9 @@ export default {
           title: "Day Off - Sep",
         },
         {
+          title: "Day Off - Oct",
+        },
+        {
           title: "Convocation 2023 Leave",
         },
         {
