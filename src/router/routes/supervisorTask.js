@@ -121,6 +121,14 @@ export default[
         },
     },
     {
+        path: '/apps/admin-list',
+        name: 'admin-list',
+        component: () => import('@/views/getAdminList/getEmployeeList/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Employee List',
+        },
+    },
+    {
         path: '/apps/process-minor-staff',
         name: 'apps-minor-staff',
         component: () => import('@/views/minor-staff2/otApprovalSummery/GoodTable.vue'),

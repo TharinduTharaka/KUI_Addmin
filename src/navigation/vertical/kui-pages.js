@@ -86,6 +86,11 @@ export default [
     title: 'Process Minor Staff',
     route: 'apps-minor-staff',
     icon: 'FileIcon',
+  },
+  {
+    title: 'Admin',
+    route: 'admin-list',
+    icon: 'FileIcon',
   }
 
 

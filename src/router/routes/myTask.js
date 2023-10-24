@@ -99,6 +99,14 @@ export default[
         },
     },
     {
+        path: '/apps/updateSalaryInfo',
+        name: 'updateSalaryInfo',
+        component: () => import('@/views/getAdminList/updateEmpSalaryInfo/GoodTable.vue'),
+        meta: {
+            pageTitle: 'Update Salary Info',
+        },
+    },
+    {
         path: '/apps/myTask/editChildTask/:task_id/:user_id',
         name: 'editChildTask',
         component: () => import('@/views/myTask/editChildTask'),

@@ -608,58 +608,58 @@ export default {
       .then(res => { this.rows = res.data })
   },
   methods: {
-    onRowClick(params) {
+      onRowClick(params) {
 
-      if (params.formattedRow.status !== 1 && params.formattedRow.requestIssue !== 3) {
+        if (params.formattedRow.status !== 1 && params.formattedRow.requestIssue !== 3) {
 
-        const variant = 'danger';
+          const variant = 'danger';
 
-        this.$bvToast.toast(`This Row Cannot Be Edited`, {
-          title: `${variant || 'default'}`,
-          variant,
-          solid: false,
-        })
+          this.$bvToast.toast(`This Row Cannot Be Edited`, {
+            title: `${variant || 'default'}`,
+            variant,
+            solid: false,
+          })
+        }
+        else {
+          this.$router.push(`/apps/attendance/editAttendance/${params.formattedRow.id}`)
+        }
+      },
+      async onRowClickForOtApply(params, status_id) {
+
+        leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
+            .then((res) => {
+              this.getAllLeaves()
+            })
+            .catch(({response}) => {
+              this.error = response.data.error
+              console.log(this.error)
+              this.makeToast(this.error, 'danger');
+            })
+
+
+      },
+      async onRowClickForReviewRequest(params, status_id) {
+
+        leaveAPI.updateAttendanceStatusForReviewRequest(params.formattedRow.id, status_id, '2')
+            .then((res) => {
+              this.getAllLeaves()
+            })
+            .catch(({response}) => {
+              this.error = response.data.error
+              console.log(this.error)
+              this.makeToast(this.error, 'danger');
+            })
+
+
+      },
+      async getAllLeaves() {
+        const userData = getUserData()
+        let response = (await attendanceAPI.getAllAttendanceData(userData.id))
+        console.log(response)
+        this.items = response.data.data
+        this.totalRows = response.data.data.total
+
       }
-      else {
-        this.$router.push(`/apps/attendance/editAttendance/${params.formattedRow.id}`)
-      }
-    },
-    async onRowClickForOtApply(params, status_id) {
-
-      leaveAPI.updateAttendanceStatus(params.formattedRow.id, status_id, '2')
-          .then((res) => {
-            this.getAllLeaves()
-          })
-          .catch(({response}) => {
-            this.error = response.data.error
-            console.log(this.error)
-            this.makeToast(this.error, 'danger');
-          })
-
-
-    },
-    async onRowClickForReviewRequest(params, status_id) {
-
-      leaveAPI.updateAttendanceStatusForReviewRequest(params.formattedRow.id, status_id, '2')
-          .then((res) => {
-            this.getAllLeaves()
-          })
-          .catch(({response}) => {
-            this.error = response.data.error
-            console.log(this.error)
-            this.makeToast(this.error, 'danger');
-          })
-
-
-    },
-    async getAllLeaves() {
-      const userData = getUserData()
-      let response = (await attendanceAPI.getAllAttendanceData(userData.id))
-      console.log(response)
-      this.items = response.data.data
-      this.totalRows = response.data.data.total
-
-    }
   }
 }
 </script>
