@@ -1,4 +1,4 @@
-<template v-if="getUserData().id === 258 || getUserData().id === 296 || getUserData().id === 263">
+<template>
   <b-row>
     <b-col cols="12">
 <!--      <good-table-basic />-->

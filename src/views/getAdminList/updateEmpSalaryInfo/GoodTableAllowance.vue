@@ -65,6 +65,17 @@
               :options="additionType"
           />
         </b-form-group>
+
+        <b-form-group
+            label="Chose the Effective Date"
+            label-for="vue-select"
+        >
+          <b-form-datepicker
+              id="v-startDate"
+              v-model="startDate"
+              placeholder="Enter Date"
+          />
+        </b-form-group>
         <b-form-group
             label="amount"
             label-for="salary-amount"
@@ -339,7 +350,7 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-  BAvatar, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BButton,
+  BAvatar, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BButton, BFormDatepicker,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
@@ -350,6 +361,7 @@ import {getUserData} from "@/auth/utils";
 
 export default {
   components: {
+    BFormDatepicker,
     BButton,
     BCardCode,
     VueGoodTable,
@@ -369,6 +381,7 @@ export default {
       dir: false,
       codeColumnSearch,
       salaryAmount : '',
+      startDate: '',
       selected: '',
       selected_for_Addition_type: '',
       reason: '',
@@ -459,6 +472,11 @@ export default {
         {
           label: 'Reason',
           field: 'reason',
+
+        },
+        {
+          label: 'Effective Date',
+          field: 'effectiveDate',
 
         },
         {
@@ -556,7 +574,7 @@ export default {
     async updateSalary() {
 
       const userData = getUserData()
-      await payroll.updateSalary(localStorage.getItem('child_id'), 'Allowances',this.selected,this.salaryAmount,userData.id, this.selected_for_Addition_type,this.reason)
+      await payroll.updateSalary(localStorage.getItem('child_id'), 'Allowances',this.selected,this.salaryAmount,userData.id, this.selected_for_Addition_type,this.reason, this.startDate)
           .then((res) => {
             this.selected = ''
             this.selected_for_Addition_type = ''

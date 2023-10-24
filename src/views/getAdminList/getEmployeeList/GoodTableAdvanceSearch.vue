@@ -33,32 +33,36 @@
                   @input="advanceSearch"
               />
             </b-form-group>
-          </b-col>
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Today Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Pending Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
 
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Completed Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
-          <!--        <b-col md="2">-->
-          <!--          <b-form-group>-->
-          <!--            <label>Deleted Task:</label>-->
-          <!--            <b-form-checkbox></b-form-checkbox>-->
-          <!--          </b-form-group>-->
-          <!--        </b-col>-->
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col md="4">
+            <b-form-group>
+              <b-button
+                  variant="success"
+                  @click= 'getPendingList'
+              >
+                List Pending Approval
+              </b-button>
+            </b-form-group>
+
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col md="4">
+            <b-form-group>
+              <b-button
+                  variant="primary"
+                  @click= 'getAllLeaves'
+              >
+                Get All List
+              </b-button>
+            </b-form-group>
+
+          </b-col>
         </b-row>
       </div>
 
@@ -262,6 +266,7 @@ import Ripple from 'vue-ripple-directive'
 import SidebarContent from './SidebarContent.vue'
 import vSelect from 'vue-select'
 import leaveAPI from "@/api/leave_ui";
+import payRoll from "@/api/payroll";
 import {getUserData} from "@/auth/utils";
 // import {useRouter} from "vue-router";
 // import { codeAdvance } from './code'
@@ -408,6 +413,11 @@ export default {
     },
     async getAllLeaves() {
       let response = (await leaveAPI.getChildListAttendance(-1))
+      this.items = response.data.data;
+      this.totalRows = response.data.data.length
+    },
+    async getPendingList() {
+      let response = (await payRoll.getPendingEmpList())
       this.items = response.data.data;
       this.totalRows = response.data.data.length
     }
