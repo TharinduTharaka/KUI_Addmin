@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.userID === 296">
+  <div v-if="this.userID === 296 || this.userID === 258 || this.userID === 263 || this.userID === 270 ">
     <b-card>
       <b-sidebar
           id="sidebar-creat"
