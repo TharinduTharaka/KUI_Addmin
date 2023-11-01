@@ -169,7 +169,7 @@
           </span>
 
           <!-- Column: Action -->
-          <span v-else-if="props.column.field === 'approve' && props.formattedRow.status === 0 && getUserData().id === 258">
+          <span v-else-if="props.column.field === 'approve' && props.formattedRow.status === 0">
             <span>
               <b-button
                   variant="primary"
