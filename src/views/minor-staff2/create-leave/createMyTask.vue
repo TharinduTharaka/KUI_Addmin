@@ -341,25 +341,7 @@ export default {
           title: "Casual - Sudden Illness",
         },
         {
-          title: "Day Off - Apr",
-        },
-        {
-          title: "Day Off - May",
-        },
-        {
-          title: "Day Off - June",
-        },
-        {
-          title: "Day Off - July",
-        },
-        {
-          title: "Day Off - Aug",
-        },
-        {
-          title: "Day Off - Sep",
-        },
-        {
-          title: "Day Off - Oct",
+          title: "Day Off - Nov",
         },
         {
           title: "Convocation 2023 Leave",

@@ -336,19 +336,7 @@ export default {
           title: "Cleaning Staff",
         },
         {
-          title: "Day Off - June",
-        },
-        {
-          title: "Day Off - July",
-        },
-        {
-          title: "Day Off - Aug",
-        },
-        {
-          title: "Day Off - Sep",
-        },
-        {
-          title: "Day Off - Oct",
+          title: "Day Off - Nov",
         },
         {
           title: "Convocation 2023 Leave",
