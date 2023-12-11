@@ -369,6 +369,9 @@ export default {
         },
         {
           title: "Special - Marketing",
+        },
+        {
+          title: "Day Off - Dec",
         }
       ],
       recurring: [
