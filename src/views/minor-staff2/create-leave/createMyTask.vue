@@ -323,6 +323,9 @@ export default {
       searchTerm: '',
       priority: [
         {
+          title: "Day Off - Jan",
+        },
+        {
           title: "Special Company Holiday - Apr",
         },
         {
@@ -339,9 +342,6 @@ export default {
         },
         {
           title: "Casual - Sudden Illness",
-        },
-        {
-          title: "Day Off - Nov",
         },
         {
           title: "Convocation 2023 Leave",
@@ -369,9 +369,6 @@ export default {
         },
         {
           title: "Special - Marketing",
-        },
-        {
-          title: "Day Off - Dec",
         }
       ],
       recurring: [

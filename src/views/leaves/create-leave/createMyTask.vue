@@ -303,6 +303,9 @@ export default {
       searchTerm: '',
       priority: [
         {
+          title: "Day Off - Dec",
+        },
+        {
           title: "Annual",
         },
         {
@@ -336,9 +339,6 @@ export default {
           title: "Cleaning Staff",
         },
         {
-          title: "Day Off - Nov",
-        },
-        {
           title: "Convocation 2023 Leave",
         },
         {
@@ -346,9 +346,6 @@ export default {
         },
         {
           title: "Special - Marketing",
-        },
-        {
-          title: "Day Off - Dec",
         }
 
       ],
