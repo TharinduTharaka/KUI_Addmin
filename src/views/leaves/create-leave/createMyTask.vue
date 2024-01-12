@@ -303,7 +303,7 @@ export default {
       searchTerm: '',
       priority: [
         {
-          title: "Day Off - Dec",
+          title: "Day Off - Jan",
         },
         {
           title: "Annual",
