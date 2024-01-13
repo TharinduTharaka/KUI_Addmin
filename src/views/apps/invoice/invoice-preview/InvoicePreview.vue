@@ -55,7 +55,10 @@
                   </h1>
                 </div>
                 <p class="card-text mb-25">
-                  KAATSU International University
+                  KAATSU HIGHLY ADVANCED
+                </p>
+                <p class="card-text mb-25">
+                  MEDICAL TECHNOLOGY TRAINING CENTRE (PVT) LTD
                 </p>
                 <p class="card-text mb-25">
                   No 249/1,Malabe Road,
@@ -70,10 +73,6 @@
 
               <!-- Header: Right Content -->
               <div class="mt-md-0 mt-2">
-                <h4 class="invoice-title">
-                  Invoice
-                  <span class="invoice-number">#{{ invoiceData.id }}</span>
-                </h4>
                 <div class="invoice-date-wrapper">
                   <p class="invoice-date-title">
                     Date Issued:
@@ -134,19 +133,19 @@
                             >
                               <div>
                                 <h6 class="mb-2">
-                                  Payment Details:
+<!--                                  Payment Details:-->
                                 </h6>
                                 <table>
                                   <tbody>
                                     <tr>
                                       <td class="pr-1">
-                                        Total Amount:
+<!--                                        Total Amount:-->
                                       </td>
-                                      <td><span class="font-weight-bold">{{ invoiceData.totalAmount }}</span></td>
+<!--                                      <td><span class="font-weight-bold">{{ invoiceData.totalAmount }}</span></td>-->
                                     </tr>
                                     <tr>
                                       <td class="pr-1">
-                                        Bank name:
+<!--                                        Bank name:-->
                                       </td>
                                       <td></td>
                                     </tr>
@@ -167,6 +166,18 @@
               responsive
               :items="invoiceData.payrollPdfInfoBasicObjects"
               :fields="['basic','total']"
+          >
+            <template #cell(taskDescription)="data">
+              <b-card-text class="text-nowrap">
+                {{ data.item.description }}
+              </b-card-text>
+            </template>
+          </b-table-lite>
+
+          <b-table-lite
+              responsive
+              :items="invoiceData.payrollPdfInfoNoPayObjects"
+              :fields="['totalForEPF','total']"
           >
             <template #cell(taskDescription)="data">
               <b-card-text class="text-nowrap">
@@ -601,6 +612,7 @@ export default {
           totalAmount: "",
           payrollPdfInfoEarningObjectList: [],
           payrollPdfInfoBasicObjects: [],
+          payrollPdfInfoNoPayObjects: [],
           payrollPdfInfoDeductionObjects: [],
           payrollEntityDetails: {
             id: 356,
