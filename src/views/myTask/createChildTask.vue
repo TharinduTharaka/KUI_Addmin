@@ -538,6 +538,18 @@ export default {
           value: 5
         },
         {
+          title: "Marketing Work",
+          value: 12
+        },
+        {
+          title: "Exam Administration Work",
+          value: 13
+        },
+        {
+          title: "Committee Work",
+          value: 14
+        },
+        {
           title: "Other",
           value: 3
         }
