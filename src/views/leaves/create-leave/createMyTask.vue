@@ -306,6 +306,9 @@ export default {
           title: "Day Off - Jan",
         },
         {
+          title: "Day Off - Feb",
+        },
+        {
           title: "Annual",
         },
         {
