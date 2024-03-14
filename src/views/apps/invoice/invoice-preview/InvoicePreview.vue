@@ -55,10 +55,7 @@
                   </h1>
                 </div>
                 <p class="card-text mb-25">
-                  KAATSU HIGHLY ADVANCED
-                </p>
-                <p class="card-text mb-25">
-                  MEDICAL TECHNOLOGY TRAINING CENTRE (PVT) LTD
+                  KIU University
                 </p>
                 <p class="card-text mb-25">
                   No 249/1,Malabe Road,
@@ -67,7 +64,7 @@
                   Thalangama North ,Koswatta
                 </p>
                 <p class="card-text mb-0">
-                  +1 (123) 456 7891, +44 (876) 543 2198
+
                 </p>
               </div>
 
