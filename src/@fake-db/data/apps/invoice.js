@@ -6,7 +6,7 @@ const data = {
   invoices: [
     {
       id: 4987,
-      issuedDate: '13 June 2023',
+      issuedDate: '14 Mar 2024',
       client: {
         address: 'Secretary',
         company: '254',
