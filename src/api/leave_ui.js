@@ -32,5 +32,22 @@ export default {
   updateAttendanceStatusForReviewRequest: async function (id, status, date) {
     return await api.put(`/attendance/update-status-for-request-issue/${id}/${status}/${date}`)
   },
+  getAttendanceTypeByUsingEmpId: async function(id) {
+    return await api.get(`/leave/get-leave-type-list-using-emp-id/${id}`)
+  },
+  addEmployeeLeaves: async function(payload){
+    return await api.post(`/leave/create-leave-balance`, payload)
+  },
+  getLeaveTypeList: async function(){
+    return await api.get(`/leave/get-leave-type-list`)
+  },
+
+  getUserList: async function(){
+    return await api.get(`/leave/get-user-list`)
+  },
+
+  createNewLeaveType: async function(payload){
+    return await api.post(`/leave/create-new-leave-type`, payload)
+  },
 
 }
