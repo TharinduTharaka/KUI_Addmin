@@ -91,7 +91,11 @@ export default [
     title: 'Admin',
     route: 'admin-list',
     icon: 'FileIcon',
+  },
+  {
+    title: 'Add Emp Leaves',
+    route: 'apps-leaves-add-employees',
+    icon: 'FilePlusIcon',
   }
-
 
 ]

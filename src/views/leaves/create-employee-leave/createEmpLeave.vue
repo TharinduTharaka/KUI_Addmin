@@ -14,68 +14,119 @@
         </template>
         <b-form>
           <b-row>
+            <b-col cols="12" class="mb-1">
+              <b-button
+                  class="mr-1"
+                  size="sm"
+                  type="submit"
+                  variant="primary"
+                  @click.prevent.stop="addAllEmployees"
+              >
+                Add All Employee
+              </b-button>
+              <b-button
+                  size="sm"
+                  variant="primary"
+                  v-b-modal.modal-lg
+              >
+                Add New Leave Type
+              </b-button>
+              <b-modal id="modal-lg" size="lg" title="Add New Leave Type" centered >
+                  <template #modal-header>
+                    <button type="button" class="close" aria-label="Close" style="margin-right: 0.3px; margin-top: 0.3px;" @click="$bvModal.hide('modal-lg')">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </template>
+                  <validation-provider v-slot="{ errors }" name="New Leave Type" rules="required" ref="form">
+                    <b-form-input
+                      id="v-label"
+                      v-model="getNewLeaveType"
+                      placeholder="Enter New Leave Type"
+                    />
+                    <small class="text-danger">{{ errors[0] }}</small>
+                  </validation-provider>
+                  <template #modal-footer>
+                    <button v-b-modal.modal-close_visit class="btn btn-danger btn-sm m-1" @click="clearInput">Clear</button>
+                    <button v-b-modal.modal-close_visit class="btn btn-primary btn-sm m-1" @click="validateAndAddLeaveType">Submit</button> <!-- Call validateAndAddLeaveType method on click -->
+                  </template>
+                </b-modal>
 
+
+              
+            </b-col>
 
             <!-- Priority -->
             <b-col cols="12">
               <b-form-group
+              label="Add Employee"
+              label-for="add-guests"
+            >
+            <validation-provider
+                    #default="{ errors }"
+                    name="Employee"
+                    rules="required">
+              <v-select
+                v-model="getUserList"
+                multiple
+                :close-on-select="false"
+                :options="userList.slice(1)"
+                label="name"
+                input-id="add-guests"
+                placeholder="Please select"
+         
+              >
+                <template #selected-option="{ avatar, name }" >
+                  <b-avatar
+                    size="sm"
+                    class="border border-white"
+                    :src="avatar"
+                  />
+                  <span class="ml-50 align-middle"> {{ name }}</span>
+                </template>
+              </v-select>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+            </b-form-group>
+            </b-col>
+
+            <b-col cols="12">
+              <b-form-group
                   label="Leave Type"
-                  label-for="v-category"
+                  label-for="v-leave-type"
               >
                 <validation-provider
                     #default="{ errors }"
-                    name="Category"
+                    name="Leave Type"
                     rules="required">
                   <v-select
-                      v-model="getPriority"
-                      :options="leaveType"
-                      label="title"
-                      placeholder="Please select">
+                    v-model="getLeaveType"
+                    :options="leaveTypeList"
+                    label="leaveTypeName"
+                    placeholder="Please select"
+                    >
                     <template slot="option" slot-scope="option">
-                      <span>{{ option.title }}</span>
+                      <span>{{ option.leaveTypeName }}</span>
                     </template>
                   </v-select>
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
-
             <b-col cols="12">
               <b-form-group
-                  label="Start Date"
-                  label-for="v-startDate"
+                  label="Original Leaves"
+                  label-for="v-label"
               >
                 <validation-provider
                     #default="{ errors }"
-                    name="Enter Start Date"
+                    name="Original Leave"
                     rules="required"
                 >
-                  <b-form-datepicker
-                      id="v-startDate"
-                      v-model="startDate"
-                      placeholder="Enter Due Time"
+                  <b-form-input
+                      id="v-label"
+                      v-model="label"
+                      placeholder="Enter Original Leaves"
                   />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-            <!-- Due Date -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Due Date"
-                  label-for="v-dueDate"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Enter Due Date"
-                    rules="required"
-                >
-                  <b-form-datepicker
-                      id="v-dueDate"
-                      v-model="dueDate"
-                      placeholder="Enter Due Time"
-                  />
-
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -84,45 +135,25 @@
             <!-- Label -->
             <b-col cols="12">
               <b-form-group
-                  label="Total Leaves"
+                  label="Available Leaves"
                   label-for="v-label"
               >
                 <validation-provider
                     #default="{ errors }"
                     name="Enter Label"
-                    rules="required"
                 >
                   <b-form-input
+                      disabled
                       id="v-label"
                       v-model="label"
-                      placeholder="Enter Label"
+                      placeholder="Enter Available Leaves"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
             </b-col>
-
+            
             <!-- Task  Description -->
-            <b-col cols="12">
-              <b-form-group
-                  label="Comment"
-                  label-for="v-description"
-              >
-                <validation-provider
-                    #default="{ errors }"
-                    name="Task Description"
-                    rules="required"
-                >
-                  <b-form-textarea
-                      id="v-description"
-                      v-model="taskDescription"
-                      placeholder="Enter Task Description"
-                  />
-                  <small class="text-danger">{{ errors[0] }}</small>
-                </validation-provider>
-              </b-form-group>
-            </b-col>
-
             <!-- submit and reset button -->
             <b-col cols="12">
               <b-button
@@ -138,6 +169,7 @@
                   size="sm"
                   type="reset"
                   variant="outline-secondary"
+                  @click="resetForm"
               >
                 Reset
               </b-button>
@@ -224,11 +256,11 @@ import {
   VBModal,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
-import GoodTableBasic from './vue-good-table/GoodTableBasic'
 import {getUserData} from "@/auth/utils";
+import GoodTableBasic from './vue-good-table/GoodTableBasic'
 /* eslint-disable */
 export default {
-  name: 'createMyTask',
+  name: 'createEmpLeave',
   components: {
     flatPickr, BCol, BRow, BFormDatepicker, BFormTimepicker,
     BCardCode, VueGoodTable, GoodTableBasic,
@@ -269,120 +301,16 @@ export default {
       getCategory: null,
       getRecurring: null,
       getPriority: null,
+      getLeaveType: null,
+      getUserList : [],
+      setEmpId: null,
+      getNewLeaveType: null,
 
-      dateNtim: null,
-      pageLength: 3,
-      dir: false,
-      columns: [
-        {
-          label: 'Name',
-          field: 'fullName',
-        },
-        {
-          label: 'Email',
-          field: 'email',
-        },
-        {
-          label: 'Date',
-          field: 'startDate',
-        },
-        {
-          label: 'Salary',
-          field: 'salary',
-        },
-        {
-          label: 'Status',
-          field: 'status',
-        },
-        {
-          label: 'Action',
-          field: 'action',
-        },
-      ],
       rows: [],
       searchTerm: '',
-      // priority: [
-      //   {
-      //     title: "Day Off - Jan",
-      //   },
-      //   {
-      //     title: "Day Off - Feb",
-      //   },
-      //   {
-      //     title: "Annual",
-      //   },
-      //   {
-      //     title: "Casual - Accident or vehicle breakdown",
-      //   },
-      //   {
-      //     title: "Casual - Police or court appearance",
-      //   },
-      //   {
-      //     title: "Casual - Funeral",
-      //   },
-      //   {
-      //     title: "Casual - Sudden Illness",
-      //   },
-      //   {
-      //     title: "Lieu Leave",
-      //   },
-      //   {
-      //     title: "Special",
-      //   },
-      //   {
-      //     title: "Probation Half Day",
-      //   },
-      //   {
-      //     title: "Short Leave",
-      //   },
-      //   {
-      //     title: "Minor Staff Monthly",
-      //   },
-      //   {
-      //     title: "Cleaning Staff",
-      //   },
-      //   {
-      //     title: "Convocation 2023 Leave",
-      //   },
-      //   {
-      //     title: "Special Company Holiday - June",
-      //   },
-      //   {
-      //     title: "Special - Marketing",
-      //   }
-
-      // ],
-      recurring: [
-        {
-          title: "Ad-hoc",
-        },
-        {
-          title: "Daily",
-        },
-        {
-          title: "Weekly",
-        },
-        {
-          title: "Monthly",
-        }
-      ],
-      category: [
-        {
-          title: "Category1",
-          value: 1
-        },
-        {
-          title: "Category2",
-          value: 2
-        },
-        {
-          title: "Category3",
-          value: 3
-        }
-
-      ],
       addEmployeePopupActive: false,
       a: false,
+
       items: [{
         id: 1,
         name: 'test',
@@ -419,6 +347,13 @@ export default {
       leaveType: [
 
       ],
+      leaveTypeList: [
+
+      ],
+      userList: [
+
+      ],
+
       codeBasic,
     }
   },
@@ -428,6 +363,8 @@ export default {
     this.totalRows = this.items.length
     await this.getAllAvailableLeaves()
     await this.getAttendanceTypeByUsingEmpId()
+    await this.getLeaveTypeList()
+    await this.getUsers()
   },
 
   computed: {
@@ -483,6 +420,31 @@ export default {
       this.leaveType = response.data.data
     },
 
+    async getLeaveTypeList(){
+      let response = (await leaveAPI.getLeaveTypeList())
+      console.log(response)
+      this.leaveTypeList = response.data.data
+    },
+
+    async getUsers(){
+      let response = (await leaveAPI.getUserList())
+      console.log(response)
+      this.userList = response.data.data
+    },
+
+    
+  // addAllEmployees(name) {
+  //  if (name == "ALL"){
+  //     this.getUserList = this.userList;
+  //     this.getUserList.splice(0, 1);
+  //     this.setEmpId = 0;
+  //   }
+  // },
+
+    addAllEmployees() {
+      this.getUserList = this.userList[0];
+    },
+
     showModal() {
       this.$refs['my-modal'].show()
     },
@@ -535,9 +497,13 @@ export default {
         solid: false,
       })
     },
+    resetForm() {
+      this.getUserList = []; 
+      this.getLeaveType = null; 
+      this.label = null;
+    },
 
     validationForm() {
-      // this.showModal()
       this.$refs.simpleRules.validate()
           .then(success => {
             if (success) {
@@ -545,16 +511,47 @@ export default {
             }
           })
     },
-    async submit() {
-      const userData = getUserData()
-      const payload = {
-        leave_type:this.getPriority,
-        start_date:this.startDate,
-        end_date:this.dueDate,
-        total: this.label,
-        description: this.taskDescription
+
+    clearInput() {
+      this.getNewLeaveType = ''; // Clear the input field by setting it to an empty string
+    },
+
+    validateAndAddLeaveType() {
+    if (!this.getNewLeaveType || this.getNewLeaveType.trim() === '') {
+      this.$refs.form.validate();
+    } else {
+      this.addLeaveType();
+    }
+  },
+  async addLeaveType() {
+    const payload = {
+      leaveType: this.getNewLeaveType
+    };
+    try {
+      const response = await leaveAPI.createNewLeaveType(payload);
+      console.log(response.data.code);
+      if (response.data.code === 201) {
+        this.makeToast(response.data.msg, 'danger');
+      } else {
+        this.$bvModal.hide('modal-lg');
+        await this.getLeaveTypeList();
+        this.$router.push(`/apps/leaves/addLeave`);
       }
-      await leaveAPI.create(userData.id,payload)
+    } catch (error) {
+      this.error = error.response.data.error;
+      console.log(this.error);
+    }
+  },
+    async submit() {
+      if (this.getUserList.id == 0){
+        const empIds = this.userList.map(emp => emp.id);
+      const payload = {
+        empIds:empIds,
+        type:this.getLeaveType.leaveTypeName,
+        originalLeaves: this.label,
+        availableLeaves: this.label,
+      }
+      await leaveAPI.addEmployeeLeaves(payload)
           .then((response) => {
             console.log(response.data.code)
             if (response.data.code == 201){
@@ -570,8 +567,33 @@ export default {
           .catch(({response}) => {
             this.error = response.data.error
             console.log(this.error)
-          })
-    },
+          })}
+          else{
+            const empIds = this.getUserList.map(emp => emp.id);
+            const payload = {
+              empIds:empIds,
+              type:this.getLeaveType.leaveTypeName,
+              originalLeaves: this.label,
+              availableLeaves: this.label,
+            }
+            await leaveAPI.addEmployeeLeaves(payload)
+                .then((response) => {
+                  console.log(response.data.code)
+                  if (response.data.code == 201){
+                    this.makeToast(response.data.msg, 'danger');
+                  }
+                  else {
+
+                    this.$router.push(`/apps/leaves`)
+                  }
+                  // toast("Order removed successfully", "success");
+                  //this.$router.go(-1)
+                })
+                .catch(({response}) => {
+                  this.error = response.data.error
+                  console.log(this.error)
+                })
+    }},
 
   },
 }

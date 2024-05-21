@@ -81,6 +81,14 @@ export default[
         },
     },
     {
+        path: '/apps/leaves/addLeave',
+        name: 'apps-leaves-add-employees',
+        component: () => import('@/views/leaves/create-employee-leave/createEmpLeave.vue'),
+        meta: {
+            pageTitle: 'Add Employee Leaves',
+        },
+    },
+    {
         path: '/apps/myRoster',
         name: 'apps-myRoster',
         component: () => import('@/views/leaves/roster/calendar/Calendar'),
